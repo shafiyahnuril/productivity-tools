@@ -1,0 +1,69 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  Home,
+  FileText,
+  Clock,
+  Calendar,
+  CheckSquare,
+  BarChart2,
+  User,
+  Settings,
+} from "lucide-react";
+
+export default function Sidebar() {
+  const pathname = usePathname();
+
+  const navItems = [
+    { name: "Dashboard", href: "/", icon: Home },
+    { name: "Notes", href: "/notes", icon: FileText },
+    { name: "Focus Timer", href: "/timer", icon: Clock },
+    { name: "Calendar", href: "/calendar", icon: Calendar },
+    { name: "To-Do", href: "/todo", icon: CheckSquare },
+    { name: "Analytics", href: "/analytics", icon: BarChart2 },
+  ];
+
+  const bottomItems = [
+    { name: "Account", href: "/account", icon: User },
+    { name: "Settings", href: "/settings", icon: Settings },
+  ];
+
+  const NavLink = ({ item }: { item: { href: string; name: string; icon: React.ElementType } }) => {
+    const isActive = pathname === item.href;
+    return (
+      <Link
+        href={item.href}
+        className={`flex flex-col items-center justify-center w-16 h-16 mb-2 rounded-2xl transition-colors ${
+          isActive
+            ? "bg-primary/10 text-primary"
+            : "text-foreground-secondary hover:bg-surface-elevated hover:text-foreground"
+        }`}
+      >
+        <item.icon className="w-5 h-5 mb-1" />
+        <span className="text-[10px] font-medium">{item.name}</span>
+      </Link>
+    );
+  };
+
+  return (
+    <aside className="fixed left-0 top-0 h-screen w-20 md:w-24 bg-background border-r border-border flex flex-col items-center py-6 overflow-y-auto">
+      <div className="w-10 h-10 bg-primary/20 text-primary rounded-pill flex items-center justify-center mb-8 font-bold text-xl">
+        T
+      </div>
+
+      <nav className="flex-1 flex flex-col items-center w-full space-y-1">
+        {navItems.map((item) => (
+          <NavLink key={item.name} item={item} />
+        ))}
+      </nav>
+
+      <div className="mt-auto flex flex-col items-center w-full pt-4 border-t border-border">
+        {bottomItems.map((item) => (
+          <NavLink key={item.name} item={item} />
+        ))}
+      </div>
+    </aside>
+  );
+}

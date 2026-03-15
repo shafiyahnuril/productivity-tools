@@ -9,6 +9,11 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+/context
+/reference
+/openspec
+/.agent
+/.github
 
 # testing
 /coverage
