@@ -11,41 +11,41 @@
    ---------------------------------------------------------------- */
 :root {
   /* Background layers */
-  --background:           #FAF7F2;   /* paper-bg  — main app bg */
-  --background-secondary: #F2EDE4;   /* paper-bg2 — sidebar / section bg */
-  --surface:              #FFFFFF;   /* paper-card — cards & modals */
-  --surface-elevated:     #F2EDE4;   /* paper-bg2 — hover / input bg */
-  --surface-tertiary:     #E8E0D4;   /* paper-bg3 — deep input / strong hover */
+  --background: #faf7f2; /* paper-bg  — main app bg */
+  --background-secondary: #f2ede4; /* paper-bg2 — sidebar / section bg */
+  --surface: #ffffff; /* paper-card — cards & modals */
+  --surface-elevated: #f2ede4; /* paper-bg2 — hover / input bg */
+  --surface-tertiary: #e8e0d4; /* paper-bg3 — deep input / strong hover */
 
   /* Foreground / Text */
-  --foreground:           #1C1712;   /* paper-fg  — heading & body */
-  --foreground-secondary: #4A4238;   /* paper-fg2 — description */
-  --foreground-tertiary:  #78706A;   /* paper-fg3 — placeholder / disabled */
+  --foreground: #1c1712; /* paper-fg  — heading & body */
+  --foreground-secondary: #4a4238; /* paper-fg2 — description */
+  --foreground-tertiary: #78706a; /* paper-fg3 — placeholder / disabled */
 
   /* Borders */
-  --border:               #DDD5C8;   /* paper-bd  — standard border */
-  --border-soft:          #E8E0D4;   /* softer decorative border */
+  --border: #ddd5c8; /* paper-bd  — standard border */
+  --border-soft: #e8e0d4; /* softer decorative border */
 
   /* Primary accent — Amber/Gold */
-  --primary:              #D97706;
-  --primary-light:        #F59E0B;
-  --primary-dark:         #B45309;
+  --primary: #d97706;
+  --primary-light: #f59e0b;
+  --primary-dark: #b45309;
 
   /* Semantic / Decorative accents — muted tones */
-  --success:              #5A8A6E;   /* Sage */
-  --success-soft:         #D1FAE5;
-  --warning:              #B59030;   /* Gold */
-  --warning-soft:         #FDE68A;
-  --danger:               #C4574A;   /* Rose */
-  --danger-soft:          #FFE4E1;
-  --info:                 #3B7EC2;   /* Sky */
-  --info-soft:            #DBEAFE;
+  --success: #5a8a6e; /* Sage */
+  --success-soft: #d1fae5;
+  --warning: #b59030; /* Gold */
+  --warning-soft: #fde68a;
+  --danger: #c4574a; /* Rose */
+  --danger-soft: #ffe4e1;
+  --info: #3b7ec2; /* Sky */
+  --info-soft: #dbeafe;
 
   /* Border radius */
-  --radius-xl:   48px;
-  --radius-lg:   24px;
-  --radius-md:   12px;
-  --radius-sm:    8px;
+  --radius-xl: 48px;
+  --radius-lg: 24px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
   --radius-pill: 999px;
 }
 
@@ -54,35 +54,35 @@
    ---------------------------------------------------------------- */
 .dark {
   /* Background layers */
-  --background:           #141312;   /* dark-bg  — main app bg */
-  --background-secondary: #1C1A18;   /* dark-bg2 — sidebar / section bg */
-  --surface:              #2E2A26;   /* dark-card — cards & modals */
-  --surface-elevated:     #262320;   /* dark-bg3 — hover / input bg */
-  --surface-tertiary:     #1C1A18;   /* darkest element layer */
+  --background: #141312; /* dark-bg  — main app bg */
+  --background-secondary: #1c1a18; /* dark-bg2 — sidebar / section bg */
+  --surface: #2e2a26; /* dark-card — cards & modals */
+  --surface-elevated: #262320; /* dark-bg3 — hover / input bg */
+  --surface-tertiary: #1c1a18; /* darkest element layer */
 
   /* Foreground / Text */
-  --foreground:           #F5F3EF;   /* dark-fg — heading */
-  --foreground-secondary: #D6D1C9;   /* dark-fg2 — body */
-  --foreground-tertiary:  #A8A39B;   /* dark-fg3 — description */
+  --foreground: #f5f3ef; /* dark-fg — heading */
+  --foreground-secondary: #d6d1c9; /* dark-fg2 — body */
+  --foreground-tertiary: #a8a39b; /* dark-fg3 — description */
 
   /* Borders */
-  --border:               #3F3A34;   /* dark-bd */
-  --border-soft:          #4A453F;   /* dark-bd-soft */
+  --border: #3f3a34; /* dark-bd */
+  --border-soft: #4a453f; /* dark-bd-soft */
 
   /* Primary accent — Amber stays across both modes */
-  --primary:              #D97706;
-  --primary-light:        #F59E0B;
-  --primary-dark:         #B45309;
+  --primary: #d97706;
+  --primary-light: #f59e0b;
+  --primary-dark: #b45309;
 
   /* Semantic accents — 18% opacity in dark mode */
-  --success:              #5A8A6E;
-  --success-soft:         rgba(90, 138, 110, 0.18);
-  --warning:              #B59030;
-  --warning-soft:         rgba(181, 144, 48, 0.18);
-  --danger:               #C4574A;
-  --danger-soft:          rgba(196, 87, 74, 0.18);
-  --info:                 #3B7EC2;
-  --info-soft:            rgba(59, 126, 194, 0.18);
+  --success: #5a8a6e;
+  --success-soft: rgba(90, 138, 110, 0.18);
+  --warning: #b59030;
+  --warning-soft: rgba(181, 144, 48, 0.18);
+  --danger: #c4574a;
+  --danger-soft: rgba(196, 87, 74, 0.18);
+  --info: #3b7ec2;
+  --info-soft: rgba(59, 126, 194, 0.18);
 }
 
 /* ----------------------------------------------------------------
@@ -90,42 +90,45 @@
    ---------------------------------------------------------------- */
 @theme inline {
   /* Backgrounds */
-  --color-background:           var(--background);
+  --color-background: var(--background);
   --color-background-secondary: var(--background-secondary);
-  --color-surface:              var(--surface);
-  --color-surface-elevated:     var(--surface-elevated);
-  --color-surface-tertiary:     var(--surface-tertiary);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-tertiary: var(--surface-tertiary);
 
   /* Text */
-  --color-foreground:           var(--foreground);
+  --color-foreground: var(--foreground);
   --color-foreground-secondary: var(--foreground-secondary);
-  --color-foreground-tertiary:  var(--foreground-tertiary);
+  --color-foreground-tertiary: var(--foreground-tertiary);
 
   /* Borders */
-  --color-border:               var(--border);
-  --color-border-soft:          var(--border-soft);
+  --color-border: var(--border);
+  --color-border-soft: var(--border-soft);
 
   /* Primary */
-  --color-primary:              var(--primary);
-  --color-primary-light:        var(--primary-light);
-  --color-primary-dark:         var(--primary-dark);
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
 
   /* Semantic */
-  --color-success:              var(--success);
-  --color-warning:              var(--warning);
-  --color-danger:               var(--danger);
-  --color-info:                 var(--info);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
 
   /* Border radius */
-  --radius-xl:   var(--radius-xl);
-  --radius-lg:   var(--radius-lg);
-  --radius-md:   var(--radius-md);
-  --radius-sm:   var(--radius-sm);
+  --radius-xl: var(--radius-xl);
+  --radius-lg: var(--radius-lg);
+  --radius-md: var(--radius-md);
+  --radius-sm: var(--radius-sm);
   --radius-pill: var(--radius-pill);
 
   /* Typography — Inter as primary sans */
   --font-sans: var(--font-inter), Inter, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
+
+  /* Breakpoints */
+  --breakpoint-md: 950px;
 }
 
 /* ----------------------------------------------------------------
