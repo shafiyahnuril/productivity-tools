@@ -487,17 +487,15 @@ export default function TimerPage() {
             <div className="flex gap-4 items-center mb-5">
               <button
                 onClick={resetTimer}
-                data-no-transition
                 title="Reset"
-                className="w-11 h-11 rounded-full bg-surface-elevated text-foreground-secondary flex items-center justify-center hover:bg-surface-tertiary active:scale-95 transition-colors"
+                className="w-11 h-11 rounded-full bg-surface-elevated text-foreground-secondary flex items-center justify-center hover:bg-surface-tertiary active:scale-95 transition-all duration-150"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
 
               <button
                 onClick={toggleTimer}
-                data-no-transition
-                className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-light active:scale-95 transition-colors shadow-lg shadow-primary/25"
+                className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-light active:scale-95 transition-all duration-150 shadow-lg shadow-primary/25"
               >
                 {timerState.isRunning ? (
                   <Pause className="w-6 h-6" />
@@ -508,9 +506,8 @@ export default function TimerPage() {
 
               <button
                 onClick={skipToNext}
-                data-no-transition
                 title="Lewati ke fase berikutnya"
-                className="w-11 h-11 rounded-full bg-surface-elevated text-foreground-secondary flex items-center justify-center hover:bg-surface-tertiary active:scale-95 transition-colors"
+                className="w-11 h-11 rounded-full bg-surface-elevated text-foreground-secondary flex items-center justify-center hover:bg-surface-tertiary active:scale-95 transition-all duration-150"
               >
                 <SkipForward className="w-4 h-4" />
               </button>
