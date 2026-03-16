@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, FileText, Clock, Calendar, BarChart2 } from "lucide-react";
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
+import ThemeToggle from "./ThemeToggle";
 
 export default function BottomNavigation() {
   const pathname = usePathname();
@@ -21,7 +21,7 @@ export default function BottomNavigation() {
   return (
     <nav
       ref={navRef}
-      className="md:hidden fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-md border-t border-white/5 z-50 pb-safe"
+      className="md:hidden fixed bottom-0 left-0 right-0 bg-paper-card/90 backdrop-blur-md border-t border-paper-bd shadow-sm z-50 pb-safe"
     >
       <div className="flex justify-around items-center h-16">
         {links.map((link) => {
@@ -32,14 +32,17 @@ export default function BottomNavigation() {
               key={link.href}
               href={link.href}
               className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${
-                isActive ? "text-primary" : "text-textDisabled"
+                isActive ? "text-paper-accent" : "text-paper-fg3 hover:text-paper-fg"
               }`}
             >
-              <Icon size={20} className={isActive ? "text-primary" : ""} />
-              <span className="text-[10px] font-medium">{link.label}</span>
+              <Icon size={20} className={isActive ? "text-paper-accent" : ""} />
+              <span className="text-[10px] font-bold uppercase tracking-widest leading-none">{link.label}</span>
             </Link>
           );
         })}
+        <div className="flex flex-col items-center justify-center h-full">
+          <ThemeToggle />
+        </div>
       </div>
     </nav>
   );

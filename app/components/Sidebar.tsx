@@ -12,6 +12,7 @@ import {
   User,
   Settings,
 } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -39,21 +40,21 @@ export default function Sidebar() {
     return (
       <Link
         href={item.href}
-        className={`flex flex-col items-center justify-center w-16 h-16 mb-2 rounded-2xl transition-colors ${
+        className={`flex flex-col items-center justify-center w-16 h-16 mb-2 rounded-[12px] transition-colors ${
           isActive
-            ? "bg-primary/10 text-primary"
-            : "text-foreground-secondary hover:bg-surface-elevated hover:text-foreground"
+            ? "bg-paper-accent/10 text-paper-accent"
+            : "text-paper-fg3 hover:bg-paper-bg2 hover:text-paper-fg"
         }`}
       >
         <item.icon className="w-5 h-5 mb-1" />
-        <span className="text-[10px] font-medium">{item.name}</span>
+        <span className="text-[10px] font-bold uppercase tracking-widest">{item.name}</span>
       </Link>
     );
   };
 
   return (
-    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-20 md:w-24 bg-background border-r border-border flex-col items-center py-6 overflow-y-auto z-40">
-      <div className="w-10 h-10 bg-primary/20 text-primary rounded-pill flex items-center justify-center mb-8 font-bold text-xl">
+    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-20 md:w-24 bg-paper-bg border-r border-paper-bd flex-col items-center py-6 overflow-y-auto z-40">
+      <div className="w-10 h-10 bg-paper-accent/20 text-paper-accent rounded-full flex items-center justify-center mb-8 font-black text-xl tracking-tighter">
         T
       </div>
 
@@ -63,7 +64,8 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <div className="mt-auto flex flex-col items-center w-full pt-4 border-t border-border">
+      <div className="mt-auto flex flex-col items-center w-full pt-4 border-t border-paper-bd space-y-2">
+        <ThemeToggle />
         {bottomItems.map((item) => (
           <NavLink key={item.name} item={item} />
         ))}

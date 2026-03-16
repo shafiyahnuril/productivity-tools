@@ -5,7 +5,7 @@ export function Heading1({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <h1 className={`text-2xl font-semibold ${className}`}>{children}</h1>;
+  return <h1 className={`text-2xl font-black tracking-tighter text-paper-fg ${className}`}>{children}</h1>;
 }
 
 export function Heading2({
@@ -15,7 +15,7 @@ export function Heading2({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <h2 className={`text-lg font-medium ${className}`}>{children}</h2>;
+  return <h2 className={`text-lg font-extrabold tracking-tighter text-paper-fg ${className}`}>{children}</h2>;
 }
 
 export function Text({
@@ -25,7 +25,7 @@ export function Text({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <p className={`text-sm ${className}`}>{children}</p>;
+  return <p className={`text-sm font-normal text-paper-fg2 ${className}`}>{children}</p>;
 }
 
 export function Caption({
@@ -35,5 +35,5 @@ export function Caption({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <span className={`text-xs ${className}`}>{children}</span>;
+  return <span className={`text-[10px] font-bold uppercase tracking-widest text-paper-fg3 ${className}`}>{children}</span>;
 }

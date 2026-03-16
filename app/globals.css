@@ -1,71 +1,94 @@
 @import "tailwindcss";
 
 :root {
-  /* Brand Colors */
-  --color-primary: #6e56cf;
-  --color-primary-light: #8c77ed;
-  --color-primary-dark: #4a3696;
+  --color-paper-bg: #FAF7F2;
+  --color-paper-bg2: #F2EDE4;
+  --color-paper-bg3: #E8E0D4;
+  --color-paper-card: #FFFFFF;
+  --color-paper-fg: #1C1712;
+  --color-paper-fg2: #4A4238;
+  --color-paper-fg3: #78706A;
+  --color-paper-bd: #DDD5C8;
+  --color-paper-accent: #D97706;
 
-  /* Semantic Colors */
-  --color-success: #4caf50;
-  --color-warning: #ff9800;
-  --color-danger: #f44336;
-  --color-info: #3b82f6;
+  /* Sticky Notes Light */
+  --note-yellow-bg: #FEF9C3;
+  --note-yellow-bd: #FACC15;
+  --note-pink-bg: #FCE7F3;
+  --note-pink-bd: #F472B6;
+  --note-blue-bg: #DBEAFE;
+  --note-blue-bd: #60A5FA;
+  --note-green-bg: #DCFCE7;
+  --note-green-bd: #4ADE80;
+  --note-purple-bg: #F3E8FF;
+  --note-purple-bd: #A78BFA;
+  --note-orange-bg: #FFEDD5;
+  --note-orange-bd: #FB923C;
+}
 
-  /* Light Mode Colors */
-  --background: #f4f5f8;
-  --surface: #ffffff;
-  --surface-elevated: #f0f1f5;
-  --border: #e5e7eb;
-  --foreground: #1a1a1a;
-  --foreground-secondary: #71717a;
+:root[class~="dark"] {
+  --color-paper-bg: #141312;
+  --color-paper-bg2: #1C1A18;
+  --color-paper-bg3: #262320;
+  --color-paper-card: #2E2A26;
+  --color-paper-fg: #F5F3EF;
+  --color-paper-fg2: #D6D1C9;
+  --color-paper-fg3: #A8A39B;
+  --color-paper-fg4: #7B766E;
+  --color-paper-bd: #3F3A34;
+  --color-paper-bd-soft: #4A453F;
 
-  /* Border Radius */
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --radius-sm: 8px;
-  --radius-pill: 999px;
+  /* Sticky Notes Dark */
+  --note-yellow-bg: #2A2509;
+  --note-yellow-bd: #78640A;
+  --note-pink-bg: #2A0D0D;
+  --note-pink-bd: #7C1D1D;
+  --note-blue-bg: #0D1A2A;
+  --note-blue-bd: #1E40AF;
+  --note-green-bg: #0D2012;
+  --note-green-bd: #166534;
+  --note-purple-bg: #1A0F2A;
+  --note-purple-bd: #4C1D95;
+  --note-orange-bg: #2A1500;
+  --note-orange-bd: #92400E;
 }
 
 @theme inline {
-  --color-primary: var(--color-primary);
-  --color-primary-light: var(--color-primary-light);
-  --color-primary-dark: var(--color-primary-dark);
+  --color-paper-bg: var(--color-paper-bg);
+  --color-paper-bg2: var(--color-paper-bg2);
+  --color-paper-bg3: var(--color-paper-bg3);
+  --color-paper-card: var(--color-paper-card);
+  --color-paper-fg: var(--color-paper-fg);
+  --color-paper-fg2: var(--color-paper-fg2);
+  --color-paper-fg3: var(--color-paper-fg3);
+  --color-paper-fg4: var(--color-paper-fg4);
+  --color-paper-bd: var(--color-paper-bd);
+  --color-paper-bd-soft: var(--color-paper-bd-soft);
+  --color-paper-accent: var(--color-paper-accent);
 
-  --color-success: var(--color-success);
-  --color-warning: var(--color-warning);
-  --color-danger: var(--color-danger);
-  --color-info: var(--color-info);
+  /* Note Mappings */
+  --color-note-yellow-bg: var(--note-yellow-bg);
+  --color-note-yellow-bd: var(--note-yellow-bd);
+  --color-note-pink-bg: var(--note-pink-bg);
+  --color-note-pink-bd: var(--note-pink-bd);
+  --color-note-blue-bg: var(--note-blue-bg);
+  --color-note-blue-bd: var(--note-blue-bd);
+  --color-note-green-bg: var(--note-green-bg);
+  --color-note-green-bd: var(--note-green-bd);
+  --color-note-purple-bg: var(--note-purple-bg);
+  --color-note-purple-bd: var(--note-purple-bd);
+  --color-note-orange-bg: var(--note-orange-bg);
+  --color-note-orange-bd: var(--note-orange-bd);
 
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-surface-elevated: var(--surface-elevated);
-  --color-border: var(--border);
-  --color-foreground: var(--foreground);
-  --color-foreground-secondary: var(--foreground-secondary);
+  --radius-xl: 12px;
+  --radius-3xl: 24px;
+  --radius-huge: 48px;
 
-  --radius-lg: var(--radius-lg);
-  --radius-md: var(--radius-md);
-  --radius-sm: var(--radius-sm);
-  --radius-pill: var(--radius-pill);
-
-  --font-sans: var(--font-geist-sans), Inter, sans-serif;
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #16161e;
-    --surface: #20202a;
-    --surface-elevated: #292936;
-    --border: #333344;
-    --foreground: #ffffff;
-    --foreground-secondary: #a0a0b0;
-  }
+  --font-sans: var(--font-inter), Inter, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-paper-bg);
+  color: var(--color-paper-fg);
   font-family: var(--font-sans);
 }

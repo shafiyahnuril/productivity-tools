@@ -42,7 +42,7 @@ export function SwipeableItem({
       >
         <button
           onClick={onEdit}
-          className="w-10 h-10 rounded-full bg-surface flex flex-col items-center justify-center text-foreground-secondary active:scale-95"
+          className="w-10 h-10 rounded-full bg-paper-card flex flex-col items-center justify-center text-paper-fg2 active:scale-95"
         >
           <Edit className="w-4 h-4" />
         </button>
@@ -60,7 +60,7 @@ export function SwipeableItem({
         dragElastic={0.1}
         onDragEnd={handleDragEnd}
         animate={controls}
-        className="relative z-10 w-full bg-surface"
+        className="relative z-10 w-full bg-paper-card"
         style={{ touchAction: "pan-y" }}
       >
         {children}

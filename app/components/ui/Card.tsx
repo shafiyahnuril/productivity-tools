@@ -7,10 +7,10 @@ export function Card({
   className?: string;
   elevated?: boolean;
 }) {
-  const bgClass = elevated ? "bg-surface-elevated" : "bg-surface";
+  const bgClass = elevated ? "bg-paper-bg3" : "bg-paper-card";
   return (
     <div
-      className={`${bgClass} rounded-lg md:rounded-3xl p-4 md:p-6 shadow-sm border border-border ${className}`}
+      className={`${bgClass} rounded-3xl p-4 md:p-6 border border-paper-bd ${className}`}
     >
       {children}
     </div>

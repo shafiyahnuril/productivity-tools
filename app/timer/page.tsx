@@ -67,7 +67,7 @@ export default function TimerPage() {
       {/* Header (Same as Dashboard) */}
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/20 shrink-0">
+          <div className="w-12 h-12 rounded-full overflow-hidden bg-paper-accent/20 shrink-0">
             <Image width={48} height={48}
               src="https://i.pravatar.cc/150?img=47"
               alt="Profile"
@@ -76,7 +76,7 @@ export default function TimerPage() {
           </div>
           <div>
             <Heading1>Hi, Sarah! 👋</Heading1>
-            <Text className="text-foreground-secondary">
+            <Text className="text-paper-fg2">
               Welcome! Let&apos;s make today awesome.
             </Text>
           </div>
@@ -86,11 +86,11 @@ export default function TimerPage() {
             <Plus className="w-4 h-4" /> Add New
           </Button>
           <div className="relative hidden md:block">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-foreground-secondary" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-paper-fg2" />
             <input
               type="text"
               placeholder="Search notes, tasks..."
-              className="pl-9 pr-4 py-2 bg-surface-elevated rounded-full border border-border text-sm focus:outline-none focus:border-primary w-full md:w-70"
+              className="pl-9 pr-4 py-2 bg-paper-bg3 rounded-full border border-paper-bd text-sm focus:outline-none focus:border-paper-accent w-full md:w-70"
             />
           </div>
         </div>
@@ -179,7 +179,7 @@ export default function TimerPage() {
         {/* Timer Main Column */}
         <div className="lg:col-span-5 flex flex-col gap-6">
           <Card className="flex flex-col items-center justify-center p-10 relative">
-            <div className="absolute top-4 right-4 text-foreground-secondary">
+            <div className="absolute top-4 right-4 text-paper-fg2">
               <Settings className="w-5 h-5" />
             </div>
 
@@ -206,11 +206,11 @@ export default function TimerPage() {
                   strokeDashoffset={
                     2 * Math.PI * 120 * (1 - getProgress() / 100)
                   }
-                  className="text-primary transition-all duration-1000 ease-linear"
+                  className="text-paper-accent transition-all duration-1000 ease-linear"
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="text-sm text-foreground-secondary mb-1 flex items-center gap-2">
+                <div className="text-sm text-paper-fg2 mb-1 flex items-center gap-2">
                   <span className="text-lg">⏰</span> Pomodoro
                 </div>
                 <div className="text-6xl font-bold tracking-tight">
@@ -223,7 +223,7 @@ export default function TimerPage() {
             <div className="flex gap-4 mb-6">
               <button
                 onClick={toggleTimer}
-                className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-light transition-colors shadow-lg shadow-primary/20"
+                className="w-14 h-14 rounded-full bg-paper-accent text-white flex items-center justify-center hover:opacity-90 transition-colors shadow-lg shadow-primary/20"
               >
                 {timerState.isRunning ? (
                   <Pause className="w-6 h-6 ml-0" />
@@ -233,28 +233,28 @@ export default function TimerPage() {
               </button>
               <button
                 disabled
-                className="w-14 h-14 rounded-full bg-surface-elevated text-foreground flex items-center justify-center opacity-50"
+                className="w-14 h-14 rounded-full bg-paper-bg3 text-paper-fg flex items-center justify-center opacity-50"
               >
                 <Pause className="w-6 h-6" />
               </button>
               <button
                 onClick={resetTimer}
-                className="w-14 h-14 rounded-full bg-surface-elevated text-foreground flex items-center justify-center hover:bg-border transition-colors"
+                className="w-14 h-14 rounded-full bg-paper-bg3 text-paper-fg flex items-center justify-center hover:bg-border transition-colors"
               >
                 <RotateCcw className="w-6 h-6" />
               </button>
             </div>
 
             <div className="flex gap-4 w-full px-6">
-              <button className="flex-1 py-3 rounded-xl bg-surface-elevated text-foreground text-sm font-medium hover:bg-border flex items-center justify-center gap-2">
+              <button className="flex-1 py-3 rounded-xl bg-paper-bg3 text-paper-fg text-sm font-medium hover:bg-border flex items-center justify-center gap-2">
                 ✕ Lewati Istirahat
               </button>
-              <button className="flex-1 py-3 rounded-xl bg-surface-elevated text-foreground text-sm font-medium hover:bg-border flex items-center justify-center gap-2">
+              <button className="flex-1 py-3 rounded-xl bg-paper-bg3 text-paper-fg text-sm font-medium hover:bg-border flex items-center justify-center gap-2">
                 <SkipForward className="w-4 h-4" /> Mulai Istirahat Panjang
               </button>
             </div>
 
-            <div className="mt-6 text-sm text-foreground-secondary">
+            <div className="mt-6 text-sm text-paper-fg2">
               Sesi Fokus Berjalan - Siklus ke {timerState.currentCycle}
             </div>
           </Card>
@@ -262,10 +262,10 @@ export default function TimerPage() {
           {/* Mini analytics */}
           <div className="grid grid-cols-2 gap-4">
             <Card>
-              <div className="text-xs text-foreground-secondary mb-2">
+              <div className="text-xs text-paper-fg2 mb-2">
                 Ringkasan Fokus Minggu Ini
               </div>
-              <div className="text-[10px] text-foreground-secondary mb-1">
+              <div className="text-[10px] text-paper-fg2 mb-1">
                 Weekly focus hour trend
               </div>
               <div className="h-16 mt-2 relative">
@@ -290,13 +290,13 @@ export default function TimerPage() {
             </Card>
             <div className="grid gap-4">
               <Card className="flex flex-col justify-center">
-                <div className="text-xs text-foreground-secondary mb-1">
+                <div className="text-xs text-paper-fg2 mb-1">
                   Total Waktu Fokus
                 </div>
                 <div className="text-3xl font-bold">22h</div>
               </Card>
               <Card className="flex flex-col justify-center">
-                <div className="text-xs text-foreground-secondary mb-1">
+                <div className="text-xs text-paper-fg2 mb-1">
                   Sesi Selesai Hari Ini
                 </div>
                 <div className="text-3xl font-bold">5</div>
@@ -310,8 +310,8 @@ export default function TimerPage() {
           <Card className="h-full flex flex-col">
             <div className="flex justify-between items-center mb-6">
               <Heading2 className="text-lg">Riwayat Sesi Lengkap</Heading2>
-              <div className="flex gap-2 items-center bg-surface-elevated px-3 py-1.5 rounded-lg text-sm">
-                <CalendarIcon className="w-4 h-4 text-foreground-secondary" />{" "}
+              <div className="flex gap-2 items-center bg-paper-bg3 px-3 py-1.5 rounded-lg text-sm">
+                <CalendarIcon className="w-4 h-4 text-paper-fg2" />{" "}
                 Date
               </div>
             </div>
@@ -323,9 +323,9 @@ export default function TimerPage() {
                   className="flex items-center gap-4 relative z-10 pl-5"
                 >
                   <div
-                    className={`absolute left-0 w-3 h-3 rounded-full border-2 border-surface ${log.type === "focus" ? "bg-primary" : "bg-surface-elevated"}`}
+                    className={`absolute left-0 w-3 h-3 rounded-full border-2 border-surface ${log.type === "focus" ? "bg-paper-accent" : "bg-paper-bg3"}`}
                   />
-                  <div className="text-xs text-foreground-secondary w-10">
+                  <div className="text-xs text-paper-fg2 w-10">
                     {new Date(log.timestamp).toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
@@ -338,9 +338,9 @@ export default function TimerPage() {
                   </div>
                   <div>
                     {log.completed ? (
-                      <CheckCircle2 className="w-4 h-4 text-success" />
+                      <CheckCircle2 className="w-4 h-4 text-note-green-bd" />
                     ) : (
-                      <AlertCircle className="w-4 h-4 text-danger" />
+                      <AlertCircle className="w-4 h-4 text-note-pink-bd" />
                     )}
                   </div>
                 </div>
