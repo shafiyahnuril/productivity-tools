@@ -33,9 +33,22 @@ export interface Note {
   updatedAt: string;
 }
 
+export interface CalendarEvent {
+  id: string;
+  title: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  category: "focus" | "meeting" | "study" | "other";
+  description?: string;
+}
+
 interface AppState {
   todos: Todo[];
   notes: Note[];
+  calendarEvents: CalendarEvent[];
+  activeModal: "todo" | "note" | "agenda" | null;
+  fabMenuOpen: boolean;
   timerState: {
     isRunning: boolean;
     timeLeft: number;
@@ -50,6 +63,9 @@ interface AppState {
   addTodo: (todo: Omit<Todo, "id">) => void;
   toggleTodo: (id: string) => void;
   addNote: (note: Omit<Note, "id" | "updatedAt">) => void;
+  addCalendarEvent: (event: Omit<CalendarEvent, "id">) => void;
+  setActiveModal: (modal: "todo" | "note" | "agenda" | null) => void;
+  setFabMenuOpen: (open: boolean) => void;
 }
 
 export const useStore = create<AppState>((set) => ({
@@ -114,6 +130,9 @@ export const useStore = create<AppState>((set) => ({
       updatedAt: "2024-10-28",
     },
   ],
+  calendarEvents: [],
+  activeModal: null,
+  fabMenuOpen: false,
   timerState: {
     isRunning: false,
     timeLeft: 25 * 60,
@@ -185,4 +204,13 @@ export const useStore = create<AppState>((set) => ({
         },
       ],
     })),
+  addCalendarEvent: (event) =>
+    set((state) => ({
+      calendarEvents: [
+        ...state.calendarEvents,
+        { ...event, id: Date.now().toString() },
+      ],
+    })),
+  setActiveModal: (modal) => set({ activeModal: modal }),
+  setFabMenuOpen: (open) => set({ fabMenuOpen: open }),
 }));

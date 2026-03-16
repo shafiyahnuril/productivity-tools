@@ -1,14 +1,14 @@
 import Image from "next/image";
 
 import { Heading1, Heading2, Text } from "./components/ui/Typography";
-import { Button } from "./components/ui/Elements";
-import { Search, Filter, Plus } from "lucide-react";
+import { Search, Filter } from "lucide-react";
 import { DashboardClient } from "./DashboardClient";
 import { FocusTimerWidget } from "./components/dashboard/FocusTimerWidget";
 import { CalendarWidget } from "./components/dashboard/CalendarWidget";
 import { TodoWidget } from "./components/dashboard/TodoWidget";
 import { DashboardStats } from "./components/dashboard/DashboardStats";
 import { NotesPreview } from "./components/dashboard/NotesPreview";
+import AddNewButton from "./components/AddNewButton";
 
 export default function Home() {
   return (
@@ -35,9 +35,7 @@ export default function Home() {
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <Button className="!hidden md:!inline-flex items-center gap-2">
-              <Plus className="w-4 h-4" /> Add New
-            </Button>
+            <AddNewButton />
             <div className="relative">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-foreground-secondary" />
               <input
