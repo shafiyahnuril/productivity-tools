@@ -1,7 +1,5 @@
-## Purpose
+## MODIFIED Requirements
 
-To define requirements for focus-timer.
-## Requirements
 ### Requirement: Timer functionality
 
 The system SHALL provide a Pomodoro focus timer with Play, Pause, and Reset controls. On mobile screens, the timer SHALL display as a horizontal flex card.
@@ -15,13 +13,3 @@ The system SHALL provide a Pomodoro focus timer with Play, Pause, and Reset cont
 
 - **WHEN** user clicks "Play"
 - **THEN** the timer begins counting down from the selected time (e.g., 25:00)
-
-### Requirement: Session log
-
-The system SHALL log completed focus sessions.
-
-#### Scenario: Timer reaches zero
-
-- **WHEN** the timer hits 00:00
-- **THEN** the session duration and details are appended to the Session Log list
-

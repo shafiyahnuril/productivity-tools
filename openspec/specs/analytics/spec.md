@@ -1,4 +1,8 @@
-## ADDED Requirements
+## Purpose
+
+To define requirements for analytics.
+
+## Requirements
 
 ### Requirement: Data visualization
 
