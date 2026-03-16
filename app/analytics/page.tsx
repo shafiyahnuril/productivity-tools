@@ -19,10 +19,10 @@ const dataMingguan = [
 ];
 
 const dataDistribusi = [
-  { name: 'Pomodoro', value: 45, color: '#6366f1' },
-  { name: 'Belajar', value: 25, color: '#10b981' },
-  { name: 'Membaca', value: 20, color: '#f59e0b' },
-  { name: 'Lainnya', value: 10, color: '#64748b' }
+  { name: 'Pomodoro', value: 45, color: '#D97706' },
+  { name: 'Belajar', value: 25, color: '#5A8A6E' },
+  { name: 'Membaca', value: 20, color: '#B59030' },
+  { name: 'Lainnya', value: 10, color: '#A8A39B' }
 ];
 
 const dataPencapaian = [
@@ -123,16 +123,16 @@ export default function AnalyticsPage() {
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={dataMingguan} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} opacity={0.1} />
-                <XAxis dataKey="name" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}j`} />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#f8fafc' }}
-                  itemStyle={{ color: '#f8fafc' }}
+                <CartesianGrid strokeDasharray="3 3" stroke="#DDD5C8" vertical={false} opacity={0.5} />
+                <XAxis dataKey="name" stroke="#78706A" fontSize={11} tickLine={false} axisLine={false} />
+                <YAxis stroke="#78706A" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}j`} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '12px', color: 'var(--color-foreground)', fontSize: '12px' }}
+                  itemStyle={{ color: 'var(--color-foreground-secondary)' }}
                 />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Line type="monotone" name="Fokus" dataKey="focus" stroke="#6366f1" strokeWidth={3} dot={{ r: 4, fill: '#6366f1' }} activeDot={{ r: 6 }} />
-                <Line type="monotone" name="Istirahat" dataKey="break" stroke="#10b981" strokeWidth={3} dot={{ r: 4, fill: '#10b981' }} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '11px', paddingTop: '10px', color: 'var(--color-foreground-secondary)' }} />
+                <Line type="monotone" name="Fokus" dataKey="focus" stroke="#D97706" strokeWidth={2.5} dot={{ r: 3.5, fill: '#D97706', strokeWidth: 0 }} activeDot={{ r: 5 }} />
+                <Line type="monotone" name="Istirahat" dataKey="break" stroke="#5A8A6E" strokeWidth={2.5} dot={{ r: 3.5, fill: '#5A8A6E', strokeWidth: 0 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -149,14 +149,14 @@ export default function AnalyticsPage() {
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={dataPencapaian} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} opacity={0.1} />
-                <XAxis dataKey="name" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-                <Tooltip 
-                  cursor={{ fill: '#334155', opacity: 0.4 }}
-                  contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#f8fafc' }}
+                <CartesianGrid strokeDasharray="3 3" stroke="#DDD5C8" vertical={false} opacity={0.5} />
+                <XAxis dataKey="name" stroke="#78706A" fontSize={11} tickLine={false} axisLine={false} />
+                <YAxis stroke="#78706A" fontSize={11} tickLine={false} axisLine={false} />
+                <Tooltip
+                  cursor={{ fill: 'rgba(0,0,0,0.04)', opacity: 0.8 }}
+                  contentStyle={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '12px', color: 'var(--color-foreground)', fontSize: '12px' }}
                 />
-                <Bar dataKey="tasks" name="Tugas Selesai" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="tasks" name="Tugas Selesai" fill="#D97706" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -182,8 +182,8 @@ export default function AnalyticsPage() {
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#f8fafc' }}
+                  <Tooltip
+                    contentStyle={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '12px', color: 'var(--color-foreground)', fontSize: '12px' }}
                   />
                 </PieChart>
              </ResponsiveContainer>

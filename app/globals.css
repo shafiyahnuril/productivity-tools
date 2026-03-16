@@ -1,71 +1,176 @@
 @import "tailwindcss";
 
+/* ================================================================
+   PAPER.OS Design System — Class-Based Dark Mode (Tailwind v4)
+   ================================================================ */
+
+@variant dark (&:is(.dark, .dark *));
+
+/* ----------------------------------------------------------------
+   Light Mode — Warm Paper
+   ---------------------------------------------------------------- */
 :root {
-  /* Brand Colors */
-  --color-primary: #6e56cf;
-  --color-primary-light: #8c77ed;
-  --color-primary-dark: #4a3696;
+  /* Background layers */
+  --background:           #FAF7F2;   /* paper-bg  — main app bg */
+  --background-secondary: #F2EDE4;   /* paper-bg2 — sidebar / section bg */
+  --surface:              #FFFFFF;   /* paper-card — cards & modals */
+  --surface-elevated:     #F2EDE4;   /* paper-bg2 — hover / input bg */
+  --surface-tertiary:     #E8E0D4;   /* paper-bg3 — deep input / strong hover */
 
-  /* Semantic Colors */
-  --color-success: #4caf50;
-  --color-warning: #ff9800;
-  --color-danger: #f44336;
-  --color-info: #3b82f6;
+  /* Foreground / Text */
+  --foreground:           #1C1712;   /* paper-fg  — heading & body */
+  --foreground-secondary: #4A4238;   /* paper-fg2 — description */
+  --foreground-tertiary:  #78706A;   /* paper-fg3 — placeholder / disabled */
 
-  /* Light Mode Colors */
-  --background: #f4f5f8;
-  --surface: #ffffff;
-  --surface-elevated: #f0f1f5;
-  --border: #e5e7eb;
-  --foreground: #1a1a1a;
-  --foreground-secondary: #71717a;
+  /* Borders */
+  --border:               #DDD5C8;   /* paper-bd  — standard border */
+  --border-soft:          #E8E0D4;   /* softer decorative border */
 
-  /* Border Radius */
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --radius-sm: 8px;
+  /* Primary accent — Amber/Gold */
+  --primary:              #D97706;
+  --primary-light:        #F59E0B;
+  --primary-dark:         #B45309;
+
+  /* Semantic / Decorative accents — muted tones */
+  --success:              #5A8A6E;   /* Sage */
+  --success-soft:         #D1FAE5;
+  --warning:              #B59030;   /* Gold */
+  --warning-soft:         #FDE68A;
+  --danger:               #C4574A;   /* Rose */
+  --danger-soft:          #FFE4E1;
+  --info:                 #3B7EC2;   /* Sky */
+  --info-soft:            #DBEAFE;
+
+  /* Border radius */
+  --radius-xl:   48px;
+  --radius-lg:   24px;
+  --radius-md:   12px;
+  --radius-sm:    8px;
   --radius-pill: 999px;
 }
 
+/* ----------------------------------------------------------------
+   Dark Mode — Muted Charcoal (class-based via .dark on <html>)
+   ---------------------------------------------------------------- */
+.dark {
+  /* Background layers */
+  --background:           #141312;   /* dark-bg  — main app bg */
+  --background-secondary: #1C1A18;   /* dark-bg2 — sidebar / section bg */
+  --surface:              #2E2A26;   /* dark-card — cards & modals */
+  --surface-elevated:     #262320;   /* dark-bg3 — hover / input bg */
+  --surface-tertiary:     #1C1A18;   /* darkest element layer */
+
+  /* Foreground / Text */
+  --foreground:           #F5F3EF;   /* dark-fg — heading */
+  --foreground-secondary: #D6D1C9;   /* dark-fg2 — body */
+  --foreground-tertiary:  #A8A39B;   /* dark-fg3 — description */
+
+  /* Borders */
+  --border:               #3F3A34;   /* dark-bd */
+  --border-soft:          #4A453F;   /* dark-bd-soft */
+
+  /* Primary accent — Amber stays across both modes */
+  --primary:              #D97706;
+  --primary-light:        #F59E0B;
+  --primary-dark:         #B45309;
+
+  /* Semantic accents — 18% opacity in dark mode */
+  --success:              #5A8A6E;
+  --success-soft:         rgba(90, 138, 110, 0.18);
+  --warning:              #B59030;
+  --warning-soft:         rgba(181, 144, 48, 0.18);
+  --danger:               #C4574A;
+  --danger-soft:          rgba(196, 87, 74, 0.18);
+  --info:                 #3B7EC2;
+  --info-soft:            rgba(59, 126, 194, 0.18);
+}
+
+/* ----------------------------------------------------------------
+   Tailwind v4 @theme — expose CSS vars as utility classes
+   ---------------------------------------------------------------- */
 @theme inline {
-  --color-primary: var(--color-primary);
-  --color-primary-light: var(--color-primary-light);
-  --color-primary-dark: var(--color-primary-dark);
+  /* Backgrounds */
+  --color-background:           var(--background);
+  --color-background-secondary: var(--background-secondary);
+  --color-surface:              var(--surface);
+  --color-surface-elevated:     var(--surface-elevated);
+  --color-surface-tertiary:     var(--surface-tertiary);
 
-  --color-success: var(--color-success);
-  --color-warning: var(--color-warning);
-  --color-danger: var(--color-danger);
-  --color-info: var(--color-info);
-
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-surface-elevated: var(--surface-elevated);
-  --color-border: var(--border);
-  --color-foreground: var(--foreground);
+  /* Text */
+  --color-foreground:           var(--foreground);
   --color-foreground-secondary: var(--foreground-secondary);
+  --color-foreground-tertiary:  var(--foreground-tertiary);
 
-  --radius-lg: var(--radius-lg);
-  --radius-md: var(--radius-md);
-  --radius-sm: var(--radius-sm);
+  /* Borders */
+  --color-border:               var(--border);
+  --color-border-soft:          var(--border-soft);
+
+  /* Primary */
+  --color-primary:              var(--primary);
+  --color-primary-light:        var(--primary-light);
+  --color-primary-dark:         var(--primary-dark);
+
+  /* Semantic */
+  --color-success:              var(--success);
+  --color-warning:              var(--warning);
+  --color-danger:               var(--danger);
+  --color-info:                 var(--info);
+
+  /* Border radius */
+  --radius-xl:   var(--radius-xl);
+  --radius-lg:   var(--radius-lg);
+  --radius-md:   var(--radius-md);
+  --radius-sm:   var(--radius-sm);
   --radius-pill: var(--radius-pill);
 
-  --font-sans: var(--font-geist-sans), Inter, sans-serif;
+  /* Typography — Inter as primary sans */
+  --font-sans: var(--font-inter), Inter, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #16161e;
-    --surface: #20202a;
-    --surface-elevated: #292936;
-    --border: #333344;
-    --foreground: #ffffff;
-    --foreground-secondary: #a0a0b0;
-  }
-}
-
+/* ----------------------------------------------------------------
+   Base styles
+   ---------------------------------------------------------------- */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+/* Smooth theme transitions — only color-related properties */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+/* Remove transition override for explicitly animated elements */
+[data-no-transition],
+.no-transition {
+  transition: none !important;
+}
+
+/* Range slider accent */
+input[type="range"] {
+  accent-color: var(--primary);
+}
+
+/* ----------------------------------------------------------------
+   Scrollbar — subtle warm styling
+   ---------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground-tertiary);
 }
