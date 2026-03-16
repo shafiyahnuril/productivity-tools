@@ -17,6 +17,15 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { useStore } from "../store/useStore";
+import {
+  AreaChart,
+  Area,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+} from "recharts";
 
 const MODE_LABELS = {
   focus: "Fokus",
@@ -224,6 +233,16 @@ export default function TimerPage() {
   );
   const todayMinutes = todayFocusSessions.reduce((a, l) => a + l.duration, 0);
   const strokeDashoffset = CIRCUMFERENCE * (1 - getProgress() / 100);
+
+  const trendData = [
+    { day: "Sen", focus: 45 },
+    { day: "Sel", focus: 90 },
+    { day: "Rab", focus: 60 },
+    { day: "Kam", focus: 120 },
+    { day: "Jum", focus: 30 },
+    { day: "Sab", focus: 75 },
+    { day: "Hari Ini", focus: Math.max(50, todayMinutes) },
+  ];
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-10">
@@ -548,24 +567,55 @@ export default function TimerPage() {
               <div className="text-[10px] font-bold uppercase tracking-widest text-foreground-tertiary mb-3">
                 Tren Fokus
               </div>
-              <div className="h-16 relative">
-                <svg
-                  className="w-full h-full"
-                  viewBox="0 0 100 50"
-                  preserveAspectRatio="none"
-                >
-                  <path
-                    d="M0,40 C20,20 30,50 50,20 C70,-10 80,40 100,10"
-                    fill="none"
-                    stroke="var(--color-primary)"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M0,40 C20,20 30,50 50,20 C70,-10 80,40 100,10 L100,50 L0,50 Z"
-                    fill="var(--color-primary)"
-                    fillOpacity="0.12"
-                  />
-                </svg>
+              <div className="h-32 -ml-4 -mt-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart
+                    data={trendData}
+                    margin={{ top: 10, right: 10, bottom: 0, left: 0 }}
+                  >
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="var(--color-border)"
+                      vertical={false}
+                      opacity={0.5}
+                    />
+                    <XAxis
+                      dataKey="day"
+                      stroke="var(--color-foreground-tertiary)"
+                      fontSize={10}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis
+                      stroke="var(--color-foreground-tertiary)"
+                      fontSize={10}
+                      tickLine={false}
+                      axisLine={false}
+                      width={35}
+                      tickFormatter={(value) => `${value}m`}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "var(--color-surface-elevated)",
+                        borderColor: "var(--color-border)",
+                        fontSize: "11px",
+                        padding: "4px 8px",
+                        borderRadius: "8px",
+                      }}
+                      itemStyle={{ color: "var(--color-foreground)" }}
+                      labelStyle={{ display: "none" }}
+                      formatter={(value: number) => [`${value}m`, "Fokus"]}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="focus"
+                      stroke="var(--color-primary)"
+                      strokeWidth={2}
+                      fill="var(--color-primary)"
+                      fillOpacity={0.12}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
             </Card>
 
@@ -592,7 +642,7 @@ export default function TimerPage() {
 
         {/* ── History column ── */}
         <div className="lg:col-span-4">
-          <Card className="h-full flex flex-col min-h-100">
+          <Card className="h-fit flex flex-col">
             <div className="flex justify-between items-center mb-6">
               <Heading2 className="text-base">Riwayat Sesi</Heading2>
               <button
