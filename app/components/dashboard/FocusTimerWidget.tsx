@@ -60,19 +60,29 @@ export function FocusTimerWidget() {
         intervalRef.current = null;
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timerState.isRunning]);
 
   function advancePhase(
     mode: "focus" | "shortBreak" | "longBreak",
     currentCycle: number,
-    config: typeof timerState.config
+    config: typeof timerState.config,
   ) {
     if (mode === "focus") {
       useStore.getState().setTimerState(
         currentCycle >= config.cycles
-          ? { isRunning: false, mode: "longBreak", timeLeft: config.longBreak * 60, currentCycle: 1 }
-          : { isRunning: false, mode: "shortBreak", timeLeft: config.shortBreak * 60, currentCycle: currentCycle + 1 }
+          ? {
+              isRunning: false,
+              mode: "longBreak",
+              timeLeft: config.longBreak * 60,
+              currentCycle: 1,
+            }
+          : {
+              isRunning: false,
+              mode: "shortBreak",
+              timeLeft: config.shortBreak * 60,
+              currentCycle: currentCycle + 1,
+            },
       );
     } else {
       useStore.getState().setTimerState({
@@ -84,14 +94,23 @@ export function FocusTimerWidget() {
   }
 
   const fmt = (s: number) =>
-    `${Math.floor(s / 60).toString().padStart(2, "0")}:${(s % 60).toString().padStart(2, "0")}`;
+    `${Math.floor(s / 60)
+      .toString()
+      .padStart(2, "0")}:${(s % 60).toString().padStart(2, "0")}`;
 
   const toggle = () => setTimerState({ isRunning: !timerState.isRunning });
   const reset = () =>
-    setTimerState({ isRunning: false, timeLeft: timerState.config[timerState.mode] * 60 });
+    setTimerState({
+      isRunning: false,
+      timeLeft: timerState.config[timerState.mode] * 60,
+    });
 
   const switchMode = (mode: "focus" | "shortBreak" | "longBreak") =>
-    setTimerState({ isRunning: false, mode, timeLeft: timerState.config[mode] * 60 });
+    setTimerState({
+      isRunning: false,
+      mode,
+      timeLeft: timerState.config[mode] * 60,
+    });
 
   const total = timerState.config[timerState.mode] * 60;
   const progress = total > 0 ? (total - timerState.timeLeft) / total : 0;
@@ -112,7 +131,7 @@ export function FocusTimerWidget() {
   const recentLogs = timerState.history.slice(0, 2);
 
   return (
-    <Card className="stagger-card flex md:flex-col flex-row items-center justify-between md:justify-center p-4 md:p-5 w-full gap-4">
+    <Card className="stagger-card flex md:flex-col flex-row items-center justify-between md:justify-center p-5 md:p-6 lg:p-7 w-full gap-3 md:gap-5">
       {/* Desktop circular ring */}
       <div className="hidden md:flex flex-col items-center mb-3">
         <div className="relative" style={{ width: SVG_SIZE, height: SVG_SIZE }}>
@@ -167,13 +186,16 @@ export function FocusTimerWidget() {
         <div className="text-sm text-foreground-secondary mb-1">
           {MODE_LABELS[timerState.mode]}
         </div>
-        <div className="text-4xl font-bold tracking-tight tabular-nums" data-no-transition>
+        <div
+          className="text-4xl font-bold tracking-tight tabular-nums"
+          data-no-transition
+        >
           {fmt(timerState.timeLeft)}
         </div>
       </div>
 
       {/* Controls */}
-      <div className="flex gap-2 md:gap-3 md:mb-3 items-center">
+      <div className="flex flex-col min-[550px]:flex-row gap-2 md:gap-3 md:mb-3 items-center px-1">
         {/* Play/Pause */}
         <button
           onClick={toggle}
@@ -195,7 +217,7 @@ export function FocusTimerWidget() {
           onClick={reset}
           className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface-elevated text-foreground flex items-center justify-center hover:bg-border transition-colors shrink-0 active:scale-95"
         >
-          <RotateCcw className="w-4 h-4" />
+          <RotateCcw size={18} />
         </button>
       </div>
 
@@ -217,23 +239,34 @@ export function FocusTimerWidget() {
       </div>
 
       {/* Session log */}
-      <div className="w-full pt-3 text-left border-t border-border">
-        <div className="text-xs font-semibold uppercase tracking-widest text-foreground-tertiary mb-2">Session Log</div>
+      <div className="flex-1 md:flex-none w-full md:pt-4 pl-3 md:pl-0 pt-0 text-left border-l md:border-l-0 md:border-t border-border">
+        <div className="flex items-center text-[10px] md:text-xs font-semibold uppercase tracking-widest text-foreground-tertiary mb-1.5 md:mb-2">
+          Session Log
+        </div>
         {recentLogs.length === 0 ? (
-          <div className="text-xs text-foreground-tertiary">No sessions yet.</div>
+          <div className="text-[11px] md:text-xs text-foreground-tertiary">
+            No sessions yet.
+          </div>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-1.5 md:space-y-2">
             {recentLogs.map((log, i) => (
-              <div key={i} className="flex justify-between text-xs items-center">
+              <div
+                key={i}
+                className="flex justify-between text-[11px] md:text-xs items-center"
+              >
                 <div className="flex items-center gap-2">
                   <span
                     className={`w-1.5 h-1.5 rounded-full ${
-                      log.type === "focus" ? "bg-primary" : "bg-foreground-secondary"
+                      log.type === "focus"
+                        ? "bg-primary"
+                        : "bg-foreground-secondary"
                     }`}
                   />
                   {MODE_LABELS[log.type]}
                 </div>
-                <span className="text-foreground-secondary">{log.duration} min</span>
+                <span className="text-foreground-secondary">
+                  {log.duration} min
+                </span>
               </div>
             ))}
           </div>
