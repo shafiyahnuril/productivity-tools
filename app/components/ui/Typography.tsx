@@ -5,7 +5,11 @@ export function Heading1({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <h1 className={`text-2xl font-semibold ${className}`}>{children}</h1>;
+  return (
+    <h1 className={`text-2xl font-black tracking-tighter ${className}`}>
+      {children}
+    </h1>
+  );
 }
 
 export function Heading2({
@@ -15,7 +19,11 @@ export function Heading2({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <h2 className={`text-lg font-medium ${className}`}>{children}</h2>;
+  return (
+    <h2 className={`text-lg font-bold tracking-tight ${className}`}>
+      {children}
+    </h2>
+  );
 }
 
 export function Text({
@@ -25,7 +33,7 @@ export function Text({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <p className={`text-sm ${className}`}>{children}</p>;
+  return <p className={`text-sm font-normal ${className}`}>{children}</p>;
 }
 
 export function Caption({
@@ -35,5 +43,25 @@ export function Caption({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <span className={`text-xs ${className}`}>{children}</span>;
+  return (
+    <span className={`text-[#78706A] dark:text-[#A8A39B] text-xs ${className}`}>
+      {children}
+    </span>
+  );
+}
+
+export function MicroLabel({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <span
+      className={`text-[10px] font-bold uppercase tracking-widest ${className}`}
+    >
+      {children}
+    </span>
+  );
 }

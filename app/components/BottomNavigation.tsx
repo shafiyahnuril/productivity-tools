@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Home, FileText, Clock, Calendar, BarChart2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import ThemeToggler from "./ThemeToggler";
 
 export default function BottomNavigation() {
   const pathname = usePathname();
@@ -36,10 +37,15 @@ export default function BottomNavigation() {
               }`}
             >
               <Icon size={20} className={isActive ? "text-primary" : ""} />
-              <span className="text-[10px] font-medium">{link.label}</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest">
+                {link.label}
+              </span>
             </Link>
           );
         })}
+        <div className="flex flex-col items-center justify-center w-full h-full">
+          <ThemeToggler />
+        </div>
       </div>
     </nav>
   );

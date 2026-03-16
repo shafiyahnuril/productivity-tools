@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  /* Override default colors to HEX to prevent oklab/oklch errors in html2canvas */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Light Mode Variables */
+  --color-paper-bg: #FAF7F2;
+  --color-paper-bg2: #F2EDE4;
+  --color-paper-bg3: #E8E0D4;
+  --color-paper-card: #FFFFFF;
+  --color-paper-card2: #FAF7F2;
+  
+  --color-paper-fg: #1C1712;
+  --color-paper-fg2: #4A4238;
+  --color-paper-fg3: #78706A;
+  
+  --color-paper-bd: #DDD5C8;
+  
+  --color-paper-accent: #D97706;
+  --color-paper-accent-fg: #FFFFFF;
+  --color-paper-amber-l: #FDE68A;
+  
+  --color-paper-sage: #5A8A6E;
+  --color-paper-sage-l: #D1FAE5;
+  
+  --color-paper-rose: #C4574A;
+  --color-paper-rose-l: #FFE4E1;
+  
+  --color-paper-sky: #3B7EC2;
+  --color-paper-sky-l: #DBEAFE;
+  
+  --color-paper-gold: #B59030;
+  --color-paper-lavender: #7C6FA0;
+  --color-paper-lavender-l: #EDE9FE;
+
+  /* Dark Mode Variables - Muted Editorial Aesthetic */
+  --color-dark-bg: #141312;
+  --color-dark-bg2: #1C1A18;
+  --color-dark-bg3: #262320;
+  --color-dark-card: #2E2A26;
+  --color-dark-card2: #36312C;
+
+  --color-dark-fg: #F5F3EF;
+  --color-dark-fg2: #D6D1C9;
+  --color-dark-fg3: #A8A39B;
+  --color-dark-fg4: #7B766E;
+
+  --color-dark-bd: #3F3A34;
+  --color-dark-bd-soft: #4A453F;
+
+  --color-dark-gold-soft: rgba(181, 144, 48, 0.18);
+  --color-dark-lavender-soft: rgba(124, 111, 160, 0.18);
+  --color-dark-sky-soft: rgba(59, 126, 194, 0.18);
+  --color-dark-rose-soft: rgba(196, 87, 74, 0.18);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Ensure shadows use HEX/RGBA instead of oklch */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+@layer base {
+  body {
+    @apply bg-paper-bg text-paper-fg font-sans antialiased;
+  }
+}

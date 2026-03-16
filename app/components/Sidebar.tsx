@@ -13,6 +13,8 @@ import {
   Settings,
 } from "lucide-react";
 
+import ThemeToggler from "./ThemeToggler";
+
 export default function Sidebar() {
   const pathname = usePathname();
 
@@ -46,7 +48,9 @@ export default function Sidebar() {
         }`}
       >
         <item.icon className="w-5 h-5 mb-1" />
-        <span className="text-[10px] font-medium">{item.name}</span>
+        <span className="text-[10px] font-bold uppercase tracking-widest">
+          {item.name}
+        </span>
       </Link>
     );
   };
@@ -63,7 +67,8 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <div className="mt-auto flex flex-col items-center w-full pt-4 border-t border-border">
+      <div className="mt-auto flex flex-col items-center w-full pt-4 border-t border-border gap-2">
+        <ThemeToggler />
         {bottomItems.map((item) => (
           <NavLink key={item.name} item={item} />
         ))}

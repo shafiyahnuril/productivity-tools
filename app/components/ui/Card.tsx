@@ -10,7 +10,7 @@ export function Card({
   const bgClass = elevated ? "bg-surface-elevated" : "bg-surface";
   return (
     <div
-      className={`${bgClass} rounded-lg md:rounded-3xl p-4 md:p-6 shadow-sm border border-border ${className}`}
+      className={`${bgClass} rounded-3xl p-4 md:p-6 border border-border ${className}`}
     >
       {children}
     </div>
