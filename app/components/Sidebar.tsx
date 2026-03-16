@@ -30,7 +30,11 @@ export default function Sidebar() {
     { name: "Settings", href: "/settings", icon: Settings },
   ];
 
-  const NavLink = ({ item }: { item: { href: string; name: string; icon: React.ElementType } }) => {
+  const NavLink = ({
+    item,
+  }: {
+    item: { href: string; name: string; icon: React.ElementType };
+  }) => {
     const isActive = pathname === item.href;
     return (
       <Link
@@ -48,7 +52,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-20 md:w-24 bg-background border-r border-border flex flex-col items-center py-6 overflow-y-auto">
+    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-20 md:w-24 bg-background border-r border-border flex-col items-center py-6 overflow-y-auto z-40">
       <div className="w-10 h-10 bg-primary/20 text-primary rounded-pill flex items-center justify-center mb-8 font-bold text-xl">
         T
       </div>

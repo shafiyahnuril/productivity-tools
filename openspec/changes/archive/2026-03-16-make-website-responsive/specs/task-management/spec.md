@@ -1,7 +1,5 @@
-## Purpose
+## MODIFIED Requirements
 
-To define requirements for task-management.
-## Requirements
 ### Requirement: Task lists and statuses
 
 The system SHALL let users manage tasks, track priorities (Low, Medium, High), and categorize them. On mobile devices, the "Today's Tasks" widget SHALL display a maximum of 3 top tasks along with a "more" option. Users SHALL be able to swipe tasks sideways to trigger quick actions.
@@ -20,13 +18,3 @@ The system SHALL let users manage tasks, track priorities (Low, Medium, High), a
 
 - **WHEN** user horizontally swipes a task item to the left
 - **THEN** quick action buttons (such as Edit or Delete) are revealed under the task element
-
-### Requirement: Deadlines
-
-The system SHALL track task deadlines and display upcoming due tasks.
-
-#### Scenario: User queries upcoming tasks
-
-- **WHEN** user views the To-Do list dashboard
-- **THEN** tasks due soon are highlighted or listed under "Today's Tasks"
-

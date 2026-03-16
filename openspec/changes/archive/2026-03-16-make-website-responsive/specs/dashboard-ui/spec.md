@@ -1,7 +1,5 @@
-## Purpose
+## MODIFIED Requirements
 
-To define requirements for dashboard-ui.
-## Requirements
 ### Requirement: Global layout
 
 The system SHALL provide a responsive global layout consisting of a side navigation bar and a main content area on desktops, switching to a bottom navigation bar and vertical stack layout on smaller screens.
@@ -16,14 +14,7 @@ The system SHALL provide a responsive global layout consisting of a side navigat
 - **WHEN** user loads the application on a smaller screen (tablet or mobile)
 - **THEN** they see a top header with search/filter icons, content in a vertical stack format, and a floating bottom navigation bar
 
-### Requirement: Theming
-
-The system SHALL support Dark and Light themes per the `designSystem.md`.
-
-#### Scenario: User interacts with layout
-
-- **WHEN** user toggles between dark to light
-- **THEN** the app's CSS variables switch to the light mode palette automatically
+## ADDED Requirements
 
 ### Requirement: Floating Action Button (FAB)
 
@@ -42,4 +33,3 @@ The system SHALL trigger mobile-oriented GSAP animations on initial page load (s
 
 - **WHEN** the user enters the dashboard page
 - **THEN** the components load with an upward translation and rapid stagger effect
-
