@@ -8,17 +8,17 @@ import { useStore } from "../../store/useStore";
 const NOTE_STYLES = [
   {
     border: "border-l-primary/50",
-    bg: "bg-primary/5",
+    bg: "",
     hover: "hover:bg-primary/[0.09]",
   },
   {
     border: "border-l-success/50",
-    bg: "bg-success/5",
+    bg: "",
     hover: "hover:bg-success/[0.09]",
   },
   {
     border: "border-l-warning/50",
-    bg: "bg-warning/5",
+    bg: "",
     hover: "hover:bg-warning/[0.09]",
   },
 ] as const;
@@ -38,23 +38,28 @@ export function NotesPreview() {
       {preview.map((note, i) => {
         const style = NOTE_STYLES[i % NOTE_STYLES.length];
         return (
-        <Link key={note.id} href="/notes">
-          <Card
-            className={`border-l-[4px] ${style.border} ${style.bg} ${style.hover} transition-colors p-4 cursor-pointer`}
-          >
-            <div className="font-semibold text-sm mb-1">{note.title}</div>
-            <div className="text-xs text-foreground-secondary mb-3 line-clamp-2">
-              {note.content}
-            </div>
-            <div className="flex gap-2 flex-wrap">
-              {note.categories.map((cat) => (
-                <Tag key={cat} colorClassName={TAG_COLORS[cat] ?? "bg-primary/20 text-primary"}>
-                  {cat}
-                </Tag>
-              ))}
-            </div>
-          </Card>
-        </Link>
+          <Link key={note.id} href="/notes">
+            <Card
+              className={`border-l-[4px] ${style.border} ${style.bg} ${style.hover} transition-colors p-4 cursor-pointer`}
+            >
+              <div className="font-semibold text-sm mb-1">{note.title}</div>
+              <div className="text-xs text-foreground-secondary mb-3 line-clamp-2">
+                {note.content}
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                {note.categories.map((cat) => (
+                  <Tag
+                    key={cat}
+                    colorClassName={
+                      TAG_COLORS[cat] ?? "bg-primary/20 text-primary"
+                    }
+                  >
+                    {cat}
+                  </Tag>
+                ))}
+              </div>
+            </Card>
+          </Link>
         );
       })}
 
