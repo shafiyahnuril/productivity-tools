@@ -69,7 +69,7 @@ export function NotesPreview() {
         </div>
       )}
 
-      <Link href="/notes" className="mt-auto">
+      <Link href="/notes" className="mt-4">
         <button className="w-full px-4 py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-light transition-colors active:scale-95">
           New Note
         </button>
