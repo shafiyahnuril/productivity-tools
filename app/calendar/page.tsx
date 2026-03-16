@@ -61,7 +61,10 @@ export default function CalendarPage() {
         </div>
       </header>
 
-      <Heading2 className="uppercase">CALENDAR DETAIL</Heading2>
+      <div className="flex items-center gap-3">
+        <div className="w-1 h-6 rounded-full bg-primary/40" />
+        <Heading2 className="uppercase">CALENDAR DETAIL</Heading2>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Main Calendar Area - 2/3 width */}
@@ -116,7 +119,7 @@ export default function CalendarPage() {
                   </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto bg-surface relative min-h-125">
+                <div className="flex-1 overflow-y-auto bg-surface relative min-h-125" style={{ backgroundImage: 'linear-gradient(90deg, transparent 0%, rgba(217,119,6,0.02) 14.28%, transparent 14.28%, transparent 100%)', backgroundSize: '100% 100%' }}>
                   {/* Time labels */}
                   <div className="absolute left-0 top-0 bottom-0 w-[12.5%] border-r border-border text-xs text-foreground-secondary text-right pr-2 py-2 space-y-9.5 bg-surface z-10">
                     <div>08:00</div>

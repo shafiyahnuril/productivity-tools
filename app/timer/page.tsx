@@ -291,7 +291,10 @@ export default function TimerPage() {
         </div>
       </header>
 
-      <Heading2 className="uppercase">Fokus Timer</Heading2>
+      <div className="flex items-center gap-3">
+        <div className="w-1 h-6 rounded-full bg-primary/40" />
+        <Heading2 className="uppercase">Fokus Timer</Heading2>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* ── Config column ── */}

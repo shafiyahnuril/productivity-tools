@@ -103,7 +103,10 @@ export default function TodoPage() {
         </div>
       </header>
 
-      <Heading2 className="uppercase">TO-DO DETAIL</Heading2>
+      <div className="flex items-center gap-3">
+        <div className="w-1 h-6 rounded-full bg-success/40" />
+        <Heading2 className="uppercase">TO-DO DETAIL</Heading2>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Main List Column */}

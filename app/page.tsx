@@ -65,10 +65,12 @@ export default function Home() {
         </header>
 
         {/* Main Grid */}
+        <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)', opacity: 0.4 }} />
         <div className="flex flex-col md:grid md:grid-cols-4 gap-6">
           {/* Left Column — Focus Timer */}
           <div className="md:col-span-1 flex flex-col gap-4">
-            <div className="hidden md:flex justify-between items-center">
+            <div className="hidden md:flex items-center gap-3">
+              <div className="w-1 h-6 rounded-full bg-primary/40" />
               <Heading2>Focus Timer</Heading2>
             </div>
             <FocusTimerWidget />
@@ -78,19 +80,28 @@ export default function Home() {
           <div className="md:col-span-2 flex flex-col gap-6">
             {/* Stats */}
             <div className="flex flex-col gap-4">
-              <Heading2>Dashboard</Heading2>
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-6 rounded-full bg-primary/40" />
+                <Heading2>Dashboard</Heading2>
+              </div>
               <DashboardStats />
             </div>
 
             {/* Notes + Calendar */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2">
               <div className="flex flex-col gap-4">
-                <Heading2>Notes</Heading2>
+                <div className="flex items-center gap-3">
+                  <div className="w-1 h-6 rounded-full bg-primary/40" />
+                  <Heading2>Notes</Heading2>
+                </div>
                 <NotesPreview />
               </div>
 
               <div className="flex flex-col gap-4">
-                <Heading2>Calendar</Heading2>
+                <div className="flex items-center gap-3">
+                  <div className="w-1 h-6 rounded-full bg-primary/40" />
+                  <Heading2>Calendar</Heading2>
+                </div>
                 <CalendarWidget />
               </div>
             </div>
@@ -98,11 +109,17 @@ export default function Home() {
 
           {/* Right Column — To-Do & Analytics */}
           <div className="md:col-span-1 flex flex-col gap-4">
-            <Heading2>To-Do List</Heading2>
+            <div className="flex items-center gap-3">
+              <div className="w-1 h-6 rounded-full bg-success/40" />
+              <Heading2>To-Do List</Heading2>
+            </div>
             <TodoWidget />
 
-            <Heading2 className="mt-4">Analytics Preview</Heading2>
-            <div className="bg-surface rounded-3xl p-4 md:p-6 border border-border shadow-sm">
+            <div className="flex items-center gap-3 mt-4">
+              <div className="w-1 h-6 rounded-full bg-primary/40" />
+              <Heading2>Analytics Preview</Heading2>
+            </div>
+            <div className="bg-surface rounded-3xl p-4 md:p-6 border border-border shadow-sm dark:bg-surface" style={{ backgroundImage: 'linear-gradient(135deg, rgba(217,119,6,0.04) 0%, transparent 100%)', backgroundAttachment: 'fixed', backgroundSize: '100% 100%' }}>
               <div className="flex justify-between items-start mb-4">
                 <div className="text-[11px] text-foreground-secondary">
                   Weekly focus hour trend
