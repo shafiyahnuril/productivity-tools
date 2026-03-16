@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { Card } from "../ui/Card";
 import { Heading2 } from "../ui/Typography";
 import { useStore } from "../../store/useStore";
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, ArrowUpRight } from "lucide-react";
 
 const MODE_LABELS = {
   focus: "Pomodoro",
@@ -103,17 +104,17 @@ export function FocusTimerWidget() {
   };
 
   const modeButtons = [
-    { label: String(timerState.config.focus), mode: "focus" as const },
-    { label: String(timerState.config.shortBreak), mode: "shortBreak" as const },
-    { label: String(timerState.config.longBreak), mode: "longBreak" as const },
+    { label: "Focus", mode: "focus" as const },
+    { label: "Short", mode: "shortBreak" as const },
+    { label: "Long", mode: "longBreak" as const },
   ];
 
   const recentLogs = timerState.history.slice(0, 2);
 
   return (
-    <Card className="stagger-card flex-1 flex md:flex-col flex-row items-center justify-between md:justify-center p-4 md:p-6 w-full gap-4">
+    <Card className="stagger-card flex md:flex-col flex-row items-center justify-between md:justify-center p-4 md:p-5 w-full gap-4">
       {/* Desktop circular ring */}
-      <div className="hidden md:flex flex-col items-center mb-6">
+      <div className="hidden md:flex flex-col items-center mb-3">
         <div className="relative" style={{ width: SVG_SIZE, height: SVG_SIZE }}>
           <svg
             width={SVG_SIZE}
@@ -172,7 +173,7 @@ export function FocusTimerWidget() {
       </div>
 
       {/* Controls */}
-      <div className="flex gap-2 md:gap-4 md:mb-6 items-center">
+      <div className="flex gap-2 md:gap-3 md:mb-3 items-center">
         {/* Play/Pause */}
         <button
           onClick={toggle}
@@ -198,16 +199,16 @@ export function FocusTimerWidget() {
         </button>
       </div>
 
-      {/* Mode selector (desktop) */}
-      <div className="hidden md:flex gap-2 w-full justify-center pb-2 mt-auto">
+      {/* Mode selector (desktop) — segmented control */}
+      <div className="hidden md:flex w-full bg-surface-elevated rounded-xl p-0.5 mb-1">
         {modeButtons.map(({ label, mode }) => (
           <button
             key={mode}
             onClick={() => switchMode(mode)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors active:scale-95 ${
+            className={`flex-1 py-1.5 rounded-[9px] text-[11px] font-semibold transition-all active:scale-95 ${
               timerState.mode === mode
-                ? "bg-primary text-white"
-                : "bg-surface-elevated text-foreground hover:bg-border"
+                ? "bg-surface text-foreground border border-border"
+                : "text-foreground-tertiary hover:text-foreground-secondary"
             }`}
           >
             {label}
@@ -216,8 +217,8 @@ export function FocusTimerWidget() {
       </div>
 
       {/* Session log */}
-      <div className="w-full pt-4 text-left border-t border-border">
-        <div className="text-sm font-medium mb-3">Session log</div>
+      <div className="w-full pt-3 text-left border-t border-border">
+        <div className="text-xs font-semibold uppercase tracking-widest text-foreground-tertiary mb-2">Session Log</div>
         {recentLogs.length === 0 ? (
           <div className="text-xs text-foreground-tertiary">No sessions yet.</div>
         ) : (
@@ -238,6 +239,15 @@ export function FocusTimerWidget() {
           </div>
         )}
       </div>
+
+      {/* Subtle link to full timer page */}
+      <Link
+        href="/timer"
+        className="hidden md:flex items-center gap-1 text-[10px] text-foreground-tertiary hover:text-primary transition-colors group self-end mt-1"
+      >
+        Open full timer
+        <ArrowUpRight className="w-3 h-3 group-hover:translate-x-px group-hover:-translate-y-px transition-transform" />
+      </Link>
     </Card>
   );
 }

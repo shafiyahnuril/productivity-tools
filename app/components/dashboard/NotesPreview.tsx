@@ -5,12 +5,28 @@ import { Card } from "../ui/Card";
 import { Tag } from "../ui/Elements";
 import { useStore } from "../../store/useStore";
 
-const BORDER_COLORS = ["border-l-primary", "border-l-success", "border-l-warning"];
+const NOTE_STYLES = [
+  {
+    border: "border-l-primary/50",
+    bg: "bg-primary/5",
+    hover: "hover:bg-primary/[0.09]",
+  },
+  {
+    border: "border-l-success/50",
+    bg: "bg-success/5",
+    hover: "hover:bg-success/[0.09]",
+  },
+  {
+    border: "border-l-warning/50",
+    bg: "bg-warning/5",
+    hover: "hover:bg-warning/[0.09]",
+  },
+] as const;
 
 const TAG_COLORS: Record<string, string> = {
-  Assignment: "bg-primary/20 text-primary",
-  Exam: "bg-warning/20 text-warning",
-  Study: "bg-success/20 text-success",
+  Assignment: "bg-primary/15 text-primary",
+  Exam: "bg-warning/15 text-warning",
+  Study: "bg-success/15 text-success",
 };
 
 export function NotesPreview() {
@@ -19,11 +35,12 @@ export function NotesPreview() {
 
   return (
     <div className="space-y-3 flex-1 flex flex-col">
-      {preview.map((note, i) => (
+      {preview.map((note, i) => {
+        const style = NOTE_STYLES[i % NOTE_STYLES.length];
+        return (
         <Link key={note.id} href="/notes">
           <Card
-            elevated
-            className={`border-l-[6px] ${BORDER_COLORS[i % BORDER_COLORS.length]} cursor-pointer hover:bg-surface transition-colors p-4`}
+            className={`border-l-[4px] ${style.border} ${style.bg} ${style.hover} transition-colors p-4 cursor-pointer`}
           >
             <div className="font-semibold text-sm mb-1">{note.title}</div>
             <div className="text-xs text-foreground-secondary mb-3 line-clamp-2">
@@ -38,7 +55,8 @@ export function NotesPreview() {
             </div>
           </Card>
         </Link>
-      ))}
+        );
+      })}
 
       {notes.length === 0 && (
         <div className="text-xs text-foreground-tertiary text-center py-4">
