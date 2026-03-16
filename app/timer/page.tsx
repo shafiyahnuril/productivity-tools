@@ -51,6 +51,12 @@ const MODE_DOT_CLASS = {
   longBreak: "bg-info",
 };
 
+const CYCLE_DOT_STATES = {
+  current: "bg-primary border-primary text-white",
+  done: "bg-primary/20 border-primary/50 text-primary",
+  upcoming: "border-border text-primary/50",
+};
+
 const CIRCUMFERENCE = 2 * Math.PI * 112;
 
 export default function TimerPage() {
@@ -293,7 +299,7 @@ export default function TimerPage() {
 
       <div className="flex items-center gap-3">
         <div className="w-1 h-6 rounded-full bg-primary/40" />
-        <Heading2 className="uppercase">Fokus Timer</Heading2>
+        <Heading2>Fokus Timer</Heading2>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -420,16 +426,15 @@ export default function TimerPage() {
                       const isCurrent =
                         i === timerState.currentCycle - 1 &&
                         timerState.mode === "focus";
+                      const state = isCurrent
+                        ? "current"
+                        : isDone
+                          ? "done"
+                          : "upcoming";
                       return (
                         <div
                           key={i}
-                          className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-[10px] font-bold transition-colors ${
-                            isCurrent
-                              ? "bg-primary border-primary text-white"
-                              : isDone
-                                ? "bg-primary/20 border-primary/50 text-primary"
-                                : "border-border text-foreground-tertiary"
-                          }`}
+                          className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-[10px] font-bold transition-colors ${CYCLE_DOT_STATES[state]}`}
                         >
                           {i + 1}
                         </div>
