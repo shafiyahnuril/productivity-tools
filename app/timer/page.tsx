@@ -604,7 +604,7 @@ export default function TimerPage() {
                       }}
                       itemStyle={{ color: "var(--color-foreground)" }}
                       labelStyle={{ display: "none" }}
-                      formatter={(value: number) => [`${value}m`, "Fokus"]}
+                      formatter={(value: any) => [`${value}m`, "Fokus"]}
                     />
                     <Area
                       type="monotone"
