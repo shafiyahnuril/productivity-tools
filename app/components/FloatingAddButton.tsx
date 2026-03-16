@@ -139,7 +139,16 @@ export default function FloatingAddButton() {
                 key={key}
                 onClick={() => openModal(key)}
                 title={label}
-                className="w-12 h-12 bg-white dark:bg-gray-800 text-primary flex items-center justify-center rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all"
+                className="w-12 h-12 bg-white dark:bg-gray-800 text-primary flex items-center justify-center rounded-full transition-all duration-200 hover:scale-105 active:scale-95"
+                style={{ boxShadow: 'var(--shadow-md)' }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-md)';
+                  (e.currentTarget as HTMLElement).style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-md)';
+                  (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+                }}
               >
                 <Icon size={20} />
               </button>
@@ -149,7 +158,16 @@ export default function FloatingAddButton() {
         <button
           onClick={() => setIsOpen(!isOpen)}
           title="Add New"
-          className="w-14 h-14 bg-primary text-white flex items-center justify-center rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all duration-200"
+          className="w-14 h-14 bg-primary text-white flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110 active:scale-95"
+          style={{ boxShadow: 'var(--shadow-md)' }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-md)';
+            (e.currentTarget as HTMLElement).style.transform = 'scale(1.1)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-md)';
+            (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+          }}
         >
           {isOpen ? <X size={28} /> : <Plus size={28} />}
         </button>
@@ -163,7 +181,7 @@ export default function FloatingAddButton() {
             if (e.target === e.currentTarget) closeModal();
           }}
         >
-          <div className="bg-surface dark:bg-gray-900 rounded-2xl p-6 w-full max-w-md shadow-2xl border border-border">
+          <div className="bg-surface dark:bg-gray-900 rounded-2xl p-6 w-full max-w-md border border-border transition-all duration-300" style={{ boxShadow: 'var(--shadow-md), 0 25px 50px rgba(0, 0, 0, 0.15)' }}>
             {/* Header */}
             <div className="flex justify-between items-center mb-5">
               <h2 className="text-lg font-bold">

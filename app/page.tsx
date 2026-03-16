@@ -17,7 +17,7 @@ export default function Home() {
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/20 shrink-0">
+            <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/20 shrink-0 shadow-sm">
               <Image
                 src="https://i.pravatar.cc/150?img=47"
                 alt="Profile"
@@ -44,7 +44,7 @@ export default function Home() {
                 className="pl-9 pr-4 py-2 bg-surface-elevated rounded-full border border-border text-sm focus:outline-none focus:border-primary w-full md:w-70"
               />
             </div>
-            <button className="p-2.5 rounded-xl bg-surface-elevated border border-border text-foreground-secondary hover:text-foreground shadow-sm">
+            <button className="p-2.5 rounded-xl bg-surface-elevated border border-border text-foreground-secondary hover:text-foreground transition-colors hover:shadow-sm">
               <Filter className="w-4 h-4" />
             </button>
           </div>
@@ -58,7 +58,7 @@ export default function Home() {
                 className="pl-9 pr-4 py-2 bg-surface-elevated rounded-full border border-border text-sm focus:outline-none focus:border-primary w-full"
               />
             </div>
-            <button className="p-2.5 rounded-xl bg-surface-elevated border border-border text-foreground-secondary hover:text-foreground shadow-sm shrink-0">
+            <button className="p-2.5 rounded-xl bg-surface-elevated border border-border text-foreground-secondary hover:text-foreground transition-colors hover:shadow-sm shrink-0">
               <Filter className="w-4 h-4" />
             </button>
           </div>
@@ -102,7 +102,7 @@ export default function Home() {
             <TodoWidget />
 
             <Heading2 className="mt-4">Analytics Preview</Heading2>
-            <div className="bg-surface rounded-3xl p-4 md:p-6 border border-border">
+            <div className="bg-surface rounded-3xl p-4 md:p-6 border border-border shadow-sm">
               <div className="flex justify-between items-start mb-4">
                 <div className="text-[11px] text-foreground-secondary">
                   Weekly focus hour trend
