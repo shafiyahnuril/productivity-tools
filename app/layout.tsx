@@ -3,6 +3,8 @@ import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
 import BottomNavigation from "./components/BottomNavigation";
+import MobileHeader from "./components/MobileHeader";
+import FloatingThemeToggle from "./components/FloatingThemeToggle";
 import { ThemeProvider } from "./components/ThemeProvider";
 
 const inter = Inter({
@@ -40,9 +42,11 @@ export default function RootLayout({
         className={`${inter.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         <ThemeProvider>
+          <MobileHeader />
           <Sidebar />
           <BottomNavigation />
-          <main className="md:ml-24 min-h-screen p-4 md:p-8 pb-24 md:pb-8">
+          <FloatingThemeToggle />
+          <main className="md:ml-24 min-h-screen p-4 pt-20 md:pt-8 md:p-8 pb-32 md:pb-8">
             {children}
           </main>
         </ThemeProvider>

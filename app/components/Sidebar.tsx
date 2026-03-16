@@ -11,14 +11,10 @@ import {
   BarChart2,
   User,
   Settings,
-  Sun,
-  Moon,
 } from "lucide-react";
-import { useTheme } from "./ThemeProvider";
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { theme, toggleTheme } = useTheme();
 
   const navItems = [
     { name: "Dashboard", href: "/", icon: Home },
@@ -74,22 +70,6 @@ export default function Sidebar() {
         {bottomItems.map((item) => (
           <NavLink key={item.name} item={item} />
         ))}
-
-        {/* Theme toggle */}
-        <button
-          onClick={toggleTheme}
-          title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
-          className="flex flex-col items-center justify-center w-16 h-16 mt-1 rounded-2xl transition-all duration-200 text-foreground-secondary hover:bg-surface-tertiary hover:text-foreground active:scale-95"
-        >
-          {theme === "light" ? (
-            <Moon className="w-5 h-5 mb-1" />
-          ) : (
-            <Sun className="w-5 h-5 mb-1" />
-          )}
-          <span className="text-[9px] font-bold uppercase tracking-widest">
-            Theme
-          </span>
-        </button>
       </div>
     </aside>
   );

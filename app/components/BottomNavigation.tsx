@@ -2,29 +2,35 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, FileText, Clock, Calendar, BarChart2, Sun, Moon } from "lucide-react";
+import {
+  Home,
+  FileText,
+  Clock,
+  Calendar,
+  CheckSquare,
+  BarChart2,
+} from "lucide-react";
 import { useRef } from "react";
-import { useTheme } from "./ThemeProvider";
 
 export default function BottomNavigation() {
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
-  const { theme, toggleTheme } = useTheme();
 
   const links = [
     { href: "/", label: "Home", icon: Home },
     { href: "/notes", label: "Notes", icon: FileText },
     { href: "/timer", label: "Focus", icon: Clock },
     { href: "/calendar", label: "Calendar", icon: Calendar },
+    { href: "/todo", label: "To-Do", icon: CheckSquare },
     { href: "/analytics", label: "Stats", icon: BarChart2 },
   ];
 
   return (
     <nav
       ref={navRef}
-      className="md:hidden fixed bottom-0 left-0 right-0 bg-background-secondary/95 backdrop-blur-md border-t border-border z-50 pb-safe"
+      className="md:hidden fixed bottom-6 left-4 right-4 bg-background-secondary/95 backdrop-blur-md border border-border/50 shadow-2xl z-50 rounded-full"
     >
-      <div className="flex justify-around items-center h-16">
+      <div className="flex justify-around items-center h-16 px-2">
         {links.map((link) => {
           const isActive = pathname === link.href;
           const Icon = link.icon;
@@ -32,28 +38,20 @@ export default function BottomNavigation() {
             <Link
               key={link.href}
               href={link.href}
-              className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
-                isActive ? "text-primary" : "text-foreground-tertiary"
+              className={`flex flex-col items-center justify-center w-12 h-12 rounded-full transition-all duration-200 active:scale-95 ${
+                isActive
+                  ? "bg-primary text-white shadow-md"
+                  : "text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary"
               }`}
             >
-              <Icon size={20} />
-              <span className="text-[9px] font-bold uppercase tracking-widest">
-                {link.label}
-              </span>
+              <Icon
+                size={20}
+                className={isActive ? "stroke-[2.5]" : "stroke-2"}
+              />
+              {/* Note: Icon-only layout for floating navbar as requested/referenced */}
             </Link>
           );
         })}
-
-        {/* Theme toggle as last nav item */}
-        <button
-          onClick={toggleTheme}
-          className="flex flex-col items-center justify-center w-full h-full gap-1 text-foreground-tertiary transition-colors hover:text-foreground"
-        >
-          {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
-          <span className="text-[9px] font-bold uppercase tracking-widest">
-            Theme
-          </span>
-        </button>
       </div>
     </nav>
   );
