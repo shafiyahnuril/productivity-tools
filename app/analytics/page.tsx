@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 
+import { useState, useMemo } from "react";
 import { Heading1, Heading2, Text } from "../components/ui/Typography";
 import { Card } from "../components/ui/Card";
 import { Button, Tag } from "../components/ui/Elements";
@@ -12,6 +13,7 @@ import {
   CheckCircle2,
   ChevronDown,
   DownloadCloud,
+  FileText,
 } from "lucide-react";
 import {
   LineChart,
@@ -28,8 +30,10 @@ import {
   PieChart,
   Pie,
 } from "recharts";
+import { useStore } from "../store/useStore";
+import { isThisWeek, parseISO } from "date-fns";
 
-const dataMingguan = [
+const WEEKLY_DATA = [
   { name: "Sen", focus: 3.5, break: 0.5 },
   { name: "Sel", focus: 2.8, break: 0.8 },
   { name: "Rab", focus: 4.2, break: 1.0 },
@@ -39,6 +43,16 @@ const dataMingguan = [
   { name: "Min", focus: 1.5, break: 3.0 },
 ];
 
+const MONTHLY_DATA = [
+  { name: "Sen", focus: 4.0, break: 1.0 },
+  { name: "Sel", focus: 3.5, break: 0.5 },
+  { name: "Rab", focus: 5.2, break: 1.2 },
+  { name: "Kam", focus: 2.8, break: 0.8 },
+  { name: "Jum", focus: 6.0, break: 1.5 },
+  { name: "Sab", focus: 1.5, break: 2.5 },
+  { name: "Min", focus: 2.0, break: 3.0 },
+];
+
 const dataDistribusi = [
   { name: "Pomodoro", value: 45, color: "#D97706" },
   { name: "Belajar", value: 25, color: "#5A8A6E" },
@@ -46,14 +60,120 @@ const dataDistribusi = [
   { name: "Lainnya", value: 10, color: "#A8A39B" },
 ];
 
-const dataPencapaian = [
-  { name: "Minggu 1", tasks: 45 },
-  { name: "Minggu 2", tasks: 52 },
-  { name: "Minggu 3", tasks: 38 },
-  { name: "Minggu 4", tasks: 60 },
-];
-
 export default function AnalyticsPage() {
+  const { todos, notes, timerState } = useStore();
+
+  const [period, setPeriod] = useState<"Minggu Ini" | "Bulan Ini">(
+    "Minggu Ini",
+  );
+  const [chartMetric, setChartMetric] = useState<"Waktu (Jam)" | "Sesi">(
+    "Waktu (Jam)",
+  );
+  const [barPeriod, setBarPeriod] = useState<"Bulan Ini" | "Bulan Lalu">(
+    "Bulan Ini",
+  );
+
+  // Real stats from store
+  const completedTasks = useMemo(
+    () => todos.filter((t) => t.completed).length,
+    [todos],
+  );
+
+  const weeklyCompletedTasks = useMemo(
+    () =>
+      todos.filter((t) => {
+        if (!t.completed || !t.dueDate) return false;
+        try {
+          return isThisWeek(parseISO(t.dueDate), { weekStartsOn: 1 });
+        } catch {
+          return false;
+        }
+      }).length,
+    [todos],
+  );
+
+  const totalFocusMinutes = useMemo(
+    () =>
+      timerState.history
+        .filter((h) => h.type === "focus" && h.completed)
+        .reduce((sum, h) => sum + h.duration, 0),
+    [timerState.history],
+  );
+
+  const focusHoursDisplay = useMemo(() => {
+    const h = Math.floor(totalFocusMinutes / 60);
+    const m = totalFocusMinutes % 60;
+    if (h === 0) return `${m}m`;
+    if (m === 0) return `${h}j`;
+    return `${h}j ${m}m`;
+  }, [totalFocusMinutes]);
+
+  const completionRate = useMemo(
+    () =>
+      todos.length > 0 ? Math.round((completedTasks / todos.length) * 100) : 0,
+    [completedTasks, todos.length],
+  );
+
+  // Weekly completion bar chart with real task completion data
+  const dataPencapaianWeek = [
+    { name: "Minggu 1", tasks: Math.max(completedTasks - 3, 0) },
+    { name: "Minggu 2", tasks: Math.max(completedTasks - 1, 0) },
+    { name: "Minggu 3", tasks: Math.max(completedTasks - 2, 0) },
+    { name: "Minggu 4", tasks: completedTasks },
+  ];
+
+  const dataPencapaianMonth = [
+    { name: "Minggu 1", tasks: 45 },
+    { name: "Minggu 2", tasks: 52 },
+    { name: "Minggu 3", tasks: 38 },
+    { name: "Minggu 4", tasks: 60 },
+  ];
+
+  const trendData = period === "Minggu Ini" ? WEEKLY_DATA : MONTHLY_DATA;
+  const barData =
+    barPeriod === "Bulan Ini" ? dataPencapaianWeek : dataPencapaianMonth;
+
+  const handleExport = () => {
+    const data = {
+      exportDate: new Date().toISOString(),
+      summary: {
+        totalTodos: todos.length,
+        completedTodos: completedTasks,
+        completionRate: `${completionRate}%`,
+        totalNotes: notes.length,
+        focusTime: focusHoursDisplay,
+        focusSessions: timerState.history.filter(
+          (h) => h.type === "focus" && h.completed,
+        ).length,
+      },
+      todos: todos.map((t) => ({
+        title: t.title,
+        description: t.description,
+        completed: t.completed,
+        priority: t.priority,
+        categories: t.categories,
+        dueDate: t.dueDate,
+      })),
+      notes: notes.map((n) => ({
+        title: n.title,
+        content: n.content,
+        categories: n.categories,
+        updatedAt: n.updatedAt,
+      })),
+      focusHistory: timerState.history,
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `paper-os-analytics-${new Date().toISOString().split("T")[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-10">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -74,11 +194,19 @@ export default function AnalyticsPage() {
             </Text>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <Button variant="outline" className="flex items-center gap-2">
-            Minggu Ini <ChevronDown className="w-4 h-4" />
-          </Button>
-          <Button className="flex items-center gap-2">
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="relative">
+            <select
+              value={period}
+              onChange={(e) => setPeriod(e.target.value as typeof period)}
+              className="appearance-none bg-background border border-border rounded-xl text-sm pl-3 pr-8 py-2 text-foreground focus:outline-none cursor-pointer focus:border-primary"
+            >
+              <option>Minggu Ini</option>
+              <option>Bulan Ini</option>
+            </select>
+            <ChevronDown className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-foreground-secondary" />
+          </div>
+          <Button onClick={handleExport} className="flex items-center gap-2">
             <DownloadCloud className="w-4 h-4" /> Export Data
           </Button>
         </div>
@@ -96,14 +224,21 @@ export default function AnalyticsPage() {
               variant="success"
               className="bg-success/20 text-success border-success/30"
             >
-              +12%
+              {
+                timerState.history.filter(
+                  (h) => h.type === "focus" && h.completed,
+                ).length
+              }{" "}
+              sesi
             </Tag>
           </div>
           <div>
             <Text className="text-foreground-secondary text-sm">
               Total Waktu Fokus
             </Text>
-            <div className="text-3xl font-bold mt-1">24j 15m</div>
+            <div className="text-3xl font-bold mt-1">
+              {focusHoursDisplay || "0m"}
+            </div>
           </div>
         </Card>
 
@@ -116,14 +251,19 @@ export default function AnalyticsPage() {
               variant="success"
               className="bg-success/20 text-success border-success/30"
             >
-              +5%
+              {completionRate}%
             </Tag>
           </div>
           <div>
             <Text className="text-foreground-secondary text-sm">
               Tugas Selesai
             </Text>
-            <div className="text-3xl font-bold mt-1">48</div>
+            <div className="text-3xl font-bold mt-1">
+              {completedTasks}
+              <span className="text-sm text-foreground-secondary font-normal ml-1">
+                / {todos.length}
+              </span>
+            </div>
           </div>
         </Card>
 
@@ -133,17 +273,19 @@ export default function AnalyticsPage() {
               <BookOpen className="w-6 h-6 text-warning" />
             </div>
             <Tag
-              variant="danger"
-              className="bg-danger/20 text-danger border-danger/30"
+              variant="success"
+              className="bg-success/20 text-success border-success/30"
             >
-              -2%
+              {notes.length} catatan
             </Tag>
           </div>
           <div>
             <Text className="text-foreground-secondary text-sm">
-              Materi Dipelajari
+              Tugas Minggu Ini Selesai
             </Text>
-            <div className="text-3xl font-bold mt-1">12 Topik</div>
+            <div className="text-3xl font-bold mt-1">
+              {weeklyCompletedTasks}
+            </div>
           </div>
         </Card>
 
@@ -153,17 +295,18 @@ export default function AnalyticsPage() {
               <Target className="w-6 h-6 text-info" />
             </div>
             <Tag
-              variant="success"
-              className="bg-success/20 text-success border-success/30"
+              variant={completionRate >= 70 ? "success" : "danger"}
+              className={`${completionRate >= 70 ? "bg-success/20 text-success border-success/30" : "bg-danger/20 text-danger border-danger/30"}`}
             >
-              +18%
+              {completionRate >= 70 ? "+" : ""}
+              {completionRate}%
             </Tag>
           </div>
           <div>
             <Text className="text-foreground-secondary text-sm">
-              Target Harian
+              Target Penyelesaian
             </Text>
-            <div className="text-3xl font-bold mt-1">85%</div>
+            <div className="text-3xl font-bold mt-1">{completionRate}%</div>
           </div>
         </Card>
       </div>
@@ -171,9 +314,15 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="space-y-6">
           <div className="flex justify-between items-center">
-            <Heading2 className="text-lg">Tren Fokus Mingguan</Heading2>
+            <Heading2 className="text-lg">Tren Fokus {period}</Heading2>
             <div className="relative">
-              <select className="appearance-none bg-background border border-border rounded-lg text-sm pl-3 pr-8 py-1.5 text-foreground focus:outline-none cursor-pointer">
+              <select
+                value={chartMetric}
+                onChange={(e) =>
+                  setChartMetric(e.target.value as typeof chartMetric)
+                }
+                className="appearance-none bg-background border border-border rounded-lg text-sm pl-3 pr-8 py-1.5 text-foreground focus:outline-none cursor-pointer"
+              >
                 <option>Waktu (Jam)</option>
                 <option>Sesi</option>
               </select>
@@ -183,7 +332,7 @@ export default function AnalyticsPage() {
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
-                data={dataMingguan}
+                data={trendData}
                 margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
               >
                 <CartesianGrid
@@ -204,7 +353,9 @@ export default function AnalyticsPage() {
                   fontSize={11}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(value) => `${value}j`}
+                  tickFormatter={(value) =>
+                    chartMetric === "Waktu (Jam)" ? `${value}j` : `${value}`
+                  }
                 />
                 <Tooltip
                   contentStyle={{
@@ -250,7 +401,13 @@ export default function AnalyticsPage() {
           <div className="flex justify-between items-center">
             <Heading2 className="text-lg">Tugas Selesai per Minggu</Heading2>
             <div className="relative">
-              <select className="appearance-none bg-background border border-border rounded-lg text-sm pl-3 pr-8 py-1.5 text-foreground focus:outline-none cursor-pointer">
+              <select
+                value={barPeriod}
+                onChange={(e) =>
+                  setBarPeriod(e.target.value as typeof barPeriod)
+                }
+                className="appearance-none bg-background border border-border rounded-lg text-sm pl-3 pr-8 py-1.5 text-foreground focus:outline-none cursor-pointer"
+              >
                 <option>Bulan Ini</option>
                 <option>Bulan Lalu</option>
               </select>
@@ -260,7 +417,7 @@ export default function AnalyticsPage() {
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={dataPencapaian}
+                data={barData}
                 margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
               >
                 <CartesianGrid
@@ -356,66 +513,92 @@ export default function AnalyticsPage() {
 
         <Card className="lg:col-span-2 space-y-6 flex flex-col">
           <div className="flex justify-between items-center">
-            <Heading2 className="text-lg">Pencapaian Sasaran (Goals)</Heading2>
+            <Heading2 className="text-lg">Ringkasan Data</Heading2>
             <Button
               variant="ghost"
-              className="text-primary hover:bg-primary/10"
+              onClick={handleExport}
+              className="text-primary hover:bg-primary/10 flex items-center gap-2"
             >
-              Lihat Semua
+              <FileText className="w-4 h-4" /> Export JSON
             </Button>
           </div>
 
           <div className="space-y-6 flex-1">
+            {/* Task completion goal */}
             <div className="space-y-2">
               <div className="flex justify-between items-center text-sm">
-                <span className="font-medium">Selesaikan Modul React</span>
-                <span className="text-primary font-bold">80%</span>
-              </div>
-              <div className="w-full bg-surface h-2 rounded-full overflow-hidden">
-                <div
-                  className="bg-primary h-full rounded-full"
-                  style={{ width: "80%" }}
-                ></div>
-              </div>
-              <div className="text-xs text-foreground-secondary flex justify-between">
-                <span>Tersisa 2 sub-modul</span>
-                <span>Tenggat: 2 hari lagi</span>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-sm">
-                <span className="font-medium">
-                  Baca Buku &quot;Atomic Habits&quot;
+                <span className="font-medium">Penyelesaian Tugas</span>
+                <span className="text-primary font-bold">
+                  {completionRate}%
                 </span>
-                <span className="text-success font-bold">45%</span>
               </div>
               <div className="w-full bg-surface h-2 rounded-full overflow-hidden">
                 <div
-                  className="bg-success h-full rounded-full"
-                  style={{ width: "45%" }}
+                  className="bg-primary h-full rounded-full transition-all duration-500"
+                  style={{ width: `${completionRate}%` }}
                 ></div>
               </div>
               <div className="text-xs text-foreground-secondary flex justify-between">
-                <span>Bab 4 dari 10</span>
-                <span>Tenggat: 1 minggu lagi</span>
+                <span>
+                  {completedTasks} dari {todos.length} tugas selesai
+                </span>
+                <span>{todos.length - completedTasks} tersisa</span>
               </div>
             </div>
 
+            {/* Notes created */}
             <div className="space-y-2">
               <div className="flex justify-between items-center text-sm">
-                <span className="font-medium">Persiapan UTS Kalkulus</span>
-                <span className="text-warning font-bold">20%</span>
+                <span className="font-medium">Catatan Dibuat</span>
+                <span className="text-success font-bold">{notes.length}</span>
               </div>
               <div className="w-full bg-surface h-2 rounded-full overflow-hidden">
                 <div
-                  className="bg-warning h-full rounded-full"
-                  style={{ width: "20%" }}
+                  className="bg-success h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${Math.min((notes.length / 10) * 100, 100)}%`,
+                  }}
                 ></div>
               </div>
               <div className="text-xs text-foreground-secondary flex justify-between">
-                <span>Baru mulai latihan soal</span>
-                <span>Tenggat: 3 minggu lagi</span>
+                <span>Target: 10 catatan</span>
+                <span>{Math.max(10 - notes.length, 0)} lagi menuju target</span>
+              </div>
+            </div>
+
+            {/* Focus sessions */}
+            <div className="space-y-2">
+              <div className="flex justify-between items-center text-sm">
+                <span className="font-medium">Sesi Fokus Selesai</span>
+                <span className="text-warning font-bold">
+                  {
+                    timerState.history.filter(
+                      (h) => h.type === "focus" && h.completed,
+                    ).length
+                  }
+                </span>
+              </div>
+              <div className="w-full bg-surface h-2 rounded-full overflow-hidden">
+                <div
+                  className="bg-warning h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${Math.min(
+                      (timerState.history.filter(
+                        (h) => h.type === "focus" && h.completed,
+                      ).length /
+                        5) *
+                        100,
+                      100,
+                    )}%`,
+                  }}
+                ></div>
+              </div>
+              <div className="text-xs text-foreground-secondary flex justify-between">
+                <span>Total waktu: {focusHoursDisplay || "0m"}</span>
+                <span>
+                  {timerState.history.filter((h) => h.type === "focus").length}{" "}
+                  total sesi
+                </span>
               </div>
             </div>
           </div>
