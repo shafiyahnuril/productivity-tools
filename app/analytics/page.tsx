@@ -84,7 +84,7 @@ export default function AnalyticsPage() {
         </div>
       </header>
 
-      <Heading2 className="uppercase">RINGKASAN STATISTIK</Heading2>
+      <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">RINGKASAN STATISTIK</Heading2>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <Card className="flex flex-col gap-4">
@@ -171,7 +171,7 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="space-y-6">
           <div className="flex justify-between items-center">
-            <Heading2 className="text-lg">Tren Fokus Mingguan</Heading2>
+            <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">TREN FOKUS MINGGUAN</Heading2>
             <div className="relative">
               <select className="appearance-none bg-background border border-border rounded-lg text-sm pl-3 pr-8 py-1.5 text-foreground focus:outline-none cursor-pointer">
                 <option>Waktu (Jam)</option>
@@ -248,7 +248,7 @@ export default function AnalyticsPage() {
 
         <Card className="space-y-6">
           <div className="flex justify-between items-center">
-            <Heading2 className="text-lg">Tugas Selesai per Minggu</Heading2>
+            <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">TUGAS SELESAI PER MINGGU</Heading2>
             <div className="relative">
               <select className="appearance-none bg-background border border-border rounded-lg text-sm pl-3 pr-8 py-1.5 text-foreground focus:outline-none cursor-pointer">
                 <option>Bulan Ini</option>
@@ -306,7 +306,7 @@ export default function AnalyticsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-1 space-y-6">
-          <Heading2 className="text-lg">Distribusi Aktivitas</Heading2>
+          <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">DISTRIBUSI AKTIVITAS</Heading2>
           <div className="h-[250px] w-full flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -356,7 +356,7 @@ export default function AnalyticsPage() {
 
         <Card className="lg:col-span-2 space-y-6 flex flex-col">
           <div className="flex justify-between items-center">
-            <Heading2 className="text-lg">Pencapaian Sasaran (Goals)</Heading2>
+            <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">PENCAPAIAN SASARAN (GOALS)</Heading2>
             <Button
               variant="ghost"
               className="text-primary hover:bg-primary/10"

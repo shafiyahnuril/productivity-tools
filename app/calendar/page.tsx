@@ -63,7 +63,7 @@ export default function CalendarPage() {
 
       <div className="flex items-center gap-3">
         <div className="w-1 h-6 rounded-full bg-primary/40" />
-        <Heading2 className="uppercase">CALENDAR DETAIL</Heading2>
+        <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">CALENDAR DETAIL</Heading2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -244,7 +244,7 @@ export default function CalendarPage() {
         <div className="md:col-span-1 flex flex-col gap-6">
           <Card className="flex-1">
             <div className="flex justify-between items-center mb-6">
-              <Heading2 className="text-sm">AGENDA HARI INI - 16 Mar</Heading2>
+              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">AGENDA HARI INI - 16 MAR</Heading2>
               <MoreHorizontal className="w-5 h-5 text-foreground-secondary cursor-pointer" />
             </div>
 

@@ -105,7 +105,7 @@ export default function TodoPage() {
 
       <div className="flex items-center gap-3">
         <div className="w-1 h-6 rounded-full bg-success/40" />
-        <Heading2 className="uppercase">TO-DO DETAIL</Heading2>
+        <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">TO-DO DETAIL</Heading2>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -142,12 +142,12 @@ export default function TodoPage() {
           </Card>
 
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide shrink-0">
-            {["HARI INI", "MINGGU INI", "MENDATANG", "SELESAI", "SEMUA"].map(
+            {["Hari Ini", "Minggu Ini", "Mendatang", "Selesai", "Semua"].map(
               (tab) => (
                 <button
                   key={tab}
                   onClick={() => setFilter(tab)}
-                  className={`px-6 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${filter === tab ? "bg-surface-elevated text-foreground shadow-sm" : "text-foreground-secondary hover:bg-surface"}`}
+                  className={`px-6 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 ${filter === tab ? "bg-primary text-white shadow-md" : "text-foreground-secondary hover:bg-surface-elevated"}`}
                 >
                   {tab}
                 </button>
@@ -155,9 +155,13 @@ export default function TodoPage() {
             )}
           </div>
 
-          <div className="flex justify-between items-center mt-2">
-            <Heading2 className="text-sm">TUGAS {filter} - 28 OKT</Heading2>
-            <MoreHorizontal className="w-5 h-5 text-foreground-secondary cursor-pointer" />
+          <div className="flex justify-between items-center mt-2 pb-3 border-b border-border">
+            <div className="flex items-center gap-2">
+              <div className="w-1 h-5 rounded-full bg-success/50" />
+              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">TUGAS {filter}</Heading2>
+              <span className="text-[11px] text-foreground-tertiary font-medium">28 OKT</span>
+            </div>
+            <MoreHorizontal className="w-5 h-5 text-foreground-secondary cursor-pointer hover:text-foreground transition-colors" />
           </div>
 
           <div className="space-y-3">
@@ -262,9 +266,12 @@ export default function TodoPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-            <Card className="flex flex-col">
-              <div className="text-sm font-semibold mb-4">
-                TREN PENYELESAIAN TUGAS MINGGU INI
+            <Card className="flex flex-col" style={{ backgroundImage: 'linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)' }}>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-1 h-5 rounded-full bg-primary/50" />
+                <div className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
+                  Tren Penyelesaian
+                </div>
               </div>
               <div className="flex items-center gap-6 mt-auto">
                 <div className="w-24 h-24 rounded-full border-10 border-t-primary border-r-primary border-b-warning border-l-border relative shrink-0"></div>
@@ -290,9 +297,12 @@ export default function TodoPage() {
               </div>
             </Card>
 
-            <Card className="flex flex-col">
-              <div className="text-sm font-semibold mb-3">
-                DETAIL TENGGAT WAKTU & PROYEK MENDATANG
+            <Card className="flex flex-col" style={{ backgroundImage: 'linear-gradient(135deg, rgba(217,119,6,0.03) 0%, transparent 100%)' }}>
+              <div className="flex items-center gap-2 mb-3 pb-3 border-b border-border/50">
+                <div className="w-1 h-5 rounded-full bg-warning/50" />
+                <div className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
+                  Tenggat Waktu
+                </div>
               </div>
               <div className="space-y-4 text-xs font-medium">
                 <div className="flex items-center justify-between">
@@ -330,48 +340,49 @@ export default function TodoPage() {
 
         {/* Categories Sidebar */}
         <div className="lg:col-span-4 flex flex-col gap-6">
-          <Card>
-            <div className="flex justify-between items-center mb-6">
-              <div className="text-sm font-semibold">
-                PENGELOLA KATEGORI & PRIORITAS
+          <Card style={{ backgroundImage: 'linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)' }}>
+            <div className="flex items-center gap-2 mb-6 pb-3 border-b border-border/50">
+              <div className="w-1 h-5 rounded-full bg-success/50" />
+              <div className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
+                Kategori & Prioritas
               </div>
             </div>
 
-            <div className="space-y-3 mb-6">
-              <div className="flex justify-between text-sm items-center cursor-pointer hover:bg-surface-elevated px-2 py-1 -mx-2 rounded transition-colors text-foreground-secondary">
-                <div className="flex items-center gap-3">
-                  <span className="w-1.5 h-6 rounded-full bg-primary inline-block"></span>{" "}
-                  Assignment
+            <div className="space-y-2 mb-6">
+              <div className="flex justify-between text-xs items-center cursor-pointer bg-primary/5 hover:bg-primary/10 px-3 py-2 -mx-3 rounded-lg transition-all duration-200 group border border-primary/10 hover:border-primary/30 hover:shadow-sm">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-1.5 h-5 rounded-full bg-primary/60 group-hover:bg-primary group-hover:shadow-sm transition-all" style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.1)' }}></span>{" "}
+                  <span className="font-medium text-foreground-secondary group-hover:text-foreground transition-colors">Assignment</span>
                 </div>
-                <span>(8)</span>
+                <span className="text-primary font-semibold group-hover:scale-110 transition-transform">( 8)</span>
               </div>
-              <div className="flex justify-between text-sm items-center cursor-pointer hover:bg-surface-elevated px-2 py-1 -mx-2 rounded transition-colors text-foreground-secondary">
-                <div className="flex items-center gap-3">
-                  <span className="w-1.5 h-6 rounded-full bg-warning inline-block"></span>{" "}
-                  Exam
+              <div className="flex justify-between text-xs items-center cursor-pointer bg-warning/5 hover:bg-warning/10 px-3 py-2 -mx-3 rounded-lg transition-all duration-200 group border border-warning/10 hover:border-warning/30 hover:shadow-sm">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-1.5 h-5 rounded-full bg-warning/60 group-hover:bg-warning group-hover:shadow-sm transition-all" style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.1)' }}></span>{" "}
+                  <span className="font-medium text-foreground-secondary group-hover:text-foreground transition-colors">Exam</span>
                 </div>
-                <span>(4)</span>
+                <span className="text-warning font-semibold group-hover:scale-110 transition-transform">(4)</span>
               </div>
-              <div className="flex justify-between text-sm items-center cursor-pointer hover:bg-surface-elevated px-2 py-1 -mx-2 rounded transition-colors text-foreground-secondary">
-                <div className="flex items-center gap-3">
-                  <span className="w-1.5 h-6 rounded-full bg-success inline-block"></span>{" "}
-                  Study
+              <div className="flex justify-between text-xs items-center cursor-pointer bg-success/5 hover:bg-success/10 px-3 py-2 -mx-3 rounded-lg transition-all duration-200 group border border-success/10 hover:border-success/30 hover:shadow-sm">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-1.5 h-5 rounded-full bg-success/60 group-hover:bg-success group-hover:shadow-sm transition-all" style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.1)' }}></span>{" "}
+                  <span className="font-medium text-foreground-secondary group-hover:text-foreground transition-colors">Study</span>
                 </div>
-                <span>(12)</span>
+                <span className="text-success font-semibold group-hover:scale-110 transition-transform">(12)</span>
               </div>
-              <div className="flex justify-between text-sm items-center cursor-pointer hover:bg-surface-elevated px-2 py-1 -mx-2 rounded transition-colors text-foreground-secondary">
-                <div className="flex items-center gap-3">
-                  <span className="w-1.5 h-6 rounded-full bg-danger inline-block"></span>{" "}
-                  Projek
+              <div className="flex justify-between text-xs items-center cursor-pointer bg-primary-light/5 hover:bg-primary-light/10 px-3 py-2 -mx-3 rounded-lg transition-all duration-200 group border border-primary-light/10 hover:border-primary-light/30 hover:shadow-sm">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-1.5 h-5 rounded-full bg-primary-light/60 group-hover:bg-primary-light group-hover:shadow-sm transition-all" style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.1)' }}></span>{" "}
+                  <span className="font-medium text-foreground-secondary group-hover:text-foreground transition-colors">Projek</span>
                 </div>
-                <span>(3)</span>
+                <span className="text-primary-light font-semibold group-hover:scale-110 transition-transform">(3)</span>
               </div>
-              <div className="flex justify-between text-sm items-center cursor-pointer hover:bg-surface-elevated px-2 py-1 -mx-2 rounded transition-colors text-foreground-secondary">
-                <div className="flex items-center gap-3">
-                  <span className="w-1.5 h-6 rounded-full bg-border inline-block"></span>{" "}
-                  Lainnya
+              <div className="flex justify-between text-xs items-center cursor-pointer bg-border/10 hover:bg-border/20 px-3 py-2 -mx-3 rounded-lg transition-all duration-200 group border border-border/20 hover:border-border/40 hover:shadow-sm">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-1.5 h-5 rounded-full bg-border/50 group-hover:bg-foreground-tertiary group-hover:shadow-sm transition-all" style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.1)' }}></span>{" "}
+                  <span className="font-medium text-foreground-secondary group-hover:text-foreground transition-colors">Lainnya</span>
                 </div>
-                <span>(5)</span>
+                <span className="text-foreground-tertiary font-semibold group-hover:scale-110 transition-transform">(5)</span>
               </div>
             </div>
 
@@ -379,29 +390,31 @@ export default function TodoPage() {
               <Plus className="w-4 h-4" /> Tambah Kategori Baru
             </button>
 
-            <div className="mt-8 border-t border-border pt-6">
-              <div className="text-sm font-semibold mb-4 text-foreground-secondary">
-                Prioritas
+            <div className="mt-6 border-t border-border/50 pt-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-1 h-5 rounded-full bg-danger/50" />
+                <div className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
+                  Prioritas
+                </div>
               </div>
-              <div className="space-y-3">
-                <div className="flex justify-between text-sm items-center px-2">
-                  <div className="flex items-center gap-3 text-primary">
-                    <Flag className="w-4 h-4 fill-primary" /> Tinggi
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs items-center px-3 py-2 rounded-lg bg-primary/5 hover:bg-primary/10 border border-primary/10 hover:border-primary/30 transition-all duration-200 cursor-pointer group hover:shadow-sm">
+                  <div className="flex items-center gap-2.5 text-primary font-medium">
+                    <Flag className="w-3.5 h-3.5 fill-primary group-hover:drop-shadow-sm transition-all" /> Tinggi
                   </div>
-                  <span className="text-foreground-secondary">(6)</span>
+                  <span className="text-primary font-semibold group-hover:scale-110 transition-transform">(6)</span>
                 </div>
-                <div className="flex justify-between text-sm items-center px-2">
-                  <div className="flex items-center gap-3 text-foreground-secondary">
-                    <Flag className="w-4 h-4 fill-foreground-secondary" />{" "}
-                    Sedang
+                <div className="flex justify-between text-xs items-center px-3 py-2 rounded-lg bg-warning/5 hover:bg-warning/10 border border-warning/10 hover:border-warning/30 transition-all duration-200 cursor-pointer group hover:shadow-sm">
+                  <div className="flex items-center gap-2.5 text-warning font-medium">
+                    <Flag className="w-3.5 h-3.5 fill-warning group-hover:drop-shadow-sm transition-all" /> Sedang
                   </div>
-                  <span className="text-foreground-secondary">(14)</span>
+                  <span className="text-warning font-semibold group-hover:scale-110 transition-transform">(14)</span>
                 </div>
-                <div className="flex justify-between text-sm items-center px-2">
-                  <div className="flex items-center gap-3 text-foreground-secondary">
-                    <Flag className="w-4 h-4" /> Rendah
+                <div className="flex justify-between text-xs items-center px-3 py-2 rounded-lg bg-foreground-secondary/5 hover:bg-foreground-secondary/10 border border-foreground-secondary/10 hover:border-foreground-secondary/30 transition-all duration-200 cursor-pointer group hover:shadow-sm">
+                  <div className="flex items-center gap-2.5 text-foreground-secondary font-medium">
+                    <Flag className="w-3.5 h-3.5 fill-foreground-secondary group-hover:drop-shadow-sm transition-all" /> Rendah
                   </div>
-                  <span className="text-foreground-secondary">(4)</span>
+                  <span className="text-foreground-secondary font-semibold group-hover:scale-110 transition-transform">(4)</span>
                 </div>
               </div>
             </div>

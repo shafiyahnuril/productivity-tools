@@ -71,7 +71,7 @@ export default function Home() {
           <div className="md:col-span-1 flex flex-col gap-4">
             <div className="hidden md:flex items-center gap-3">
               <div className="w-1 h-6 rounded-full bg-primary/40" />
-              <Heading2>Focus Timer</Heading2>
+              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">FOCUS TIMER</Heading2>
             </div>
             <FocusTimerWidget />
           </div>
@@ -82,7 +82,7 @@ export default function Home() {
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-6 rounded-full bg-primary/40" />
-                <Heading2>Dashboard</Heading2>
+                <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">DASHBOARD</Heading2>
               </div>
               <DashboardStats />
             </div>
@@ -92,7 +92,7 @@ export default function Home() {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <div className="w-1 h-6 rounded-full bg-primary/40" />
-                  <Heading2>Notes</Heading2>
+                  <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">NOTES</Heading2>
                 </div>
                 <NotesPreview />
               </div>
@@ -100,7 +100,7 @@ export default function Home() {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <div className="w-1 h-6 rounded-full bg-primary/40" />
-                  <Heading2>Calendar</Heading2>
+                  <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">CALENDAR</Heading2>
                 </div>
                 <CalendarWidget />
               </div>
@@ -111,13 +111,13 @@ export default function Home() {
           <div className="md:col-span-1 flex flex-col gap-4">
             <div className="flex items-center gap-3">
               <div className="w-1 h-6 rounded-full bg-success/40" />
-              <Heading2>To-Do List</Heading2>
+              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">TO-DO LIST</Heading2>
             </div>
             <TodoWidget />
 
             <div className="flex items-center gap-3 mt-4">
               <div className="w-1 h-6 rounded-full bg-primary/40" />
-              <Heading2>Analytics Preview</Heading2>
+              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">ANALYTICS PREVIEW</Heading2>
             </div>
             <div className="bg-surface rounded-3xl p-4 md:p-6 border border-border shadow-sm dark:bg-surface" style={{ backgroundImage: 'linear-gradient(135deg, rgba(217,119,6,0.04) 0%, transparent 100%)', backgroundAttachment: 'fixed', backgroundSize: '100% 100%' }}>
               <div className="flex justify-between items-start mb-4">
