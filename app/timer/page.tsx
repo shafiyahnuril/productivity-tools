@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Heading1, Heading2, Text } from "../components/ui/Typography";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Elements";
@@ -13,62 +12,232 @@ import {
   Pause,
   RotateCcw,
   SkipForward,
-  Settings,
-  Calendar as CalendarIcon,
+  Bell,
   CheckCircle2,
   AlertCircle,
 } from "lucide-react";
 import { useStore } from "../store/useStore";
 
+const MODE_LABELS = {
+  focus: "Fokus",
+  shortBreak: "Istirahat Pendek",
+  longBreak: "Istirahat Panjang",
+};
+
+const MODE_COLOR_CLASS = {
+  focus: "text-primary",
+  shortBreak: "text-success",
+  longBreak: "text-info",
+};
+
+const MODE_STROKE = {
+  focus: "var(--color-primary)",
+  shortBreak: "var(--color-success)",
+  longBreak: "var(--color-info)",
+};
+
+const MODE_DOT_CLASS = {
+  focus: "bg-primary",
+  shortBreak: "bg-success",
+  longBreak: "bg-info",
+};
+
+const CIRCUMFERENCE = 2 * Math.PI * 112;
+
 export default function TimerPage() {
-  const { timerState, setTimerState, updateTimerConfig, addSessionLog } =
-    useStore();
+  const { timerState, setTimerState, updateTimerConfig } = useStore();
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  // ── Core timer interval ────────────────────────────────────────────
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (timerState.isRunning && timerState.timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimerState({ timeLeft: timerState.timeLeft - 1 });
-      }, 1000);
-    } else if (timerState.timeLeft === 0 && timerState.isRunning) {
-      // Session finished
-      setTimerState({ isRunning: false });
-      addSessionLog({
-        type: timerState.mode,
-        duration: timerState.config[timerState.mode],
-        completed: true,
-        timestamp: new Date().toISOString(),
-      });
-      // Logic for next phase could go here
+    if (!timerState.isRunning) {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      return;
     }
-    return () => clearInterval(interval);
-  }, [timerState.isRunning, timerState.timeLeft, timerState.mode, addSessionLog, setTimerState, timerState.config]);
 
-  const toggleTimer = () => setTimerState({ isRunning: !timerState.isRunning });
+    intervalRef.current = setInterval(() => {
+      const { timerState: s } = useStore.getState();
+
+      if (!s.isRunning) {
+        clearInterval(intervalRef.current!);
+        intervalRef.current = null;
+        return;
+      }
+
+      if (s.timeLeft <= 1) {
+        clearInterval(intervalRef.current!);
+        intervalRef.current = null;
+
+        // Log completed session
+        useStore.getState().addSessionLog({
+          type: s.mode,
+          duration: s.config[s.mode],
+          completed: true,
+          timestamp: new Date().toISOString(),
+          cycle: s.mode === "focus" ? s.currentCycle : undefined,
+        });
+
+        // Browser notification
+        if (
+          typeof window !== "undefined" &&
+          "Notification" in window &&
+          Notification.permission === "granted"
+        ) {
+          new Notification("PAPER.OS Timer", {
+            body:
+              s.mode === "focus"
+                ? `Sesi fokus selesai! Waktunya istirahat.`
+                : "Istirahat selesai! Waktunya fokus kembali.",
+          });
+        }
+
+        // Advance to next phase
+        useStore.getState().setTimerState({ timeLeft: 0 });
+        advancePhase(s.mode, s.currentCycle, s.config);
+        return;
+      }
+
+      useStore.getState().setTimerState({ timeLeft: s.timeLeft - 1 });
+    }, 1000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timerState.isRunning]);
+
+  // ── Document title countdown ───────────────────────────────────────
+  useEffect(() => {
+    if (timerState.isRunning) {
+      document.title = `${formatTime(timerState.timeLeft)} — ${MODE_LABELS[timerState.mode]}`;
+    } else {
+      document.title = "Focus Timer | Productivity";
+    }
+    return () => {
+      document.title = "Student Productivity App";
+    };
+  }, [timerState.timeLeft, timerState.isRunning, timerState.mode]);
+
+  // ── Helpers ────────────────────────────────────────────────────────
+  function advancePhase(
+    mode: "focus" | "shortBreak" | "longBreak",
+    currentCycle: number,
+    config: typeof timerState.config
+  ) {
+    if (mode === "focus") {
+      if (currentCycle >= config.cycles) {
+        // All cycles done → long break, reset cycle
+        useStore.getState().setTimerState({
+          isRunning: false,
+          mode: "longBreak",
+          timeLeft: config.longBreak * 60,
+          currentCycle: 1,
+        });
+      } else {
+        // Partial cycles → short break, increment cycle
+        useStore.getState().setTimerState({
+          isRunning: false,
+          mode: "shortBreak",
+          timeLeft: config.shortBreak * 60,
+          currentCycle: currentCycle + 1,
+        });
+      }
+    } else {
+      // After any break → back to focus
+      useStore.getState().setTimerState({
+        isRunning: false,
+        mode: "focus",
+        timeLeft: config.focus * 60,
+      });
+    }
+  }
+
+  function formatTime(seconds: number) {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  }
+
+  function getProgress() {
+    const total = timerState.config[timerState.mode] * 60;
+    if (total === 0) return 0;
+    return ((total - timerState.timeLeft) / total) * 100;
+  }
+
+  // ── Actions ────────────────────────────────────────────────────────
+  const toggleTimer = () => {
+    if (
+      !timerState.isRunning &&
+      typeof window !== "undefined" &&
+      "Notification" in window &&
+      Notification.permission === "default"
+    ) {
+      Notification.requestPermission();
+    }
+    setTimerState({ isRunning: !timerState.isRunning });
+  };
+
   const resetTimer = () =>
     setTimerState({
       isRunning: false,
       timeLeft: timerState.config[timerState.mode] * 60,
     });
 
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-  };
+  const switchMode = (mode: "focus" | "shortBreak" | "longBreak") =>
+    setTimerState({
+      isRunning: false,
+      mode,
+      timeLeft: timerState.config[mode] * 60,
+    });
 
-  const getProgress = () => {
-    const total = timerState.config[timerState.mode] * 60;
-    return ((total - timerState.timeLeft) / total) * 100;
-  };
+  const skipToNext = () =>
+    advancePhase(
+      timerState.mode,
+      timerState.currentCycle,
+      timerState.config
+    );
+
+  const skipBreak = () =>
+    setTimerState({
+      isRunning: false,
+      mode: "focus",
+      timeLeft: timerState.config.focus * 60,
+    });
+
+  const startLongBreak = () =>
+    setTimerState({
+      isRunning: false,
+      mode: "longBreak",
+      timeLeft: timerState.config.longBreak * 60,
+      currentCycle: 1,
+    });
+
+  // ── Derived stats ──────────────────────────────────────────────────
+  const today = new Date().toDateString();
+  const todayFocusSessions = timerState.history.filter(
+    (l) =>
+      l.type === "focus" &&
+      l.completed &&
+      new Date(l.timestamp).toDateString() === today
+  );
+  const todayMinutes = todayFocusSessions.reduce((a, l) => a + l.duration, 0);
+  const strokeDashoffset = CIRCUMFERENCE * (1 - getProgress() / 100);
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-10">
-      {/* Header (Same as Dashboard) */}
+      {/* Header */}
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/20 shrink-0">
-            <Image width={48} height={48}
+            <Image
+              width={48}
+              height={48}
               src="https://i.pravatar.cc/150?img=47"
               alt="Profile"
               className="w-full h-full object-cover"
@@ -96,70 +265,99 @@ export default function TimerPage() {
         </div>
       </header>
 
-      <Heading2>FOKUS TIMER</Heading2>
+      <Heading2 className="uppercase">Fokus Timer</Heading2>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Settings Column */}
+        {/* ── Config column ── */}
         <div className="lg:col-span-3">
           <Card className="h-full">
-            <Heading2 className="text-lg mb-6">Konfigurasi Siklus</Heading2>
+            <Heading2 className="text-base mb-6">Konfigurasi Siklus</Heading2>
 
             <div className="space-y-6">
+              {/* Focus duration */}
               <div>
                 <div className="flex justify-between text-sm mb-2">
-                  <span>Durasi Fokus</span>
-                  <span>{timerState.config.focus}m</span>
+                  <span className="text-foreground-secondary">Durasi Fokus</span>
+                  <span className="font-semibold text-primary">
+                    {timerState.config.focus}m
+                  </span>
                 </div>
                 <input
                   type="range"
                   min="10"
                   max="60"
+                  step="5"
                   value={timerState.config.focus}
-                  onChange={(e) =>
-                    updateTimerConfig({ focus: Number(e.target.value) })
-                  }
-                  className="w-full accent-primary"
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    updateTimerConfig({ focus: val });
+                    if (!timerState.isRunning && timerState.mode === "focus")
+                      setTimerState({ timeLeft: val * 60 });
+                  }}
+                  className="w-full"
                 />
               </div>
 
+              {/* Short break */}
               <div>
                 <div className="flex justify-between text-sm mb-2">
-                  <span>Istirahat Pendek</span>
-                  <span>{timerState.config.shortBreak}m</span>
+                  <span className="text-foreground-secondary">Istirahat Pendek</span>
+                  <span className="font-semibold text-success">
+                    {timerState.config.shortBreak}m
+                  </span>
                 </div>
                 <input
                   type="range"
                   min="1"
                   max="15"
                   value={timerState.config.shortBreak}
-                  onChange={(e) =>
-                    updateTimerConfig({ shortBreak: Number(e.target.value) })
-                  }
-                  className="w-full accent-primary"
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    updateTimerConfig({ shortBreak: val });
+                    if (
+                      !timerState.isRunning &&
+                      timerState.mode === "shortBreak"
+                    )
+                      setTimerState({ timeLeft: val * 60 });
+                  }}
+                  className="w-full"
                 />
               </div>
 
+              {/* Long break */}
               <div>
                 <div className="flex justify-between text-sm mb-2">
-                  <span>Istirahat Panjang</span>
-                  <span>{timerState.config.longBreak}m</span>
+                  <span className="text-foreground-secondary">Istirahat Panjang</span>
+                  <span className="font-semibold text-info">
+                    {timerState.config.longBreak}m
+                  </span>
                 </div>
                 <input
                   type="range"
                   min="10"
                   max="30"
+                  step="5"
                   value={timerState.config.longBreak}
-                  onChange={(e) =>
-                    updateTimerConfig({ longBreak: Number(e.target.value) })
-                  }
-                  className="w-full accent-primary"
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    updateTimerConfig({ longBreak: val });
+                    if (
+                      !timerState.isRunning &&
+                      timerState.mode === "longBreak"
+                    )
+                      setTimerState({ timeLeft: val * 60 });
+                  }}
+                  className="w-full"
                 />
               </div>
 
+              {/* Cycles */}
               <div>
                 <div className="flex justify-between text-sm mb-2">
-                  <span>Siklus per Istirahat Panjang</span>
-                  <span>{timerState.config.cycles}</span>
+                  <span className="text-foreground-secondary">
+                    Siklus → Istirahat Panjang
+                  </span>
+                  <span className="font-semibold">{timerState.config.cycles}</span>
                 </div>
                 <input
                   type="range"
@@ -169,106 +367,179 @@ export default function TimerPage() {
                   onChange={(e) =>
                     updateTimerConfig({ cycles: Number(e.target.value) })
                   }
-                  className="w-full accent-primary"
+                  className="w-full"
                 />
+              </div>
+
+              {/* Cycle dot progress */}
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-foreground-tertiary mb-3">
+                  Progres Siklus
+                </div>
+                <div className="flex gap-2 flex-wrap">
+                  {Array.from({ length: timerState.config.cycles }).map(
+                    (_, i) => {
+                      const isDone = i < timerState.currentCycle - 1;
+                      const isCurrent =
+                        i === timerState.currentCycle - 1 &&
+                        timerState.mode === "focus";
+                      return (
+                        <div
+                          key={i}
+                          className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-[10px] font-bold transition-colors ${
+                            isCurrent
+                              ? "bg-primary border-primary text-white"
+                              : isDone
+                              ? "bg-primary/20 border-primary/50 text-primary"
+                              : "border-border text-foreground-tertiary"
+                          }`}
+                        >
+                          {i + 1}
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
               </div>
             </div>
           </Card>
         </div>
 
-        {/* Timer Main Column */}
+        {/* ── Timer main column ── */}
         <div className="lg:col-span-5 flex flex-col gap-6">
-          <Card className="flex flex-col items-center justify-center p-10 relative">
-            <div className="absolute top-4 right-4 text-foreground-secondary">
-              <Settings className="w-5 h-5" />
+          <Card className="flex flex-col items-center p-6">
+            {/* Mode selector tabs */}
+            <div className="flex w-full gap-1 p-1 bg-surface-elevated rounded-xl mb-6">
+              {(["focus", "shortBreak", "longBreak"] as const).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => switchMode(m)}
+                  className={`flex-1 py-2 rounded-lg text-[11px] font-semibold transition-all duration-200 active:scale-95 ${
+                    timerState.mode === m
+                      ? "bg-surface shadow-sm text-foreground border border-border"
+                      : "text-foreground-tertiary hover:text-foreground-secondary"
+                  }`}
+                >
+                  {m === "focus"
+                    ? "Fokus"
+                    : m === "shortBreak"
+                    ? "Istirahat ↓"
+                    : "Istirahat ↑"}
+                </button>
+              ))}
             </div>
 
-            {/* The circular timer */}
-            <div className="relative w-64 h-64 mb-8">
-              <svg className="w-full h-full transform -rotate-90">
+            {/* Circular timer */}
+            <div className="relative w-56 h-56 mb-6">
+              <svg
+                className="w-full h-full -rotate-90"
+                viewBox="0 0 256 256"
+              >
+                {/* Track */}
                 <circle
                   cx="128"
                   cy="128"
-                  r="120"
+                  r="112"
                   stroke="currentColor"
                   strokeWidth="8"
                   fill="transparent"
-                  className="text-surface-elevated"
+                  className="text-surface-tertiary"
                 />
+                {/* Progress */}
                 <circle
                   cx="128"
                   cy="128"
-                  r="120"
-                  stroke="currentColor"
+                  r="112"
+                  stroke={MODE_STROKE[timerState.mode]}
                   strokeWidth="8"
                   fill="transparent"
-                  strokeDasharray={2 * Math.PI * 120}
-                  strokeDashoffset={
-                    2 * Math.PI * 120 * (1 - getProgress() / 100)
-                  }
-                  className="text-primary transition-all duration-1000 ease-linear"
+                  strokeLinecap="round"
+                  strokeDasharray={CIRCUMFERENCE}
+                  strokeDashoffset={strokeDashoffset}
+                  style={{
+                    transition: timerState.isRunning
+                      ? "stroke-dashoffset 1s linear"
+                      : "stroke-dashoffset 0.3s ease",
+                  }}
                 />
               </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="text-sm text-foreground-secondary mb-1 flex items-center gap-2">
-                  <span className="text-lg">⏰</span> Pomodoro
-                </div>
-                <div className="text-6xl font-bold tracking-tight">
+
+              {/* Center label */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 pointer-events-none">
+                <span
+                  className={`text-[9px] font-bold uppercase tracking-widest ${MODE_COLOR_CLASS[timerState.mode]}`}
+                >
+                  {MODE_LABELS[timerState.mode]}
+                </span>
+                <span
+                  data-no-transition
+                  className="text-5xl font-black tracking-tighter text-foreground tabular-nums"
+                >
                   {formatTime(timerState.timeLeft)}
-                </div>
+                </span>
+                <span className="text-[10px] text-foreground-tertiary font-medium">
+                  Siklus {timerState.currentCycle} / {timerState.config.cycles}
+                </span>
               </div>
             </div>
 
-            {/* Timer Controls */}
-            <div className="flex gap-4 mb-6">
-              <button
-                onClick={toggleTimer}
-                className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-light transition-colors shadow-lg shadow-primary/20"
-              >
-                {timerState.isRunning ? (
-                  <Pause className="w-6 h-6 ml-0" />
-                ) : (
-                  <Play className="w-6 h-6 ml-1" />
-                )}
-              </button>
-              <button
-                disabled
-                className="w-14 h-14 rounded-full bg-surface-elevated text-foreground flex items-center justify-center opacity-50"
-              >
-                <Pause className="w-6 h-6" />
-              </button>
+            {/* Controls */}
+            <div className="flex gap-4 items-center mb-5">
               <button
                 onClick={resetTimer}
-                className="w-14 h-14 rounded-full bg-surface-elevated text-foreground flex items-center justify-center hover:bg-border transition-colors"
+                data-no-transition
+                title="Reset"
+                className="w-11 h-11 rounded-full bg-surface-elevated text-foreground-secondary flex items-center justify-center hover:bg-surface-tertiary active:scale-95 transition-colors"
               >
-                <RotateCcw className="w-6 h-6" />
+                <RotateCcw className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={toggleTimer}
+                data-no-transition
+                className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-light active:scale-95 transition-colors shadow-lg shadow-primary/25"
+              >
+                {timerState.isRunning ? (
+                  <Pause className="w-6 h-6" />
+                ) : (
+                  <Play className="w-6 h-6 ml-0.5" />
+                )}
+              </button>
+
+              <button
+                onClick={skipToNext}
+                data-no-transition
+                title="Lewati ke fase berikutnya"
+                className="w-11 h-11 rounded-full bg-surface-elevated text-foreground-secondary flex items-center justify-center hover:bg-surface-tertiary active:scale-95 transition-colors"
+              >
+                <SkipForward className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="flex gap-4 w-full px-6">
-              <button className="flex-1 py-3 rounded-xl bg-surface-elevated text-foreground text-sm font-medium hover:bg-border flex items-center justify-center gap-2">
-                ✕ Lewati Istirahat
+            {/* Secondary actions */}
+            <div className="flex gap-3 w-full">
+              <button
+                onClick={skipBreak}
+                className="flex-1 py-2.5 rounded-xl bg-surface-elevated text-foreground-secondary text-[11px] font-semibold hover:bg-surface-tertiary active:scale-95 transition-colors"
+              >
+                Lewati Istirahat
               </button>
-              <button className="flex-1 py-3 rounded-xl bg-surface-elevated text-foreground text-sm font-medium hover:bg-border flex items-center justify-center gap-2">
-                <SkipForward className="w-4 h-4" /> Mulai Istirahat Panjang
+              <button
+                onClick={startLongBreak}
+                className="flex-1 py-2.5 rounded-xl bg-info/10 text-info text-[11px] font-semibold hover:bg-info/20 active:scale-95 transition-colors"
+              >
+                Istirahat Panjang
               </button>
-            </div>
-
-            <div className="mt-6 text-sm text-foreground-secondary">
-              Sesi Fokus Berjalan - Siklus ke {timerState.currentCycle}
             </div>
           </Card>
 
-          {/* Mini analytics */}
+          {/* Mini stats */}
           <div className="grid grid-cols-2 gap-4">
             <Card>
-              <div className="text-xs text-foreground-secondary mb-2">
-                Ringkasan Fokus Minggu Ini
+              <div className="text-[10px] font-bold uppercase tracking-widest text-foreground-tertiary mb-3">
+                Tren Fokus
               </div>
-              <div className="text-[10px] text-foreground-secondary mb-1">
-                Weekly focus hour trend
-              </div>
-              <div className="h-16 mt-2 relative">
+              <div className="h-16 relative">
                 <svg
                   className="w-full h-full"
                   viewBox="0 0 100 50"
@@ -282,70 +553,94 @@ export default function TimerPage() {
                   />
                   <path
                     d="M0,40 C20,20 30,50 50,20 C70,-10 80,40 100,10 L100,50 L0,50 Z"
-                    fill="var(--color-primary-light)"
-                    fillOpacity="0.2"
+                    fill="var(--color-primary)"
+                    fillOpacity="0.12"
                   />
                 </svg>
               </div>
             </Card>
+
             <div className="grid gap-4">
-              <Card className="flex flex-col justify-center">
-                <div className="text-xs text-foreground-secondary mb-1">
-                  Total Waktu Fokus
+              <Card className="flex flex-col justify-center py-3">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-foreground-tertiary mb-1">
+                  Sesi Hari Ini
                 </div>
-                <div className="text-3xl font-bold">22h</div>
+                <div className="text-3xl font-black tracking-tighter">
+                  {todayFocusSessions.length}
+                </div>
               </Card>
-              <Card className="flex flex-col justify-center">
-                <div className="text-xs text-foreground-secondary mb-1">
-                  Sesi Selesai Hari Ini
+              <Card className="flex flex-col justify-center py-3">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-foreground-tertiary mb-1">
+                  Total Menit
                 </div>
-                <div className="text-3xl font-bold">5</div>
+                <div className="text-3xl font-black tracking-tighter">
+                  {todayMinutes}m
+                </div>
               </Card>
             </div>
           </div>
         </div>
 
-        {/* History Column */}
+        {/* ── History column ── */}
         <div className="lg:col-span-4">
-          <Card className="h-full flex flex-col">
+          <Card className="h-full flex flex-col min-h-100">
             <div className="flex justify-between items-center mb-6">
-              <Heading2 className="text-lg">Riwayat Sesi Lengkap</Heading2>
-              <div className="flex gap-2 items-center bg-surface-elevated px-3 py-1.5 rounded-lg text-sm">
-                <CalendarIcon className="w-4 h-4 text-foreground-secondary" />{" "}
-                Date
-              </div>
+              <Heading2 className="text-base">Riwayat Sesi</Heading2>
+              <button
+                onClick={() => {
+                  if (
+                    typeof window !== "undefined" &&
+                    "Notification" in window &&
+                    Notification.permission === "default"
+                  ) {
+                    Notification.requestPermission();
+                  }
+                }}
+                title="Aktifkan notifikasi saat sesi selesai"
+                className="flex gap-1.5 items-center bg-surface-elevated px-3 py-1.5 rounded-lg text-[11px] font-semibold text-foreground-secondary hover:bg-surface-tertiary transition-colors"
+              >
+                <Bell className="w-3.5 h-3.5" /> Notifikasi
+              </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto pr-2 space-y-4 relative before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-px before:bg-border">
-              {timerState.history.map((log, i: number) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-4 relative z-10 pl-5"
-                >
+            {timerState.history.length === 0 ? (
+              <div className="flex-1 flex items-center justify-center text-foreground-tertiary text-sm">
+                Belum ada sesi tercatat.
+              </div>
+            ) : (
+              <div className="flex-1 overflow-y-auto pr-1 space-y-4 relative before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-px before:bg-border">
+                {timerState.history.map((log, i) => (
                   <div
-                    className={`absolute left-0 w-3 h-3 rounded-full border-2 border-surface ${log.type === "focus" ? "bg-primary" : "bg-surface-elevated"}`}
-                  />
-                  <div className="text-xs text-foreground-secondary w-10">
-                    {new Date(log.timestamp).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                    key={i}
+                    className="flex items-center gap-4 relative z-10 pl-5"
+                  >
+                    <div
+                      className={`absolute left-0 w-3 h-3 rounded-full border-2 border-surface ${MODE_DOT_CLASS[log.type]}`}
+                    />
+                    <div className="text-xs text-foreground-tertiary w-10 shrink-0 tabular-nums">
+                      {new Date(log.timestamp).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </div>
+                    <div className="flex-1 text-sm">
+                      {log.type === "focus"
+                        ? `Fokus (Siklus ${log.cycle ?? 1}) — ${log.duration}m`
+                        : log.type === "shortBreak"
+                        ? `Istirahat Pendek — ${log.duration}m`
+                        : `Istirahat Panjang — ${log.duration}m`}
+                    </div>
+                    <div className="shrink-0">
+                      {log.completed ? (
+                        <CheckCircle2 className="w-4 h-4 text-success" />
+                      ) : (
+                        <AlertCircle className="w-4 h-4 text-danger" />
+                      )}
+                    </div>
                   </div>
-                  <div className="flex-1 text-sm">
-                    {log.type === "focus"
-                      ? `Fokus (Siklus ${log.cycle || 1}) - ${log.duration} mnt`
-                      : `Istirahat - ${log.duration} mnt`}
-                  </div>
-                  <div>
-                    {log.completed ? (
-                      <CheckCircle2 className="w-4 h-4 text-success" />
-                    ) : (
-                      <AlertCircle className="w-4 h-4 text-danger" />
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </Card>
         </div>
       </div>
