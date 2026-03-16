@@ -128,7 +128,7 @@ export default function TimerPage() {
   function advancePhase(
     mode: "focus" | "shortBreak" | "longBreak",
     currentCycle: number,
-    config: typeof timerState.config
+    config: typeof timerState.config,
   ) {
     if (mode === "focus") {
       if (currentCycle >= config.cycles) {
@@ -197,11 +197,7 @@ export default function TimerPage() {
     });
 
   const skipToNext = () =>
-    advancePhase(
-      timerState.mode,
-      timerState.currentCycle,
-      timerState.config
-    );
+    advancePhase(timerState.mode, timerState.currentCycle, timerState.config);
 
   const skipBreak = () =>
     setTimerState({
@@ -224,7 +220,7 @@ export default function TimerPage() {
     (l) =>
       l.type === "focus" &&
       l.completed &&
-      new Date(l.timestamp).toDateString() === today
+      new Date(l.timestamp).toDateString() === today,
   );
   const todayMinutes = todayFocusSessions.reduce((a, l) => a + l.duration, 0);
   const strokeDashoffset = CIRCUMFERENCE * (1 - getProgress() / 100);
@@ -250,16 +246,27 @@ export default function TimerPage() {
             </Text>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <Button className="flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-3">
+          <Button className="!hidden md:!inline-flex items-center gap-2">
             <Plus className="w-4 h-4" /> Add New
           </Button>
-          <div className="relative hidden md:block">
+          <div className="relative">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-foreground-secondary" />
             <input
               type="text"
               placeholder="Search notes, tasks..."
               className="pl-9 pr-4 py-2 bg-surface-elevated rounded-full border border-border text-sm focus:outline-none focus:border-primary w-full md:w-70"
+            />
+          </div>
+        </div>
+
+        <div className="flex md:hidden items-center gap-3 w-full">
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-foreground-secondary" />
+            <input
+              type="text"
+              placeholder="Search notes, tasks..."
+              className="pl-9 pr-4 py-2 bg-surface-elevated rounded-full border border-border text-sm focus:outline-none focus:border-primary w-full"
             />
           </div>
         </div>
@@ -277,7 +284,9 @@ export default function TimerPage() {
               {/* Focus duration */}
               <div>
                 <div className="flex justify-between text-sm mb-2">
-                  <span className="text-foreground-secondary">Durasi Fokus</span>
+                  <span className="text-foreground-secondary">
+                    Durasi Fokus
+                  </span>
                   <span className="font-semibold text-primary">
                     {timerState.config.focus}m
                   </span>
@@ -301,7 +310,9 @@ export default function TimerPage() {
               {/* Short break */}
               <div>
                 <div className="flex justify-between text-sm mb-2">
-                  <span className="text-foreground-secondary">Istirahat Pendek</span>
+                  <span className="text-foreground-secondary">
+                    Istirahat Pendek
+                  </span>
                   <span className="font-semibold text-success">
                     {timerState.config.shortBreak}m
                   </span>
@@ -327,7 +338,9 @@ export default function TimerPage() {
               {/* Long break */}
               <div>
                 <div className="flex justify-between text-sm mb-2">
-                  <span className="text-foreground-secondary">Istirahat Panjang</span>
+                  <span className="text-foreground-secondary">
+                    Istirahat Panjang
+                  </span>
                   <span className="font-semibold text-info">
                     {timerState.config.longBreak}m
                   </span>
@@ -357,7 +370,9 @@ export default function TimerPage() {
                   <span className="text-foreground-secondary">
                     Siklus → Istirahat Panjang
                   </span>
-                  <span className="font-semibold">{timerState.config.cycles}</span>
+                  <span className="font-semibold">
+                    {timerState.config.cycles}
+                  </span>
                 </div>
                 <input
                   type="range"
@@ -390,14 +405,14 @@ export default function TimerPage() {
                             isCurrent
                               ? "bg-primary border-primary text-white"
                               : isDone
-                              ? "bg-primary/20 border-primary/50 text-primary"
-                              : "border-border text-foreground-tertiary"
+                                ? "bg-primary/20 border-primary/50 text-primary"
+                                : "border-border text-foreground-tertiary"
                           }`}
                         >
                           {i + 1}
                         </div>
                       );
-                    }
+                    },
                   )}
                 </div>
               </div>
@@ -423,18 +438,15 @@ export default function TimerPage() {
                   {m === "focus"
                     ? "Fokus"
                     : m === "shortBreak"
-                    ? "Istirahat ↓"
-                    : "Istirahat ↑"}
+                      ? "Istirahat ↓"
+                      : "Istirahat ↑"}
                 </button>
               ))}
             </div>
 
             {/* Circular timer */}
             <div className="relative w-56 h-56 mb-6">
-              <svg
-                className="w-full h-full -rotate-90"
-                viewBox="0 0 256 256"
-              >
+              <svg className="w-full h-full -rotate-90" viewBox="0 0 256 256">
                 {/* Track */}
                 <circle
                   cx="128"
@@ -624,8 +636,8 @@ export default function TimerPage() {
                       {log.type === "focus"
                         ? `Fokus (Siklus ${log.cycle ?? 1}) — ${log.duration}m`
                         : log.type === "shortBreak"
-                        ? `Istirahat Pendek — ${log.duration}m`
-                        : `Istirahat Panjang — ${log.duration}m`}
+                          ? `Istirahat Pendek — ${log.duration}m`
+                          : `Istirahat Panjang — ${log.duration}m`}
                     </div>
                     <div className="shrink-0">
                       {log.completed ? (

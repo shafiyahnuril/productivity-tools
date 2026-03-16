@@ -34,11 +34,11 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Button className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-3">
+            <Button className="!hidden md:!inline-flex items-center gap-2">
               <Plus className="w-4 h-4" /> Add New
             </Button>
-            <div className="relative hidden md:block">
+            <div className="relative">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-foreground-secondary" />
               <input
                 type="text"
@@ -46,10 +46,21 @@ export default function Home() {
                 className="pl-9 pr-4 py-2 bg-surface-elevated rounded-full border border-border text-sm focus:outline-none focus:border-primary w-full md:w-70"
               />
             </div>
-            <button className="md:hidden p-2.5 rounded-xl bg-surface-elevated border border-border text-foreground-secondary shadow-sm">
-              <Search className="w-4 h-4" />
-            </button>
             <button className="p-2.5 rounded-xl bg-surface-elevated border border-border text-foreground-secondary hover:text-foreground shadow-sm">
+              <Filter className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="flex md:hidden items-center gap-3 w-full">
+            <div className="relative flex-1">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-foreground-secondary" />
+              <input
+                type="text"
+                placeholder="Search notes, tasks..."
+                className="pl-9 pr-4 py-2 bg-surface-elevated rounded-full border border-border text-sm focus:outline-none focus:border-primary w-full"
+              />
+            </div>
+            <button className="p-2.5 rounded-xl bg-surface-elevated border border-border text-foreground-secondary hover:text-foreground shadow-sm shrink-0">
               <Filter className="w-4 h-4" />
             </button>
           </div>

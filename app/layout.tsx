@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar";
 import BottomNavigation from "./components/BottomNavigation";
 import MobileHeader from "./components/MobileHeader";
 import FloatingThemeToggle from "./components/FloatingThemeToggle";
+import FloatingAddButton from "./components/FloatingAddButton";
 import { ThemeProvider } from "./components/ThemeProvider";
 
 const inter = Inter({
@@ -46,6 +47,7 @@ export default function RootLayout({
           <Sidebar />
           <BottomNavigation />
           <FloatingThemeToggle />
+          <FloatingAddButton />
           <main className="md:ml-24 min-h-screen p-4 pt-20 md:pt-8 md:p-8 pb-32 md:pb-8">
             {children}
           </main>
