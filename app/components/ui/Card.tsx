@@ -4,16 +4,18 @@ export function Card({
   children,
   className = "",
   elevated = false,
+  style = {},
 }: {
   children: React.ReactNode;
   className?: string;
   elevated?: boolean;
+  style?: React.CSSProperties;
 }) {
   const bgClass = elevated ? "bg-surface-elevated" : "bg-surface";
   return (
     <div
       className={`${bgClass} rounded-3xl p-4 md:p-6 border border-border transition-all duration-200 shadow-sm ${className}`}
-      style={{ boxShadow: 'var(--shadow-sm)' }}
+      style={{ boxShadow: 'var(--shadow-sm)', ...style }}
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-md)';
         (e.currentTarget as HTMLElement).style.transform = 'scale(1.01) translateY(-2px)';
