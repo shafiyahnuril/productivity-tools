@@ -11,6 +11,7 @@ import { TodoWidget } from "../components/dashboard/TodoWidget";
 import { DashboardStats } from "../components/dashboard/DashboardStats";
 import { NotesPreview } from "../components/dashboard/NotesPreview";
 import { AnalyticsPreviewWidget } from "../components/dashboard/AnalyticsPreviewWidget";
+import { ClockWidget } from "../components/dashboard/ClockWidget";
 import AddNewButton from "../components/AddNewButton";
 
 const PRIORITIES = ["High", "Medium", "Low"] as const;
@@ -303,6 +304,14 @@ export default function DashboardPage() {
           {/* Left Column — Focus Timer */}
           <div className="md:col-span-1 flex flex-col gap-4">
             <div className="hidden md:flex items-center gap-3">
+              <div className="w-1 h-6 rounded-full bg-primary/40" />
+              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
+                TIME
+              </Heading2>
+            </div>
+            <ClockWidget />
+
+            <div className="hidden md:flex items-center gap-3 mt-4">
               <div className="w-1 h-6 rounded-full bg-primary/40" />
               <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
                 FOCUS TIMER
