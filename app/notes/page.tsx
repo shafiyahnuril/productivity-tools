@@ -258,12 +258,15 @@ export default function NotesPage() {
                 <button
                   key={note.id}
                   onClick={() => selectNote(note.id)}
-                  className={`text-left p-3 rounded-2xl border bg-surface shadow-sm transition-all ${
+                  className={`relative text-left py-3 pr-3 pl-4 rounded-2xl border bg-surface shadow-sm transition-all overflow-hidden ${
                     note.id === activeNoteId
-                      ? "border-primary ring-1 ring-primary/20"
+                      ? "border-primary/50 shadow-md bg-primary/[0.04]"
                       : "border-border hover:bg-surface-elevated"
                   }`}
                 >
+                  {note.id === activeNoteId && (
+                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-primary" />
+                  )}
                   <div className="text-sm font-semibold line-clamp-1 mb-1">
                     {note.title}
                   </div>
