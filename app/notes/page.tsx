@@ -310,13 +310,13 @@ export default function NotesPage() {
             </div>
 
             {/* Sort bar */}
-            <div className="flex gap-1">
+            <div className="flex gap-2">
               {(["date-desc", "date-asc", "title-asc"] as SortOrder[]).map(
                 (s) => (
                   <button
                     key={s}
                     onClick={() => setSortOrder(s)}
-                    className={`flex-1 text-[10px] py-1 px-1.5 rounded-lg font-medium transition-colors ${
+                    className={`flex-1 text-xs py-2.5 px-2 rounded-lg font-medium transition-colors ${
                       sortOrder === s
                         ? "bg-primary text-white"
                         : "bg-surface-elevated text-foreground-secondary hover:text-foreground"
@@ -326,18 +326,6 @@ export default function NotesPage() {
                   </button>
                 ),
               )}
-            </div>
-
-            {/* Mobile search */}
-            <div className="lg:hidden relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-foreground-secondary" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari catatan..."
-                className="pl-9 pr-4 py-2 bg-surface-elevated rounded-md border border-border text-sm focus:outline-none focus:border-primary w-full"
-              />
             </div>
 
             <div className="flex flex-col gap-2 max-h-[60vh] lg:max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
