@@ -183,7 +183,7 @@ export default function CalendarPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search calendar events, notes..."
-              className="pl-9 pr-4 py-2 bg-surface-elevated rounded-full border border-border text-sm focus:outline-none focus:border-primary w-full md:w-70"
+              className="pl-9 pr-4 py-2 bg-surface-elevated rounded-md border border-border text-sm focus:outline-none focus:border-primary w-full md:w-70"
             />
           </div>
         </div>
@@ -196,7 +196,7 @@ export default function CalendarPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search calendar events, notes..."
-              className="pl-9 pr-4 py-2 bg-surface-elevated rounded-full border border-border text-sm focus:outline-none focus:border-primary w-full"
+              className="pl-9 pr-4 py-2 bg-surface-elevated rounded-md border border-border text-sm focus:outline-none focus:border-primary w-full"
             />
           </div>
         </div>

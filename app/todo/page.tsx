@@ -290,7 +290,7 @@ export default function TodoPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search notes, tasks..."
-              className="pl-9 pr-4 py-2 bg-surface-elevated rounded-full border border-border text-sm focus:outline-none focus:border-primary w-full md:w-70"
+              className="pl-9 pr-4 py-2 bg-surface-elevated rounded-md border border-border text-sm focus:outline-none focus:border-primary w-full md:w-70"
             />
           </div>
         </div>
@@ -303,7 +303,7 @@ export default function TodoPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search notes, tasks..."
-              className="pl-9 pr-4 py-2 bg-surface-elevated rounded-full border border-border text-sm focus:outline-none focus:border-primary w-full"
+              className="pl-9 pr-4 py-2 bg-surface-elevated rounded-md border border-border text-sm focus:outline-none focus:border-primary w-full"
             />
           </div>
         </div>
@@ -352,7 +352,13 @@ export default function TodoPage() {
                     <select
                       value={newCategory}
                       onChange={(e) => setNewCategory(e.target.value)}
-                      className="text-primary bg-transparent border-none focus:outline-none cursor-pointer text-sm"
+                      className="text-primary bg-transparent border-none focus:outline-none cursor-pointer text-sm pr-6 appearance-none"
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right center",
+                        backgroundSize: "1em",
+                      }}
                     >
                       {CATEGORIES.map((c) => (
                         <option key={c} value={c}>
@@ -368,7 +374,13 @@ export default function TodoPage() {
                       onChange={(e) =>
                         setNewPriority(e.target.value as Priority)
                       }
-                      className="text-danger bg-transparent border-none focus:outline-none cursor-pointer text-sm"
+                      className="text-danger bg-transparent border-none focus:outline-none cursor-pointer text-sm pr-6 appearance-none"
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right center",
+                        backgroundSize: "1em",
+                      }}
                     >
                       <option value="High">High</option>
                       <option value="Medium">Medium</option>
@@ -388,7 +400,7 @@ export default function TodoPage() {
                         type="date"
                         value={newDueDate}
                         onChange={(e) => setNewDueDate(e.target.value)}
-                        className="text-xs bg-surface-elevated border border-border rounded-lg px-2 py-1 focus:outline-none focus:border-primary"
+                        className="text-xs bg-surface-elevated border border-border rounded-md px-2 py-1 focus:outline-none focus:border-primary"
                       />
                     )}
                   </div>
@@ -543,7 +555,7 @@ export default function TodoPage() {
                 value={quickTitle}
                 onChange={(e) => setQuickTitle(e.target.value)}
                 placeholder="Tambah tugas cepat..."
-                className="flex-1 bg-surface-elevated border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary"
+                className="flex-1 bg-surface-elevated border border-border rounded-md px-4 py-3 text-sm focus:outline-none focus:border-primary"
               />
               <div className="flex gap-2 w-full sm:w-auto">
                 <div className="relative">
@@ -923,7 +935,7 @@ export default function TodoPage() {
                   type="text"
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
-                  className="w-full border border-border rounded-xl px-4 py-2.5 text-sm bg-surface-elevated focus:outline-none focus:border-primary"
+                  className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-surface-elevated focus:outline-none focus:border-primary"
                 />
               </div>
               <div>
@@ -934,7 +946,7 @@ export default function TodoPage() {
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
                   rows={3}
-                  className="w-full border border-border rounded-xl px-4 py-2.5 text-sm bg-surface-elevated focus:outline-none focus:border-primary resize-none"
+                  className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-surface-elevated focus:outline-none focus:border-primary resize-none"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -947,7 +959,13 @@ export default function TodoPage() {
                     onChange={(e) =>
                       setEditPriority(e.target.value as Priority)
                     }
-                    className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-surface-elevated focus:outline-none focus:border-primary"
+                    className="w-full border border-border rounded-md px-3 pr-10 py-2.5 text-sm bg-surface-elevated focus:outline-none focus:border-primary appearance-none"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23888' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 0.75rem center",
+                      backgroundSize: "1em",
+                    }}
                   >
                     <option value="High">High</option>
                     <option value="Medium">Medium</option>
@@ -962,7 +980,7 @@ export default function TodoPage() {
                     type="date"
                     value={editDueDate}
                     onChange={(e) => setEditDueDate(e.target.value)}
-                    className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-surface-elevated focus:outline-none focus:border-primary"
+                    className="w-full border border-border rounded-md px-3 py-2.5 text-sm bg-surface-elevated focus:outline-none focus:border-primary"
                   />
                 </div>
               </div>

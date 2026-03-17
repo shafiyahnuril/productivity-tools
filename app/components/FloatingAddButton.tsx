@@ -139,15 +139,18 @@ export default function FloatingAddButton() {
                 key={key}
                 onClick={() => openModal(key)}
                 title={label}
-                className="w-12 h-12 bg-white dark:bg-gray-800 text-primary flex items-center justify-center rounded-full transition-all duration-200 hover:scale-105 active:scale-95"
-                style={{ boxShadow: 'var(--shadow-md)' }}
+                className="w-12 h-12 bg-surface text-primary flex items-center justify-center rounded-full transition-all duration-200 hover:scale-105 active:scale-95"
+                style={{ boxShadow: "var(--shadow-md)" }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-md)';
-                  (e.currentTarget as HTMLElement).style.transform = 'scale(1.1)';
+                  (e.currentTarget as HTMLElement).style.boxShadow =
+                    "var(--shadow-md)";
+                  (e.currentTarget as HTMLElement).style.transform =
+                    "scale(1.1)";
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-md)';
-                  (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+                  (e.currentTarget as HTMLElement).style.boxShadow =
+                    "var(--shadow-md)";
+                  (e.currentTarget as HTMLElement).style.transform = "scale(1)";
                 }}
               >
                 <Icon size={20} />
@@ -159,14 +162,16 @@ export default function FloatingAddButton() {
           onClick={() => setIsOpen(!isOpen)}
           title="Add New"
           className="w-14 h-14 bg-primary text-white flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110 active:scale-95"
-          style={{ boxShadow: 'var(--shadow-md)' }}
+          style={{ boxShadow: "var(--shadow-md)" }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-md)';
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1.1)';
+            (e.currentTarget as HTMLElement).style.boxShadow =
+              "var(--shadow-md)";
+            (e.currentTarget as HTMLElement).style.transform = "scale(1.1)";
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-md)';
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+            (e.currentTarget as HTMLElement).style.boxShadow =
+              "var(--shadow-md)";
+            (e.currentTarget as HTMLElement).style.transform = "scale(1)";
           }}
         >
           {isOpen ? <X size={28} /> : <Plus size={28} />}
@@ -181,7 +186,12 @@ export default function FloatingAddButton() {
             if (e.target === e.currentTarget) closeModal();
           }}
         >
-          <div className="bg-surface dark:bg-gray-900 rounded-2xl p-6 w-full max-w-md border border-border transition-all duration-300" style={{ boxShadow: 'var(--shadow-md), 0 25px 50px rgba(0, 0, 0, 0.15)' }}>
+          <div
+            className="bg-surface rounded-2xl p-6 w-full max-w-md border border-border transition-all duration-300"
+            style={{
+              boxShadow: "var(--shadow-md), 0 25px 50px rgba(0, 0, 0, 0.15)",
+            }}
+          >
             {/* Header */}
             <div className="flex justify-between items-center mb-5">
               <h2 className="text-lg font-bold">
@@ -208,14 +218,14 @@ export default function FloatingAddButton() {
                   placeholder="Task title *"
                   value={todoTitle}
                   onChange={(e) => setTodoTitle(e.target.value)}
-                  className="bg-surface-elevated border border-border rounded-xl px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors"
+                  className="bg-surface-elevated border border-border rounded-md px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors"
                 />
                 <textarea
                   placeholder="Description (optional)"
                   value={todoDesc}
                   onChange={(e) => setTodoDesc(e.target.value)}
                   rows={2}
-                  className="bg-surface-elevated border border-border rounded-xl px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors resize-none"
+                  className="bg-surface-elevated border border-border rounded-md px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors resize-none"
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <div>
@@ -227,7 +237,13 @@ export default function FloatingAddButton() {
                       onChange={(e) =>
                         setTodoPriority(e.target.value as typeof todoPriority)
                       }
-                      className="w-full bg-surface-elevated border border-border rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors"
+                      className="w-full bg-surface-elevated border border-border rounded-md pl-3 pr-10 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer"
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23888' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right 0.75rem center",
+                        backgroundSize: "1em",
+                      }}
                     >
                       {PRIORITY_OPTIONS.map((p) => (
                         <option key={p}>{p}</option>
@@ -242,7 +258,7 @@ export default function FloatingAddButton() {
                       type="date"
                       value={todoDue}
                       onChange={(e) => setTodoDue(e.target.value)}
-                      className="w-full bg-surface-elevated border border-border rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors"
+                      className="w-full bg-surface-elevated border border-border rounded-md px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors dark:[color-scheme:dark]"
                     />
                   </div>
                 </div>
@@ -265,14 +281,14 @@ export default function FloatingAddButton() {
                   placeholder="Note title *"
                   value={noteTitle}
                   onChange={(e) => setNoteTitle(e.target.value)}
-                  className="bg-surface-elevated border border-border rounded-xl px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors"
+                  className="bg-surface-elevated border border-border rounded-md px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors"
                 />
                 <textarea
                   placeholder="Write your note here..."
                   value={noteContent}
                   onChange={(e) => setNoteContent(e.target.value)}
                   rows={5}
-                  className="bg-surface-elevated border border-border rounded-xl px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors resize-none"
+                  className="bg-surface-elevated border border-border rounded-md px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors resize-none"
                 />
                 <button
                   onClick={handleAddNote}
@@ -293,7 +309,7 @@ export default function FloatingAddButton() {
                   placeholder="Event title *"
                   value={agendaTitle}
                   onChange={(e) => setAgendaTitle(e.target.value)}
-                  className="bg-surface-elevated border border-border rounded-xl px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors"
+                  className="bg-surface-elevated border border-border rounded-md px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors"
                 />
                 <div>
                   <label className="text-xs text-foreground-secondary mb-1 block">
@@ -303,7 +319,7 @@ export default function FloatingAddButton() {
                     type="date"
                     value={agendaDate}
                     onChange={(e) => setAgendaDate(e.target.value)}
-                    className="w-full bg-surface-elevated border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-surface-elevated border border-border rounded-md px-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors dark:[color-scheme:dark]"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
@@ -315,7 +331,7 @@ export default function FloatingAddButton() {
                       type="time"
                       value={agendaStart}
                       onChange={(e) => setAgendaStart(e.target.value)}
-                      className="w-full bg-surface-elevated border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors"
+                      className="w-full bg-surface-elevated border border-border rounded-md px-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors dark:[color-scheme:dark]"
                     />
                   </div>
                   <div>
@@ -326,7 +342,7 @@ export default function FloatingAddButton() {
                       type="time"
                       value={agendaEnd}
                       onChange={(e) => setAgendaEnd(e.target.value)}
-                      className="w-full bg-surface-elevated border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors"
+                      className="w-full bg-surface-elevated border border-border rounded-md px-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors dark:[color-scheme:dark]"
                     />
                   </div>
                 </div>
@@ -359,7 +375,7 @@ export default function FloatingAddButton() {
                   value={agendaDesc}
                   onChange={(e) => setAgendaDesc(e.target.value)}
                   rows={2}
-                  className="bg-surface-elevated border border-border rounded-xl px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors resize-none"
+                  className="bg-surface-elevated border border-border rounded-md px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors resize-none"
                 />
                 <button
                   onClick={handleAddAgenda}

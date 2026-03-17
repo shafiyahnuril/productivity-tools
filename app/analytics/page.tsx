@@ -200,7 +200,7 @@ export default function AnalyticsPage() {
             <select
               value={period}
               onChange={(e) => setPeriod(e.target.value as typeof period)}
-              className="appearance-none bg-background border border-border rounded-xl text-sm pl-3 pr-8 py-2 text-foreground focus:outline-none cursor-pointer focus:border-primary"
+              className="appearance-none bg-background border border-border rounded-md text-sm pl-3 pr-8 py-2 text-foreground focus:outline-none cursor-pointer focus:border-primary"
             >
               <option>Minggu Ini</option>
               <option>Bulan Ini</option>

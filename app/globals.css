@@ -10,6 +10,7 @@
    Light Mode — Warm Paper
    ---------------------------------------------------------------- */
 :root {
+  color-scheme: light;
   /* Background layers */
   --background: #faf7f2; /* paper-bg  — main app bg */
   --background-secondary: #f2ede4; /* paper-bg2 — sidebar / section bg */
@@ -67,6 +68,7 @@
    Dark Mode — Muted Charcoal (class-based via .dark on <html>)
    ---------------------------------------------------------------- */
 .dark {
+  color-scheme: dark;
   /* Background layers */
   --background: #141312; /* dark-bg  — main app bg */
   --background-secondary: #1c1a18; /* dark-bg2 — sidebar / section bg */
