@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Zap } from "lucide-react";
+import { ArrowRight, Zap, Gift, Lock, Smartphone, Sparkles, Pin } from "lucide-react";
 
 const benefits = [
-  { icon: "🆓", title: "100% Gratis", desc: "No hidden fees, forever free" },
-  { icon: "🔒", title: "Privacy First", desc: "Data tersimpan di browser kamu" },
-  { icon: "📱", title: "Semua Perangkat", desc: "Works on desktop & mobile" },
+  { Icon: Gift,       title: "100% Free",       desc: "No hidden fees, forever free" },
+  { Icon: Lock,       title: "Privacy First",    desc: "Data stored in your browser" },
+  { Icon: Smartphone, title: "All Devices",      desc: "Works on desktop & mobile" },
 ];
 
 export function CTASection() {
@@ -15,14 +15,15 @@ export function CTASection() {
       id="contact"
       className="relative py-20 md:py-28 px-4 overflow-hidden"
       style={{
-        background: "linear-gradient(135deg, var(--primary) 0%, #b45309 100%)",
+        background: "var(--background-secondary)",
+        borderTop: "1px solid var(--border)",
       }}
     >
       {/* Dot pattern overlay */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none opacity-40"
         style={{
-          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(circle, var(--border) 1px, transparent 1px)",
           backgroundSize: "22px 22px",
         }}
       />
@@ -32,35 +33,37 @@ export function CTASection() {
         className="absolute hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl pointer-events-none select-none"
         style={{
           top: "18%", left: "5%",
-          background: "rgba(255,255,255,0.2)",
-          color: "rgba(255,255,255,0.9)",
+          background: "var(--surface)",
+          color: "var(--foreground-secondary)",
+          border: "1px solid var(--border)",
           fontFamily: "var(--font-hand)",
           fontSize: "1.05rem",
           transform: "rotate(-6deg)",
-          boxShadow: "2px 4px 12px rgba(0,0,0,0.15)",
+          boxShadow: "2px 4px 12px rgba(0,0,0,0.06)",
           animation: "float 5s ease-in-out infinite",
           "--r": "-6deg",
         } as React.CSSProperties}
       >
-        all your tools ✨
+        all your tools <Sparkles size={13} strokeWidth={1.8} />
       </div>
 
       <div
         className="absolute hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl pointer-events-none select-none"
         style={{
           bottom: "20%", right: "6%",
-          background: "rgba(255,255,255,0.18)",
-          color: "rgba(255,255,255,0.85)",
+          background: "var(--surface)",
+          color: "var(--foreground-secondary)",
+          border: "1px solid var(--border)",
           fontFamily: "var(--font-hand)",
           fontSize: "1.05rem",
           transform: "rotate(5deg)",
-          boxShadow: "2px 4px 12px rgba(0,0,0,0.15)",
+          boxShadow: "2px 4px 12px rgba(0,0,0,0.06)",
           animation: "float 7s ease-in-out infinite",
           animationDelay: "1.5s",
           "--r": "5deg",
         } as React.CSSProperties}
       >
-        stay organized 📌
+        stay organized <Pin size={13} strokeWidth={1.8} />
       </div>
 
       {/* Content */}
@@ -69,13 +72,13 @@ export function CTASection() {
         {/* Caveat section label */}
         <div className="mb-4">
           <span
-            className="text-xl"
+            className="inline-flex items-center gap-1.5 text-xl"
             style={{
               fontFamily: "var(--font-hand)",
-              color: "rgba(255,255,255,0.75)",
+              color: "var(--primary)",
             }}
           >
-            ✦ bergabunglah sekarang
+            <Sparkles size={16} strokeWidth={1.8} /> join us now
           </span>
         </div>
 
@@ -87,58 +90,67 @@ export function CTASection() {
             fontSize: "clamp(2rem, 5vw, 3.2rem)",
             fontWeight: 800,
             letterSpacing: "-0.02em",
-            color: "#fff",
+            color: "var(--foreground)",
           }}
         >
-          Ayo Mulai,{" "}
+          Get Started,{" "}
           <br className="hidden sm:block" />
-          <em>wujudkan produktivitasmu.</em>
+          <em style={{ color: "var(--primary)" }}>unlock your full potential.</em>
         </h2>
 
-        <p style={{ color: "rgba(255,255,255,0.82)", fontSize: "1.1rem" }} className="mb-10 max-w-lg mx-auto">
-          Mulai tingkatkan produktivitasmu sekarang — gratis selamanya.
+        <p style={{ color: "var(--foreground-secondary)", fontSize: "1.1rem" }} className="mb-10 max-w-lg mx-auto">
+          Start boosting your productivity now — free forever.
           <br />
-          <span style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.95rem" }}>
-            Start boosting your productivity today, completely free.
+          <span style={{ color: "var(--foreground-tertiary)", fontSize: "0.95rem" }}>
+            No sign-up required. Just open and start.
           </span>
         </p>
 
         {/* CTA Button */}
         <Link href="/dashboard">
           <button
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-[10px] font-bold text-lg transition-all duration-200 active:scale-95"
-            style={{ background: "#fff", color: "var(--primary)" }}
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-lg transition-all duration-200 active:scale-95"
+            style={{
+              background: "var(--primary)",
+              color: "#fff",
+              boxShadow: "var(--shadow-sm)",
+            }}
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLElement;
-              el.style.boxShadow = "0 8px 24px rgba(0,0,0,0.25)";
+              el.style.boxShadow = "var(--shadow-md)";
               el.style.transform = "translateY(-2px)";
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement;
-              el.style.boxShadow = "none";
+              el.style.boxShadow = "var(--shadow-sm)";
               el.style.transform = "translateY(0)";
             }}
           >
             <Zap size={20} />
-            Mulai Sekarang
+            Start Now
             <ArrowRight size={18} />
           </button>
         </Link>
 
         {/* Benefits grid */}
         <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {benefits.map((b) => (
-            <div key={b.title} className="text-center">
-              <div className="text-2xl mb-2">{b.icon}</div>
-              <h3
-                className="font-semibold mb-1"
-                style={{ color: "#fff", fontFamily: "var(--font-display)" }}
-              >
-                {b.title}
-              </h3>
-              <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.85rem" }}>{b.desc}</p>
-            </div>
-          ))}
+          {benefits.map((b) => {
+            const BIcon = b.Icon;
+            return (
+              <div key={b.title} className="text-center">
+                <div className="mb-2 flex justify-center" style={{ color: "var(--primary)" }}>
+                  <BIcon size={24} strokeWidth={1.8} />
+                </div>
+                <h3
+                  className="font-semibold mb-1"
+                  style={{ color: "var(--foreground)", fontFamily: "var(--font-display)" }}
+                >
+                  {b.title}
+                </h3>
+                <p style={{ color: "var(--foreground-secondary)", fontSize: "0.85rem" }}>{b.desc}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

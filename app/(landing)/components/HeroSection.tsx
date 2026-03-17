@@ -2,15 +2,15 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Zap, Clock, FileText, Calendar, CheckSquare, BarChart2 } from "lucide-react";
+import { ArrowRight, Zap, Clock, FileText, Calendar, CheckSquare, BarChart2, Pencil, Target, BookOpen } from "lucide-react";
 
 /* Feature pills shown below the CTAs */
 const featurePills = [
-  { icon: Calendar,    label: "Kalender",     color: "#3B7EC2", bg: "rgba(59,126,194,0.1)" },
-  { icon: FileText,    label: "Catatan",      color: "#D97706", bg: "rgba(217,119,6,0.1)" },
+  { icon: Calendar,    label: "Calendar",     color: "#3B7EC2", bg: "rgba(59,126,194,0.1)" },
+  { icon: FileText,    label: "Notes",        color: "#D97706", bg: "rgba(217,119,6,0.1)" },
   { icon: CheckSquare, label: "To-Do",        color: "#5A8A6E", bg: "rgba(90,138,110,0.1)" },
-  { icon: Clock,       label: "Timer Fokus",  color: "#C4574A", bg: "rgba(196,87,74,0.1)" },
-  { icon: BarChart2,   label: "Analitik",     color: "#7C3AED", bg: "rgba(124,58,237,0.1)" },
+  { icon: Clock,       label: "Focus Timer",  color: "#C4574A", bg: "rgba(196,87,74,0.1)" },
+  { icon: BarChart2,   label: "Analytics",    color: "#7C3AED", bg: "rgba(124,58,237,0.1)" },
 ];
 
 export function HeroSection() {
@@ -64,7 +64,7 @@ export function HeroSection() {
           "--r": "-8deg",
         } as React.CSSProperties}
       >
-        ✏️ tetap fokus
+        <Pencil size={15} strokeWidth={1.8} /> stay focused
       </div>
 
       {/* Chip 2 */}
@@ -82,7 +82,7 @@ export function HeroSection() {
           "--r": "6deg",
         } as React.CSSProperties}
       >
-        🎯 capai tujuanmu
+        <Target size={15} strokeWidth={1.8} /> reach your goals
       </div>
 
       {/* Chip 3 */}
@@ -100,7 +100,7 @@ export function HeroSection() {
           "--r": "-4deg",
         } as React.CSSProperties}
       >
-        📚 belajar lebih pintar
+        <BookOpen size={15} strokeWidth={1.8} /> learn smarter
       </div>
 
       {/* ── Main content ── */}
@@ -119,7 +119,7 @@ export function HeroSection() {
           transition={{ duration: 0.45 }}
         >
           <Zap size={13} style={{ color: "var(--primary)" }} />
-          <span>Inovasi Produktivitas Belajar</span>
+          <span>Boost Your Learning Productivity</span>
           <Zap size={13} style={{ color: "var(--primary)" }} />
         </motion.div>
 
@@ -137,13 +137,13 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          Workspace produktif{" "}
+          Turn Chaos into Clarity{" "}
           <br className="hidden sm:block" />
-          untuk{" "}
+          with Your{" "}
           <span
             style={{ color: "var(--primary)", fontStyle: "italic", position: "relative", display: "inline-block" }}
           >
-            pelajar modern
+            Second Brain
             {/* Wavy SVG underline */}
             <svg
               viewBox="0 0 220 12"
@@ -177,7 +177,7 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Ruang kerja yang indah dan bebas distraksi, dirancang sesuai cara belajar kamu.
+          A beautiful, distraction-free workspace, designed for the way you learn.
           <br className="hidden md:block" />
           <span style={{ color: "var(--foreground-tertiary)", fontSize: "0.95rem" }}>
             Calendar, notes, tasks, focus timer, and analytics — all in one elegant place.
@@ -193,16 +193,16 @@ export function HeroSection() {
         >
           <Link href="/dashboard">
             <button
-              className="flex items-center gap-2 px-8 py-3 rounded-[10px] font-semibold text-lg transition-all duration-200 active:scale-95"
+              className="flex items-center gap-2 px-8 py-3 rounded-xl font-semibold text-lg transition-all duration-200 active:scale-95"
               style={{
-                background: "var(--foreground)",
-                color: "var(--background)",
+                background: "var(--primary)",
+                color: "#fff",
                 boxShadow: "var(--shadow-sm)",
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement;
                 el.style.transform = "translateY(-2px)";
-                el.style.boxShadow = "0 8px 24px rgba(0,0,0,0.2)";
+                el.style.boxShadow = "var(--shadow-md)";
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLElement;
@@ -210,23 +210,31 @@ export function HeroSection() {
                 el.style.boxShadow = "var(--shadow-sm)";
               }}
             >
-              Mulai Gratis
+              Get Started Free
               <ArrowRight size={18} />
             </button>
           </Link>
 
           <button
             onClick={() => document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })}
-            className="px-8 py-3 rounded-[10px] font-semibold text-lg transition-all duration-200 active:scale-95"
+            className="px-8 py-3 rounded-xl font-semibold text-lg transition-all duration-200 active:scale-95"
             style={{
               background: "transparent",
               border: "1px solid var(--border)",
               color: "var(--foreground)",
             }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--surface-elevated)")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "transparent")}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = "var(--surface-elevated)";
+              el.style.boxShadow = "var(--shadow-xs)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = "transparent";
+              el.style.boxShadow = "none";
+            }}
           >
-            Lihat Fitur
+            Explore Features
           </button>
         </motion.div>
 

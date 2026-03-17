@@ -42,7 +42,7 @@ export function Footer() {
                 color: "var(--foreground-tertiary)",
               }}
             >
-              Belajar lebih cerdas, bukan lebih keras.
+              Work smarter, not harder.
             </p>
           </div>
 

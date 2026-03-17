@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, FileText, Calendar, CheckSquare, BarChart2, ArrowRight } from "lucide-react";
+import { Clock, FileText, Calendar, CheckSquare, BarChart2, ArrowRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -8,8 +8,8 @@ const tools = [
   {
     icon: Clock,
     titleEn: "Focus Timer",
-    titleId: "Timer Fokus",
-    desc: "Tingkatkan konsentrasi dengan metode Pomodoro. Atur sesi fokus dan istirahat untuk produktivitas maksimal.",
+    titleId: "Deep Work Mode",
+    desc: "Boost concentration with the Pomodoro method. Set focus and break sessions for maximum productivity.",
     features: ["Pomodoro technique", "Custom session durations", "Focus session history"],
     color: "#C4574A",
     bg: "rgba(196,87,74,0.1)",
@@ -19,8 +19,8 @@ const tools = [
   {
     icon: FileText,
     titleEn: "Smart Notes",
-    titleId: "Catatan Pintar",
-    desc: "Simpan ide dan catatan penting dengan cepat. Akses kapan saja dalam satu tempat yang bersih.",
+    titleId: "Capture Everything",
+    desc: "Quickly save ideas and important notes. Access them anytime in one clean, organized place.",
     features: ["Quick capture", "Tag & categorize notes", "Search across all notes"],
     color: "#D97706",
     bg: "rgba(217,119,6,0.1)",
@@ -30,8 +30,8 @@ const tools = [
   {
     icon: Calendar,
     titleEn: "Calendar",
-    titleId: "Kalender",
-    desc: "Rencanakan jadwal mingguan dan bulanan Anda. Jangan pernah melewatkan tanggal penting lagi.",
+    titleId: "Plan Your Week",
+    desc: "Plan your weekly and monthly schedule. Never miss an important date or deadline again.",
     features: ["Weekly & monthly views", "Event management", "Schedule at a glance"],
     color: "#3B7EC2",
     bg: "rgba(59,126,194,0.1)",
@@ -41,8 +41,8 @@ const tools = [
   {
     icon: CheckSquare,
     titleEn: "To-Do List",
-    titleId: "Daftar Tugas",
-    desc: "Kelola tugas harian dengan mudah. Tetapkan prioritas dan pantau progress penyelesaian tugas Anda.",
+    titleId: "Stay on Track",
+    desc: "Manage daily tasks with ease. Set priorities and track your progress toward completion.",
     features: ["Priority levels", "Due date reminders", "Progress tracking"],
     color: "#5A8A6E",
     bg: "rgba(90,138,110,0.1)",
@@ -52,8 +52,8 @@ const tools = [
   {
     icon: BarChart2,
     titleEn: "Analytics",
-    titleId: "Analitik",
-    desc: "Lihat tren produktivitas Anda secara visual. Pahami kebiasaan kerja dan raih target lebih cepat.",
+    titleId: "Track Your Growth",
+    desc: "Visualize your productivity trends. Understand your work habits and reach your goals faster.",
     features: ["Visual charts", "Weekly summaries", "Goal completion rate"],
     color: "#7C3AED",
     bg: "rgba(124,58,237,0.1)",
@@ -82,7 +82,7 @@ export function FeatureSection() {
           {/* Caveat label */}
           <div className="inline-block mb-4">
             <span
-              className="text-xl"
+              className="inline-flex items-center gap-1.5 text-xl"
               style={{
                 fontFamily: "var(--font-hand)",
                 color: "var(--primary)",
@@ -90,7 +90,7 @@ export function FeatureSection() {
                 paddingBottom: "2px",
               }}
             >
-              ✦ fitur unggulan
+              <Sparkles size={16} strokeWidth={1.8} /> key features
             </span>
           </div>
 
@@ -106,9 +106,9 @@ export function FeatureSection() {
               lineHeight: 1.2,
             }}
           >
-            Semua yang Anda Butuhkan,{" "}
+            Everything You Need,{" "}
             <br className="hidden sm:block" />
-            <em style={{ color: "var(--primary)" }}>semua dalam satu tempat.</em>
+            <em style={{ color: "var(--primary)" }}>all in one place.</em>
           </h2>
 
           <p className="text-base text-foreground-secondary max-w-xl mx-auto">
@@ -219,11 +219,23 @@ export function FeatureSection() {
                     <Link href={tool.path} className="block">
                       <button
                         className="w-full py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 active:scale-95 flex items-center justify-center gap-2"
-                        style={{ background: "var(--foreground)", color: "var(--background)" }}
-                        onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.85")}
-                        onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
+                        style={{
+                          background: "var(--primary)",
+                          color: "#fff",
+                          boxShadow: "var(--shadow-sm)",
+                        }}
+                        onMouseEnter={(e) => {
+                          const el = e.currentTarget as HTMLElement;
+                          el.style.boxShadow = "var(--shadow-md)";
+                          el.style.transform = "translateY(-1px)";
+                        }}
+                        onMouseLeave={(e) => {
+                          const el = e.currentTarget as HTMLElement;
+                          el.style.boxShadow = "var(--shadow-sm)";
+                          el.style.transform = "translateY(0)";
+                        }}
                       >
-                        Buka Tool
+                        Open Tool
                         <ArrowRight size={15} />
                       </button>
                     </Link>
@@ -252,7 +264,7 @@ export function FeatureSection() {
             }}
           />
           <div className="relative flex items-center gap-3">
-            <span className="text-lg">✨</span>
+            <Sparkles size={20} strokeWidth={1.8} style={{ color: "var(--primary)" }} />
             <div>
               <span
                 className="font-bold text-foreground"
@@ -266,25 +278,28 @@ export function FeatureSection() {
             </div>
           </div>
           <div className="relative flex flex-wrap justify-center gap-2">
-            {[
-              { emoji: "📅", label: "Kalender" },
-              { emoji: "📝", label: "Catatan" },
-              { emoji: "✅", label: "Tugas" },
-              { emoji: "⏱️", label: "Focus" },
-              { emoji: "📊", label: "Analitik" },
-            ].map((chip) => (
-              <span
-                key={chip.label}
-                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium"
-                style={{
-                  background: "var(--surface-elevated)",
-                  border: "1px solid var(--border)",
-                  color: "var(--foreground-secondary)",
-                }}
-              >
-                {chip.emoji} {chip.label}
-              </span>
-            ))}
+          {[
+              { Icon: Calendar,    label: "Calendar" },
+              { Icon: FileText,    label: "Notes" },
+              { Icon: CheckSquare, label: "Tasks" },
+              { Icon: Clock,       label: "Focus" },
+              { Icon: BarChart2,   label: "Analytics" },
+            ].map((chip) => {
+              const ChipIcon = chip.Icon;
+              return (
+                <span
+                  key={chip.label}
+                  className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium"
+                  style={{
+                    background: "var(--surface-elevated)",
+                    border: "1px solid var(--border)",
+                    color: "var(--foreground-secondary)",
+                  }}
+                >
+                  <ChipIcon size={12} strokeWidth={1.8} /> {chip.label}
+                </span>
+              );
+            })}
           </div>
         </div>
 

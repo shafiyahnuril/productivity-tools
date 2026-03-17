@@ -22,9 +22,9 @@ export function LandingNavbar() {
   }, []);
 
   const navItems = [
-    { label: "Beranda", id: "hero" },
-    { label: "Fitur", id: "features" },
-    { label: "Kontak", id: "contact" },
+    { label: "Home", id: "hero" },
+    { label: "Features", id: "features" },
+    { label: "Contact", id: "contact" },
   ];
 
   return (
@@ -45,7 +45,7 @@ export function LandingNavbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
             <div
-              className="w-9 h-9 rounded-[9px] flex items-center justify-center shadow-sm transition-transform duration-200 group-hover:scale-105"
+              className="w-9 h-9 rounded-xl flex items-center justify-center shadow-sm transition-transform duration-200 group-hover:scale-105"
               style={{ background: "var(--primary)", color: "#fff" }}
             >
               <BookOpen size={17} strokeWidth={2} />
@@ -65,7 +65,7 @@ export function LandingNavbar() {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-sm font-medium px-4 py-2 rounded-lg transition-all duration-200"
+                className="text-sm font-medium px-4 py-2 rounded-xl transition-all duration-200"
                 style={{ color: "var(--foreground-secondary)" }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
@@ -88,8 +88,8 @@ export function LandingNavbar() {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              title={theme === "light" ? "Mode Gelap" : "Mode Terang"}
-              className="w-[38px] h-[38px] rounded-[9px] border flex items-center justify-center transition-all duration-200 active:scale-95"
+              title={theme === "light" ? "Dark Mode" : "Light Mode"}
+              className="w-[38px] h-[38px] rounded-xl border flex items-center justify-center transition-all duration-200 active:scale-95"
               style={{
                 background: "var(--surface-elevated)",
                 borderColor: "var(--border)",
@@ -104,28 +104,32 @@ export function LandingNavbar() {
             {/* Open App CTA */}
             <Link href="/dashboard" className="hidden sm:block">
               <button
-                className="flex items-center gap-1.5 px-4 py-2 rounded-[9px] text-sm font-semibold transition-all duration-200 active:scale-95"
-                style={{ background: "var(--foreground)", color: "var(--background)" }}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-95"
+                style={{
+                  background: "var(--primary)",
+                  color: "#fff",
+                  boxShadow: "var(--shadow-sm)",
+                }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.opacity = "0.84";
+                  el.style.boxShadow = "var(--shadow-md)";
                   el.style.transform = "translateY(-1px)";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.opacity = "1";
+                  el.style.boxShadow = "var(--shadow-sm)";
                   el.style.transform = "translateY(0)";
                 }}
               >
                 <Sparkles size={14} />
-                Buka App
+                Open App
               </button>
             </Link>
 
             {/* Mobile Hamburger */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden w-[38px] h-[38px] rounded-[9px] border flex items-center justify-center transition-all duration-200 active:scale-95"
+              className="md:hidden w-[38px] h-[38px] rounded-xl border flex items-center justify-center transition-all duration-200 active:scale-95"
               style={{
                 background: "var(--surface-elevated)",
                 borderColor: "var(--border)",
@@ -148,7 +152,7 @@ export function LandingNavbar() {
                 <button
                   key={item.id}
                   onClick={() => { scrollToSection(item.id); setIsOpen(false); }}
-                  className="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200"
+                  className="w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-colors duration-200"
                   style={{ color: "var(--foreground-secondary)" }}
                   onMouseEnter={(e) => {
                     const el = e.currentTarget as HTMLElement;
@@ -167,11 +171,15 @@ export function LandingNavbar() {
               <div className="mt-3 pt-3" style={{ borderTop: "1px solid var(--border)" }}>
                 <Link href="/dashboard">
                   <button
-                    className="w-full py-2.5 rounded-[9px] text-sm font-semibold transition-all duration-200 active:scale-95 flex items-center justify-center gap-1.5"
-                    style={{ background: "var(--foreground)", color: "var(--background)" }}
+                    className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-95 flex items-center justify-center gap-1.5"
+                    style={{
+                      background: "var(--primary)",
+                      color: "#fff",
+                      boxShadow: "var(--shadow-sm)",
+                    }}
                   >
                     <Sparkles size={14} />
-                    Buka App
+                    Open App
                   </button>
                 </Link>
               </div>
