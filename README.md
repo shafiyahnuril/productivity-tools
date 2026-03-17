@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Productivity Tools
 
-## Getting Started
+🔗 **Link Deployment:** [https://productivity-tools-seven.vercel.app/](https://productivity-tools-seven.vercel.app/)
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Nama Website : Productivity Tools  
+Nama Tim : apaya  
+Dengan Backend : TIDAK  
+Daftar Fitur Utama : Notes, Focus Timer, Calendar, To-Do, Analyzer (Analytics)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Tentang Aplikasi
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Productivity Tools** adalah aplikasi web modern berbasis antarmuka yang dirancang untuk membantu pengguna memaksimalkan efisiensi dan mengatur waktu mereka dalam satu tempat atau _workspace_. Aplikasi dilengkapi berbagai instrumen manajemen kinerja yang terpadu.
 
-## Learn More
+## ✨ Penjelasan Fitur Website
 
-To learn more about Next.js, take a look at the following resources:
+1. **🏠 Dashboard Interaktif (Pusat Kontrol)**
+   - Halaman utama yang mengintegrasikan berbagai metrik dan _widget_ cepat dalam satu tempat (Catatan terbaru, Ringkasan Kalender, Jam interaktif, Target harian).
+   - Pengguna bisa melihat produktivitas mereka (_Dashboard Stats_) secara instan.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **📝 Notes (Catatan Pribadi)**
+   - Menyediakan ruang interaktif untuk menulis rancangan ide hingga informasi krusial.
+   - Kemampuan membuat, membaca, mengedit, dan menghapus (_CRUD_ berbasis _frontend local state_) catatan dengan kilat.
+   - Terdapat ringkasan (_preview_) isi catatan yang tampil secara dinamis di halaman muka.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **⏳ Focus Timer (Manajemen Waktu Cerdas)**
+   - Alat pengatur waktu khusus kelola fokus harian berbasis interval (contoh: metode Pomodoro).
+   - Menyediakan sesi hitung mundur fokus, diikuti dengan sesi istirahat.
+   - Durasi waktu kerja terekam otomatis dan akan masuk ke data panel analitik.
 
-## Deploy on Vercel
+4. **📅 Calendar (Jadwal Terintegrasi)**
+   - Representasi waktu visual komprehensif (berbasis tanggal dan bulan).
+   - Membantu pengguna tetap ingat setiap target jadwal penting (_deadlines_).
+   - Mengalokasikan rencana pertemuan dan mengelola alur kegiatan (_event planning_).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. **✅ To-Do List (Daftar Tugas Terorganisir)**
+   - Input pengerjaan rencana harian atau pekerjaan spesifik ke dalam antarmuka baris per baris.
+   - _Checklist feature_: Klik untuk menandai tugas yang sudah tuntas (_Completed_) atau membatalkannya ke status aktif (_Active_).
+   - Alur data mulus di mana tugas yang di-ceklis terhitung dalam pencapaian produktivitas harian.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+6. **📊 Analytics / Analyzer (Pemantauan Kualitas Kerja)**
+   - Tampilan visual berupa statistik kemajuan, waktu penyelesaian jam fokus, serta rasio tugas yang berstatus tuntas dan belum (_Charts/Graphs_).
+   - Memudahkan evaluasi gaya kerja dan tren produktivitas di berbagai rentang waktu harian/mingguan.
+
+7. **🌓 Kustomisasi Tema (Light & Dark Mode)**
+   - Dukungan _Floating Theme Toggle_ untuk penyesuaian estetika layar, memungkinkan transisi desain berlatar gelap (_Night-mode_) atau terang demi kenyamanan mata pengguna.
+
+8. **📱 Aksesibilitas Mobile-Friendly**
+   - Transisi antarmuka yang sangat responsif di perangkat ponsel menggunakan komponen _Mobile Header_ dan navigasi khusus _Bottom Navigation_.
+   - Tombol gantung (_Floating Add Button_) intuitif yang mempermudah interaksi pengguna menggunakan satu tangan pada layar portabel.
+
+## 🛠️ Teknologi yang Digunakan
+
+Aplikasi web ini dibangun menggunakan stack:
+
+- **Framework Frontend:** Next.js (React)
+- **Bahasa Pemrograman:** TypeScript
+- **Styling:** Tailwind CSS
+
+## 🏃‍♂️ Cara Menjalankan Proyek Secara Lokal
+
+Jika Anda ingin menjalankan proyek ini di perangkat sendiri:
+
+1. Clone repositori ini ke komputer Anda.
+2. Buka terminal pada folder proyek, lalu jalankan instalasi _dependency_:
+   ```bash
+   npm install
+   ```
+3. Mulai server _development_:
+   ```bash
+   npm run dev
+   ```
+4. Buka [http://localhost:3000](http://localhost:3000) pada peramban web (_browser_) Anda untuk melihat hasilnya.
