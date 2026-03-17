@@ -40,7 +40,7 @@ export function NotesPreview() {
         return (
           <Link key={note.id} href="/notes">
             <Card
-              className={`border-l-[4px] ${style.border} ${style.bg} ${style.hover} transition-colors p-4 cursor-pointer`}
+              className={`border-l-4 ${style.border} ${style.bg} ${style.hover} transition-colors p-4 cursor-pointer`}
             >
               <div className="font-semibold text-sm mb-1">{note.title}</div>
               <div className="text-xs text-foreground-secondary mb-3 line-clamp-2">

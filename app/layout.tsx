@@ -34,6 +34,7 @@ export default function RootLayout({
       <head>
         {/* Anti-flash: sets .dark class before first paint to prevent flicker */}
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('paper-os-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark');}catch(e){}})();`,
           }}

@@ -272,7 +272,7 @@ export default function TimerPage() {
           </div>
         </div>
         <div className="hidden md:flex items-center gap-3">
-          <Button className="!hidden md:!inline-flex items-center gap-2">
+          <Button className="hidden! md:inline-flex! items-center gap-2">
             <Plus className="w-4 h-4" /> Add New
           </Button>
           <div className="relative">
@@ -297,18 +297,29 @@ export default function TimerPage() {
         </div>
       </header>
 
-      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)', opacity: 0.4 }} />
+      <div
+        className="h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
+          opacity: 0.4,
+        }}
+      />
 
       <div className="flex items-center gap-3">
         <div className="w-1 h-6 rounded-full bg-primary/40" />
-        <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">FOKUS TIMER</Heading2>
+        <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+          FOKUS TIMER
+        </Heading2>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* ── Config column ── */}
         <div className="lg:col-span-3">
           <Card className="h-full">
-            <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest mb-6">KONFIGURASI SIKLUS</Heading2>
+            <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest mb-6">
+              KONFIGURASI SIKLUS
+            </Heading2>
 
             <div className="space-y-6">
               {/* Focus duration */}
@@ -614,7 +625,7 @@ export default function TimerPage() {
                       }}
                       itemStyle={{ color: "var(--color-foreground)" }}
                       labelStyle={{ display: "none" }}
-                      formatter={(value: any) => [`${value}m`, "Fokus"]}
+                      formatter={(value: number) => [`${value}m`, "Fokus"]}
                     />
                     <Area
                       type="monotone"
@@ -654,7 +665,9 @@ export default function TimerPage() {
         <div className="lg:col-span-4">
           <Card className="h-fit flex flex-col">
             <div className="flex justify-between items-center mb-6">
-              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">RIWAYAT SESI</Heading2>
+              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+                RIWAYAT SESI
+              </Heading2>
               <button
                 onClick={() => {
                   if (

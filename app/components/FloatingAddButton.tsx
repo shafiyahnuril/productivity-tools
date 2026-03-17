@@ -131,7 +131,7 @@ export default function FloatingAddButton() {
   return (
     <>
       {/* FAB — mobile only */}
-      <div className="md:hidden fixed bottom-[6.5rem] right-4 z-50 flex flex-col items-center gap-3">
+      <div className="md:hidden fixed bottom-26 right-4 z-50 flex flex-col items-center gap-3">
         {isOpen && (
           <div className="flex flex-col gap-2">
             {MENU_ITEMS.map(({ key, icon: Icon, label }) => (
@@ -176,7 +176,7 @@ export default function FloatingAddButton() {
       {/* Modal overlay */}
       {activeModal && (
         <div
-          className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/50 z-60 flex items-center justify-center p-4"
           onClick={(e) => {
             if (e.target === e.currentTarget) closeModal();
           }}

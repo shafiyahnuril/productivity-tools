@@ -40,7 +40,7 @@ function formatUpdatedAt(dateStr: string) {
 }
 
 export default function NotesPage() {
-  const { notes, addNote, updateNote, deleteNote, setActiveModal } = useStore();
+  const { notes, updateNote, deleteNote, setActiveModal } = useStore();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [activeNoteId, setActiveNoteId] = useState<string | null>(
@@ -144,7 +144,11 @@ export default function NotesPage() {
   // When notes change and there's no active note, select first
   useEffect(() => {
     if (!activeNoteId && notes.length > 0) {
-      setActiveNoteId(notes[0].id);
+      // Use setTimeout to avoid synchronous setState warning during render
+      const timer = setTimeout(() => {
+        setActiveNoteId(notes[0].id);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [notes, activeNoteId]);
 
@@ -171,7 +175,7 @@ export default function NotesPage() {
         <div className="hidden md:flex items-center gap-3">
           <Button
             onClick={handleNewNote}
-            className="!hidden md:!inline-flex items-center gap-2"
+            className="hidden! md:inline-flex! items-center gap-2"
           >
             <Plus className="w-4 h-4" /> Add New
           </Button>
@@ -260,7 +264,7 @@ export default function NotesPage() {
                   onClick={() => selectNote(note.id)}
                   className={`relative text-left py-3 pr-3 pl-4 rounded-2xl border bg-surface shadow-sm transition-all overflow-hidden ${
                     note.id === activeNoteId
-                      ? "border-primary/50 shadow-md bg-primary/[0.04]"
+                      ? "border-primary/50 shadow-md bg-primary/4"
                       : "border-border hover:bg-surface-elevated"
                   }`}
                 >
@@ -342,7 +346,7 @@ export default function NotesPage() {
                       ref={contentRef}
                       contentEditable
                       suppressContentEditableWarning
-                      className="flex-1 overflow-y-auto text-base leading-relaxed text-foreground-secondary outline-none border border-border rounded-xl p-4 min-h-[200px]"
+                      className="flex-1 overflow-y-auto text-base leading-relaxed text-foreground-secondary outline-none border border-border rounded-xl p-4 min-h-50"
                       dangerouslySetInnerHTML={{ __html: editContent }}
                     />
                     <div className="flex gap-3 mt-4 pt-4 border-t border-border">
