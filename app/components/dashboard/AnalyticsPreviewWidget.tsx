@@ -11,6 +11,7 @@ import {
   Cell,
   Tooltip as RechartsTooltip,
   YAxis,
+  XAxis,
 } from "recharts";
 
 const WEEKDAYS = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
@@ -60,13 +61,13 @@ export function AnalyticsPreviewWidget() {
         </div>
       </div>
 
-      <div className="flex gap-4 items-end h-28">
+      <div className="flex gap-4 items-center h-32">
         {/* Line Chart */}
-        <div className="flex-1 h-full w-full -ml-4">
+        <div className="flex-1 h-full w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={trendData}
-              margin={{ top: 5, right: 0, bottom: 0, left: 0 }}
+              margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
             >
               <RechartsTooltip
                 contentStyle={{
@@ -76,8 +77,19 @@ export function AnalyticsPreviewWidget() {
                   fontSize: "11px",
                 }}
                 itemStyle={{ color: "var(--color-foreground)" }}
-                formatter={(value) => [`${value}j`, "Fokus"]}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                formatter={(value: any) => [`${value}j`, "Fokus"]}
                 labelStyle={{ color: "var(--color-foreground-secondary)" }}
+              />
+              <XAxis
+                dataKey="day"
+                axisLine={false}
+                tickLine={false}
+                tick={{
+                  fontSize: 9,
+                  fill: "var(--color-foreground-secondary)",
+                }}
+                dy={5}
               />
               <YAxis domain={[0, 12]} hide />
               <Line
@@ -90,15 +102,10 @@ export function AnalyticsPreviewWidget() {
               />
             </LineChart>
           </ResponsiveContainer>
-          <div className="flex justify-between text-[8px] text-foreground-secondary mt-2 px-4">
-            {WEEKDAYS.map((day) => (
-              <span key={day}>{day}</span>
-            ))}
-          </div>
         </div>
 
         {/* Pie Chart */}
-        <div className="w-16 h-16 mb-6 relative shrink-0">
+        <div className="w-16 h-16 relative shrink-0 flex flex-col items-center justify-center">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
