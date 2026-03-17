@@ -281,102 +281,122 @@ export default function CalendarPage() {
                   })}
                 </div>
 
-                <div
-                  className="flex-1 overflow-y-auto bg-surface relative min-h-125"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(90deg, transparent 0%, rgba(217,119,6,0.02) 14.28%, transparent 14.28%, transparent 100%)",
-                    backgroundSize: "100% 100%",
-                  }}
-                >
-                  {/* Time labels */}
-                  <div className="absolute left-0 top-0 bottom-0 w-[12.5%] border-r border-border text-xs text-foreground-secondary text-right pr-2 py-2 space-y-9.5 bg-surface z-10">
-                    <div>08:00</div>
-                    <div>09:00</div>
-                    <div>10:00</div>
-                    <div>11:00</div>
-                    <div>12:00</div>
-                    <div>13:00</div>
-                    <div>14:00</div>
-                    <div>15:00</div>
-                    <div>16:00</div>
-                    <div>17:00</div>
-                    <div>18:00</div>
-                    <div>19:00</div>
-                    <div>20:00</div>
-                    <div>21:00</div>
-                    <div>22:00</div>
-                  </div>
-
-                  {/* Grid lines */}
-                  <div className="absolute inset-0 ml-[12.5%] grid grid-cols-7">
-                    {weekDays.map((day, i) => (
-                      <div
-                        key={i}
-                        className={`border-r border-border relative ${isToday(day) ? "bg-primary/5" : ""}`}
-                      >
-                        {[...Array(14)].map((_, j) => (
-                          <div
-                            key={j}
-                            className="border-b border-border/50 w-full"
-                            style={{ height: `${HOUR_HEIGHT}px` }}
-                          />
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Events from store */}
-                  <div className="absolute ml-[12.5%] inset-0">
-                    {filteredWeekEvents.map((event) => {
-                      try {
-                        const evDate = parseISO(event.date);
-                        const dayIndex = weekDays.findIndex((d) =>
-                          isSameDay(d, evDate),
-                        );
-                        if (dayIndex === -1) return null;
-                        const style = getEventStyle(event, dayIndex);
-                        const colorClass =
-                          CATEGORY_COLORS[event.category] ?? "bg-info/70";
-                        return (
-                          <div key={event.id} style={style}>
-                            <div
-                              className={`${colorClass} text-white p-2 rounded-lg text-xs leading-tight h-full shadow-sm group relative overflow-hidden`}
-                            >
-                              <div className="font-semibold mb-0.5 line-clamp-1">
-                                {event.startTime} - {event.endTime}
-                              </div>
-                              <div className="line-clamp-2">{event.title}</div>
-                              <button
-                                onClick={() => deleteCalendarEvent(event.id)}
-                                className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 rounded p-0.5 hover:bg-black/40"
-                                title="Hapus event"
-                              >
-                                <Trash2 className="w-3 h-3" />
-                              </button>
-                            </div>
-                          </div>
-                        );
-                      } catch {
-                        return null;
-                      }
-                    })}
-                  </div>
-
-                  {/* Current time indicator */}
-                  {currentTimeTop !== null && isCurrentWeek && (
-                    <div
-                      className="absolute left-0 right-0 z-20 flex items-center pointer-events-none"
-                      style={{ top: `${currentTimeTop}px` }}
-                    >
-                      <div className="w-[12.5%] text-right pr-2 text-danger text-[10px] font-bold">
-                        {currentTimeLabel}
-                      </div>
-                      <div className="flex-1 border-t-2 border-danger relative">
-                        <div className="absolute -left-1.5 -top-1.5 w-3 h-3 rounded-full bg-danger"></div>
-                      </div>
+                <div className="flex-1 overflow-y-auto bg-surface">
+                  <div
+                    className="relative w-full"
+                    style={{
+                      height: `${14 * HOUR_HEIGHT}px`,
+                      marginTop: "16px",
+                      marginBottom: "16px",
+                      backgroundImage:
+                        "linear-gradient(90deg, transparent 0%, rgba(217,119,6,0.02) 14.28%, transparent 14.28%, transparent 100%)",
+                      backgroundSize: "100% 100%",
+                    }}
+                  >
+                    {/* Time labels */}
+                    <div className="absolute left-0 top-0 bottom-0 w-[12.5%] border-r border-border text-xs text-foreground-secondary text-right bg-surface z-10">
+                      {[
+                        "08:00",
+                        "09:00",
+                        "10:00",
+                        "11:00",
+                        "12:00",
+                        "13:00",
+                        "14:00",
+                        "15:00",
+                        "16:00",
+                        "17:00",
+                        "18:00",
+                        "19:00",
+                        "20:00",
+                        "21:00",
+                        "22:00",
+                      ].map((time, i) => (
+                        <div
+                          key={time}
+                          className="absolute w-full pr-2"
+                          style={{
+                            top: `${i * HOUR_HEIGHT}px`,
+                            marginTop: "-8px",
+                          }}
+                        >
+                          {time}
+                        </div>
+                      ))}
                     </div>
-                  )}
+
+                    {/* Grid lines */}
+                    <div className="absolute inset-0 ml-[12.5%] grid grid-cols-7">
+                      {weekDays.map((day, i) => (
+                        <div
+                          key={i}
+                          className={`border-r border-border relative ${isToday(day) ? "bg-primary/5" : ""}`}
+                        >
+                          {[...Array(14)].map((_, j) => (
+                            <div
+                              key={j}
+                              className="border-b border-border/50 w-full"
+                              style={{ height: `${HOUR_HEIGHT}px` }}
+                            />
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Events from store */}
+                    <div className="absolute ml-[12.5%] inset-0">
+                      {filteredWeekEvents.map((event) => {
+                        try {
+                          const evDate = parseISO(event.date);
+                          const dayIndex = weekDays.findIndex((d) =>
+                            isSameDay(d, evDate),
+                          );
+                          if (dayIndex === -1) return null;
+                          const style = getEventStyle(event, dayIndex);
+                          const colorClass =
+                            CATEGORY_COLORS[event.category] ?? "bg-info/70";
+                          return (
+                            <div key={event.id} style={style}>
+                              <div
+                                className={`${colorClass} text-white p-2 rounded-lg text-xs leading-tight h-full shadow-sm group relative overflow-hidden`}
+                              >
+                                <div className="font-semibold mb-0.5 line-clamp-1">
+                                  {event.startTime} - {event.endTime}
+                                </div>
+                                <div className="line-clamp-2">
+                                  {event.title}
+                                </div>
+                                <button
+                                  onClick={() => deleteCalendarEvent(event.id)}
+                                  className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 rounded p-0.5 hover:bg-black/40"
+                                  title="Hapus event"
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        } catch {
+                          return null;
+                        }
+                      })}
+                    </div>
+
+                    {/* Current time indicator */}
+                    {currentTimeTop !== null && isCurrentWeek && (
+                      <div
+                        className="absolute left-0 right-0 z-20 flex items-center pointer-events-none"
+                        style={{ top: `${currentTimeTop}px` }}
+                      >
+                        <div className="w-[12.5%] text-right pr-2 text-danger text-[10px] font-bold">
+                          {currentTimeLabel}
+                        </div>
+                        <div className="flex-1 border-t-2 border-danger relative">
+                          <div className="absolute -left-1.5 -top-1.5 w-3 h-3 rounded-full bg-danger"></div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
