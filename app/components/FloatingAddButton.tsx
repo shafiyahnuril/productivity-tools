@@ -61,6 +61,7 @@ export default function FloatingAddButton() {
   // Note form state
   const [noteTitle, setNoteTitle] = useState("");
   const [noteContent, setNoteContent] = useState("");
+  const [noteCategories, setNoteCategories] = useState<string[]>([]);
 
   // Agenda form state
   const [agendaTitle, setAgendaTitle] = useState("");
@@ -101,10 +102,11 @@ export default function FloatingAddButton() {
     addNote({
       title: noteTitle.trim(),
       content: noteContent.trim(),
-      categories: [],
+      categories: noteCategories,
     });
     setNoteTitle("");
     setNoteContent("");
+    setNoteCategories([]);
     closeModal();
   };
 
@@ -290,6 +292,36 @@ export default function FloatingAddButton() {
                   rows={5}
                   className="bg-surface-elevated border border-border rounded-md px-4 py-2.5 text-sm placeholder:text-foreground-tertiary focus:outline-none focus:border-primary transition-colors resize-none"
                 />
+                <div>
+                  <label className="text-xs text-foreground-secondary mb-2 block">
+                    Categories
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {["Assignment", "Exam", "Study"].map((cat) => {
+                      const isSelected = noteCategories.includes(cat);
+                      return (
+                        <button
+                          key={cat}
+                          type="button"
+                          onClick={() =>
+                            setNoteCategories((prev) =>
+                              isSelected
+                                ? prev.filter((c) => c !== cat)
+                                : [...prev, cat],
+                            )
+                          }
+                          className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all ${
+                            isSelected
+                              ? "bg-primary text-white border-primary"
+                              : "bg-surface-elevated text-foreground-secondary border-border hover:border-primary/50"
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
                 <button
                   onClick={handleAddNote}
                   disabled={!noteTitle.trim()}

@@ -346,7 +346,7 @@ export default function NotesPage() {
                       ref={contentRef}
                       contentEditable
                       suppressContentEditableWarning
-                      className="flex-1 overflow-y-auto text-base leading-relaxed text-foreground-secondary outline-none border border-border rounded-xl p-4 min-h-50"
+                      className="flex-1 overflow-y-auto text-base leading-relaxed text-foreground-secondary outline-none border border-border rounded-md p-4 min-h-[200px]"
                       dangerouslySetInnerHTML={{ __html: editContent }}
                     />
                     <div className="flex gap-3 mt-4 pt-4 border-t border-border">
