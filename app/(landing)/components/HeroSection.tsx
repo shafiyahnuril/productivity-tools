@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   Clock,
@@ -15,6 +15,7 @@ import {
   Target,
 } from "lucide-react";
 import { useRef, useState, useEffect, useCallback } from "react";
+import { useStore } from "../../store/useStore";
 
 /* Feature pills shown below the CTAs */
 const featurePills = [
@@ -132,6 +133,13 @@ export function HeroSection() {
   const spotlightRef = useRef<HTMLDivElement>(null);
   const [spotlightPos, setSpotlightPos] = useState({ x: 50, y: 50 });
   const animFrameRef = useRef<number | null>(null);
+  const router = useRouter();
+  const setLandingTransition = useStore((s) => s.setLandingTransition);
+
+  const handleGetStarted = () => {
+    setLandingTransition(true);
+    setTimeout(() => router.push("/dashboard"), 700);
+  };
 
   /* Throttled mouse spotlight */
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -437,43 +445,43 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <Link href="/dashboard">
-            <motion.button
-              className="btn-shine relative flex items-center gap-2 px-8 py-3.5 rounded-xl font-semibold text-lg overflow-hidden group"
-              style={{
-                background: "var(--primary)",
-                color: "#fff",
-                boxShadow: "0 4px 14px rgba(217,119,6,0.4)",
+          <motion.button
+            onClick={handleGetStarted}
+            className="btn-shine relative flex items-center gap-2 px-8 py-3.5 rounded-xl font-semibold text-lg overflow-hidden group"
+            style={{
+              background: "var(--primary)",
+              color: "#fff",
+              boxShadow: "0 4px 14px rgba(217,119,6,0.4)",
+              cursor: "pointer",
+            }}
+            whileHover={{
+              scale: 1.04,
+              y: -2,
+              boxShadow: "0 8px 24px rgba(217,119,6,0.55)",
+            }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          >
+            Get Started Free
+            <motion.span
+              animate={{ x: [0, 4, 0] }}
+              transition={{
+                repeat: Infinity,
+                duration: 1.4,
+                ease: "easeInOut",
               }}
-              whileHover={{
-                scale: 1.04,
-                y: -2,
-                boxShadow: "0 8px 24px rgba(217,119,6,0.55)",
-              }}
-              whileTap={{ scale: 0.96 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              Get Started Free
-              <motion.span
-                animate={{ x: [0, 4, 0] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 1.4,
-                  ease: "easeInOut",
-                }}
-              >
-                <ArrowRight size={18} />
-              </motion.span>
-              {/* Pulse ring behind button */}
-              <span
-                className="absolute inset-0 rounded-xl pointer-events-none"
-                style={{
-                  border: "2px solid rgba(217,119,6,0.6)",
-                  animation: "pulse-ring 2s ease-out infinite",
-                }}
-              />
-            </motion.button>
-          </Link>
+              <ArrowRight size={18} />
+            </motion.span>
+            {/* Pulse ring behind button */}
+            <span
+              className="absolute inset-0 rounded-xl pointer-events-none"
+              style={{
+                border: "2px solid rgba(217,119,6,0.6)",
+                animation: "pulse-ring 2s ease-out infinite",
+              }}
+            />
+          </motion.button>
 
           <motion.button
             onClick={() =>

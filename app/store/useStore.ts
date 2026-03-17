@@ -75,6 +75,8 @@ interface AppState {
   deleteCalendarEvent: (id: string) => void;
   setActiveModal: (modal: "todo" | "note" | "agenda" | null) => void;
   setFabMenuOpen: (open: boolean) => void;
+  isLandingTransition: boolean;
+  setLandingTransition: (v: boolean) => void;
   clearAllTodos: () => void;
   clearCompletedTodos: () => void;
   clearAllNotes: () => void;
@@ -257,6 +259,8 @@ export const useStore = create<AppState>((set) => ({
     })),
   setActiveModal: (modal) => set({ activeModal: modal }),
   setFabMenuOpen: (open) => set({ fabMenuOpen: open }),
+  isLandingTransition: false,
+  setLandingTransition: (v) => set({ isLandingTransition: v }),
   clearAllTodos: () => set({ todos: [] }),
   clearCompletedTodos: () =>
     set((state) => ({ todos: state.todos.filter((t) => !t.completed) })),

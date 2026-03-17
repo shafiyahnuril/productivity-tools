@@ -4,7 +4,9 @@ import { useTheme } from "./useTheme";
 import { Menu, X, Moon, Sun, BookOpen } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { useStore } from "../../store/useStore";
 
 const scrollToSection = (id: string) => {
   const element = document.getElementById(id);
@@ -17,6 +19,14 @@ export function LandingNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("hero");
+  const router = useRouter();
+  const setLandingTransition = useStore((s) => s.setLandingTransition);
+
+  const handleOpenApp = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setLandingTransition(true);
+    setTimeout(() => router.push("/dashboard"), 700);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -179,7 +189,11 @@ export function LandingNavbar() {
             </motion.button>
 
             {/* Open App CTA */}
-            <Link href="/dashboard" className="hidden sm:block">
+            <a
+              href="/dashboard"
+              onClick={handleOpenApp}
+              className="hidden sm:block"
+            >
               <motion.button
                 className="btn-shine relative flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold overflow-hidden"
                 style={{
@@ -197,7 +211,7 @@ export function LandingNavbar() {
               >
                 Open App
               </motion.button>
-            </Link>
+            </a>
 
             {/* Mobile Hamburger */}
             <motion.button
@@ -266,7 +280,7 @@ export function LandingNavbar() {
                   className="mt-3 pt-3"
                   style={{ borderTop: "1px solid var(--border)" }}
                 >
-                  <Link href="/dashboard">
+                  <a href="/dashboard" onClick={handleOpenApp}>
                     <motion.button
                       className="w-full py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-1.5"
                       style={{
@@ -281,7 +295,7 @@ export function LandingNavbar() {
                     >
                       Open App
                     </motion.button>
-                  </Link>
+                  </a>
                 </div>
               </div>
             </motion.div>
