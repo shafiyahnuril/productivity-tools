@@ -223,20 +223,20 @@ export default function AnalyticsPage() {
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "var(--color-surface)",
-                    border: "1px solid var(--color-border)",
+                    backgroundColor: "var(--surface)",
+                    border: "1px solid var(--border)",
                     borderRadius: "12px",
-                    color: "var(--color-foreground)",
+                    color: "var(--foreground)",
                     fontSize: "12px",
                   }}
-                  itemStyle={{ color: "var(--color-foreground-secondary)" }}
+                  itemStyle={{ color: "var(--foreground-secondary)" }}
                 />
                 <Legend
                   iconType="circle"
                   wrapperStyle={{
                     fontSize: "11px",
                     paddingTop: "10px",
-                    color: "var(--color-foreground-secondary)",
+                    color: "var(--foreground-secondary)",
                   }}
                 />
                 <Line
@@ -305,10 +305,10 @@ export default function AnalyticsPage() {
                 <Tooltip
                   cursor={{ fill: "rgba(0,0,0,0.04)", opacity: 0.8 }}
                   contentStyle={{
-                    backgroundColor: "var(--color-surface)",
-                    border: "1px solid var(--color-border)",
+                    backgroundColor: "var(--surface)",
+                    border: "1px solid var(--border)",
                     borderRadius: "12px",
-                    color: "var(--color-foreground)",
+                    color: "var(--foreground)",
                     fontSize: "12px",
                   }}
                 />
@@ -349,10 +349,10 @@ export default function AnalyticsPage() {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "var(--color-surface)",
-                      border: "1px solid var(--color-border)",
+                      backgroundColor: "var(--surface)",
+                      border: "1px solid var(--border)",
                       borderRadius: "12px",
-                      color: "var(--color-foreground)",
+                      color: "var(--foreground)",
                       fontSize: "12px",
                     }}
                   />
