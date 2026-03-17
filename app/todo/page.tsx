@@ -266,7 +266,7 @@ export default function TodoPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-            <Card className="flex flex-col" style={{ backgroundImage: 'linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)' }}>
+            <div className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm" style={{ backgroundImage: 'linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)' }}>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-1 h-5 rounded-full bg-primary/50" />
                 <div className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
@@ -295,9 +295,9 @@ export default function TodoPage() {
                   <div className="flex-1 bg-warning h-[50%] rounded-t-sm"></div>
                 </div>
               </div>
-            </Card>
+            </div>
 
-            <Card className="flex flex-col" style={{ backgroundImage: 'linear-gradient(135deg, rgba(217,119,6,0.03) 0%, transparent 100%)' }}>
+            <div className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm" style={{ backgroundImage: 'linear-gradient(135deg, rgba(217,119,6,0.03) 0%, transparent 100%)' }}>
               <div className="flex items-center gap-2 mb-3 pb-3 border-b border-border/50">
                 <div className="w-1 h-5 rounded-full bg-warning/50" />
                 <div className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
@@ -334,13 +334,13 @@ export default function TodoPage() {
                   </Tag>
                 </div>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
 
         {/* Categories Sidebar */}
         <div className="lg:col-span-4 flex flex-col gap-6">
-          <Card style={{ backgroundImage: 'linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)' }}>
+          <div className="rounded-3xl border border-border p-4 md:p-6 shadow-sm" style={{ backgroundImage: 'linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)' }}>
             <div className="flex items-center gap-2 mb-6 pb-3 border-b border-border/50">
               <div className="w-1 h-5 rounded-full bg-success/50" />
               <div className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
@@ -418,7 +418,7 @@ export default function TodoPage() {
                 </div>
               </div>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     </div>
