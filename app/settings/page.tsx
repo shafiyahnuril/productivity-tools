@@ -5,15 +5,7 @@ import { useState } from "react";
 import { Heading1, Heading2, Text, Caption } from "../components/ui/Typography";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Elements";
-import {
-  Sun,
-  Moon,
-  Timer,
-  Trash2,
-  RotateCcw,
-  AlertTriangle,
-  ChevronRight,
-} from "lucide-react";
+import { Sun, Moon, Trash2 } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { useTheme } from "../components/ThemeProvider";
 

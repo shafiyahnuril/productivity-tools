@@ -13,7 +13,6 @@ import {
   Flag,
   Edit2,
   Trash2,
-  MoreHorizontal,
   X,
   Check,
 } from "lucide-react";
@@ -454,7 +453,6 @@ export default function TodoPage() {
                   <X className="w-3 h-3" /> Hapus Filter
                 </button>
               )}
-              <MoreHorizontal className="w-5 h-5 text-foreground-secondary cursor-pointer hover:text-foreground transition-colors" />
             </div>
           </div>
 

@@ -6,15 +6,7 @@ import { Heading1, Heading2, Text } from "../components/ui/Typography";
 import { Card } from "../components/ui/Card";
 import { Button, Tag } from "../components/ui/Elements";
 import { AnalyticsDropdown } from "../components/ui/AnalyticsDropdown";
-import {
-  Clock,
-  BookOpen,
-  Target,
-  CheckCircle2,
-  ChevronDown,
-  DownloadCloud,
-  FileText,
-} from "lucide-react";
+import { ChevronDown, DownloadCloud, FileText } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -238,9 +230,7 @@ export default function AnalyticsPage() {
           }}
         >
           <div className="flex justify-between items-start">
-            <div className="p-2 bg-primary/20 rounded-lg">
-              <Clock className="w-5 h-5 text-primary" />
-            </div>
+            <div className="w-2 h-2 rounded-full bg-primary mt-1" />
             <Tag
               variant="success"
               className="bg-success/20 text-success border-success/30 text-xs"
@@ -269,9 +259,7 @@ export default function AnalyticsPage() {
           }}
         >
           <div className="flex justify-between items-start">
-            <div className="p-2 bg-success/20 rounded-lg">
-              <CheckCircle2 className="w-5 h-5 text-success" />
-            </div>
+            <div className="w-2 h-2 rounded-full bg-success mt-1" />
             <Tag
               variant="success"
               className="bg-success/20 text-success border-success/30 text-xs"
@@ -298,9 +286,7 @@ export default function AnalyticsPage() {
           }}
         >
           <div className="flex justify-between items-start">
-            <div className="p-2 bg-warning/20 rounded-lg">
-              <BookOpen className="w-5 h-5 text-warning" />
-            </div>
+            <div className="w-2 h-2 rounded-full bg-warning mt-1" />
             <Tag
               variant="success"
               className="bg-success/20 text-success border-success/30 text-xs"
@@ -326,9 +312,7 @@ export default function AnalyticsPage() {
           }}
         >
           <div className="flex justify-between items-start">
-            <div className="p-2 bg-danger/20 rounded-lg">
-              <Target className="w-5 h-5 text-danger" />
-            </div>
+            <div className="w-2 h-2 rounded-full bg-danger mt-1" />
             <Tag
               variant={completionRate >= 70 ? "success" : "danger"}
               className={`text-xs ${completionRate >= 70 ? "bg-success/20 text-success border-success/30" : "bg-danger/20 text-danger border-danger/30"}`}

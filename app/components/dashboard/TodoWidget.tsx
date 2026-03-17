@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card } from "../ui/Card";
 import { Tag } from "../ui/Elements";
 import { useStore } from "../../store/useStore";
-import { MoreHorizontal, Plus, Check } from "lucide-react";
+import { Plus, Check } from "lucide-react";
 
 const TAG_COLORS: Record<string, string> = {
   Assignment: "bg-primary/20 text-primary",
@@ -90,7 +90,6 @@ export function TodoWidget() {
           >
             <Plus className="w-3.5 h-3.5" />
           </button>
-          <MoreHorizontal className="w-4 h-4 text-foreground-secondary" />
         </div>
       </div>
 

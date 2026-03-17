@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Zap, Clock, FileText, Calendar, CheckSquare, BarChart2, Pencil, Target, BookOpen } from "lucide-react";
+import { ArrowRight, Clock, FileText, Calendar, CheckSquare, BarChart2 } from "lucide-react";
 
 /* Feature pills shown below the CTAs */
 const featurePills = [
@@ -64,7 +64,7 @@ export function HeroSection() {
           "--r": "-8deg",
         } as React.CSSProperties}
       >
-        <Pencil size={15} strokeWidth={1.8} /> stay focused
+        stay focused
       </div>
 
       {/* Chip 2 */}
@@ -82,7 +82,7 @@ export function HeroSection() {
           "--r": "6deg",
         } as React.CSSProperties}
       >
-        <Target size={15} strokeWidth={1.8} /> reach your goals
+        reach your goals
       </div>
 
       {/* Chip 3 */}
@@ -100,7 +100,7 @@ export function HeroSection() {
           "--r": "-4deg",
         } as React.CSSProperties}
       >
-        <BookOpen size={15} strokeWidth={1.8} /> learn smarter
+        learn smarter
       </div>
 
       {/* ── Main content ── */}
@@ -118,9 +118,7 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
         >
-          <Zap size={13} style={{ color: "var(--primary)" }} />
           <span>Boost Your Learning Productivity</span>
-          <Zap size={13} style={{ color: "var(--primary)" }} />
         </motion.div>
 
         {/* Main Headline in Playfair Display */}

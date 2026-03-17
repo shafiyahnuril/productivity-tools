@@ -14,7 +14,6 @@ import {
   Download,
   Share2,
   Trash2,
-  MoreHorizontal,
   FileText as FileTextIcon,
   Check,
   X,
@@ -446,7 +445,6 @@ export default function NotesPage() {
                 <div className="text-sm font-semibold text-foreground-secondary">
                   Semua Catatan
                 </div>
-                <MoreHorizontal className="w-4 h-4 text-foreground-secondary cursor-pointer" />
               </div>
               <div className="space-y-2">
                 {notes.slice(0, 5).map((note) => (

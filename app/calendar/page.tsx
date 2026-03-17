@@ -9,13 +9,10 @@ import { Button } from "../components/ui/Elements";
 import {
   Search,
   Plus,
-  MoreHorizontal,
   Clock,
   ChevronLeft,
   ChevronRight,
   Trash2,
-  BookOpen,
-  Briefcase,
 } from "lucide-react";
 import {
   startOfWeek,
@@ -418,7 +415,6 @@ export default function CalendarPage() {
                 >
                   <Plus className="w-4 h-4" />
                 </button>
-                <MoreHorizontal className="w-5 h-5 text-foreground-secondary cursor-pointer" />
               </div>
             </div>
 
