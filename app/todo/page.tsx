@@ -263,11 +263,20 @@ export default function TodoPage() {
         </div>
       </header>
 
-      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)', opacity: 0.4 }} />
+      <div
+        className="h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
+          opacity: 0.4,
+        }}
+      />
 
       <div className="flex items-center gap-3">
         <div className="w-1 h-6 rounded-full bg-success/40" />
-        <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">TO-DO DETAIL</Heading2>
+        <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+          TO-DO DETAIL
+        </Heading2>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -368,9 +377,12 @@ export default function TodoPage() {
               <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
                 TUGAS {filter}
                 {categoryFilter ? ` · ${categoryFilter}` : ""}
-                {searchQuery ? ` · "${searchQuery}"` : ""} — {filteredTodos.length} TUGAS
+                {searchQuery ? ` · "${searchQuery}"` : ""} —{" "}
+                {filteredTodos.length} TUGAS
               </Heading2>
-              <span className="text-[11px] text-foreground-tertiary font-medium">28 OKT</span>
+              <span className="text-[11px] text-foreground-tertiary font-medium">
+                28 OKT
+              </span>
             </div>
             <div className="flex items-center gap-2">
               {(categoryFilter || searchQuery) && (
@@ -521,7 +533,13 @@ export default function TodoPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-            <div className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm" style={{ backgroundImage: 'linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)' }}>
+            <div
+              className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm"
+              style={{
+                backgroundImage:
+                  "linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)",
+              }}
+            >
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-1 h-5 rounded-full bg-primary/50" />
                 <div className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
@@ -554,7 +572,13 @@ export default function TodoPage() {
               </div>
             </div>
 
-            <div className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm" style={{ backgroundImage: 'linear-gradient(135deg, rgba(217,119,6,0.03) 0%, transparent 100%)' }}>
+            <div
+              className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm"
+              style={{
+                backgroundImage:
+                  "linear-gradient(135deg, rgba(217,119,6,0.03) 0%, transparent 100%)",
+              }}
+            >
               <div className="flex items-center gap-2 mb-3 pb-3 border-b border-border/50">
                 <div className="w-1 h-5 rounded-full bg-warning/50" />
                 <div className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
@@ -610,7 +634,13 @@ export default function TodoPage() {
 
         {/* Categories Sidebar */}
         <div className="lg:col-span-4 flex flex-col gap-6">
-          <div className="rounded-3xl border border-border p-4 md:p-6 shadow-sm" style={{ backgroundImage: 'linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)' }}>
+          <div
+            className="rounded-3xl border border-border p-4 md:p-6 shadow-sm"
+            style={{
+              backgroundImage:
+                "linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)",
+            }}
+          >
             <div className="flex items-center gap-2 mb-6 pb-3 border-b border-border/50">
               <div className="w-1 h-5 rounded-full bg-success/50" />
               <div className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
@@ -666,7 +696,9 @@ export default function TodoPage() {
                         {cat}
                       </span>
                     </div>
-                    <span className={`font-semibold group-hover:scale-110 transition-transform ${countColors[idx]}`}>
+                    <span
+                      className={`font-semibold group-hover:scale-110 transition-transform ${countColors[idx]}`}
+                    >
                       ({categoryCounts[cat] ?? 0})
                     </span>
                   </button>
@@ -691,21 +723,30 @@ export default function TodoPage() {
               <div className="space-y-2">
                 <div className="flex justify-between text-xs items-center px-3 py-2 rounded-lg bg-primary/5 hover:bg-primary/10 border border-primary/10 hover:border-primary/30 transition-all duration-200 cursor-pointer group hover:shadow-sm">
                   <div className="flex items-center gap-2.5 text-primary font-medium">
-                    <Flag className="w-3.5 h-3.5 fill-primary group-hover:drop-shadow-sm transition-all" /> Tinggi
+                    <Flag className="w-3.5 h-3.5 fill-primary group-hover:drop-shadow-sm transition-all" />{" "}
+                    Tinggi
                   </div>
-                  <span className="text-primary font-semibold group-hover:scale-110 transition-transform">({priorityCounts.High})</span>
+                  <span className="text-primary font-semibold group-hover:scale-110 transition-transform">
+                    ({priorityCounts.High})
+                  </span>
                 </div>
                 <div className="flex justify-between text-xs items-center px-3 py-2 rounded-lg bg-warning/5 hover:bg-warning/10 border border-warning/10 hover:border-warning/30 transition-all duration-200 cursor-pointer group hover:shadow-sm">
                   <div className="flex items-center gap-2.5 text-warning font-medium">
-                    <Flag className="w-3.5 h-3.5 fill-warning group-hover:drop-shadow-sm transition-all" /> Sedang
+                    <Flag className="w-3.5 h-3.5 fill-warning group-hover:drop-shadow-sm transition-all" />{" "}
+                    Sedang
                   </div>
-                  <span className="text-warning font-semibold group-hover:scale-110 transition-transform">({priorityCounts.Medium})</span>
+                  <span className="text-warning font-semibold group-hover:scale-110 transition-transform">
+                    ({priorityCounts.Medium})
+                  </span>
                 </div>
                 <div className="flex justify-between text-xs items-center px-3 py-2 rounded-lg bg-foreground-secondary/5 hover:bg-foreground-secondary/10 border border-foreground-secondary/10 hover:border-foreground-secondary/30 transition-all duration-200 cursor-pointer group hover:shadow-sm">
                   <div className="flex items-center gap-2.5 text-foreground-secondary font-medium">
-                    <Flag className="w-3.5 h-3.5 fill-foreground-secondary group-hover:drop-shadow-sm transition-all" /> Rendah
+                    <Flag className="w-3.5 h-3.5 fill-foreground-secondary group-hover:drop-shadow-sm transition-all" />{" "}
+                    Rendah
                   </div>
-                  <span className="text-foreground-secondary font-semibold group-hover:scale-110 transition-transform">({priorityCounts.Low})</span>
+                  <span className="text-foreground-secondary font-semibold group-hover:scale-110 transition-transform">
+                    ({priorityCounts.Low})
+                  </span>
                 </div>
               </div>
             </div>

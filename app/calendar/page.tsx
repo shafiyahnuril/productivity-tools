@@ -202,12 +202,21 @@ export default function CalendarPage() {
         </div>
       </header>
 
-      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)', opacity: 0.4 }} />
+      <div
+        className="h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
+          opacity: 0.4,
+        }}
+      />
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-1 h-6 rounded-full bg-primary/40" />
-          <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">CALENDAR DETAIL</Heading2>
+          <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+            CALENDAR DETAIL
+          </Heading2>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -272,7 +281,14 @@ export default function CalendarPage() {
                   })}
                 </div>
 
-                <div className="flex-1 overflow-y-auto bg-surface relative min-h-125" style={{ backgroundImage: 'linear-gradient(90deg, transparent 0%, rgba(217,119,6,0.02) 14.28%, transparent 14.28%, transparent 100%)', backgroundSize: '100% 100%' }}>
+                <div
+                  className="flex-1 overflow-y-auto bg-surface relative min-h-125"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(90deg, transparent 0%, rgba(217,119,6,0.02) 14.28%, transparent 14.28%, transparent 100%)",
+                    backgroundSize: "100% 100%",
+                  }}
+                >
                   {/* Time labels */}
                   <div className="absolute left-0 top-0 bottom-0 w-[12.5%] border-r border-border text-xs text-foreground-secondary text-right pr-2 py-2 space-y-9.5 bg-surface z-10">
                     <div>08:00</div>
@@ -371,7 +387,9 @@ export default function CalendarPage() {
         <div className="md:col-span-1 flex flex-col gap-6">
           <Card className="flex-1">
             <div className="flex justify-between items-center mb-6">
-              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">AGENDA — {format(selectedDay, "d MMM")}</Heading2>
+              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+                AGENDA — {format(selectedDay, "d MMM")}
+              </Heading2>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setActiveModal("agenda")}

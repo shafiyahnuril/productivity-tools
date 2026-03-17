@@ -212,15 +212,30 @@ export default function AnalyticsPage() {
         </div>
       </header>
 
-      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)', opacity: 0.4 }} />
+      <div
+        className="h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
+          opacity: 0.4,
+        }}
+      />
 
       <div className="flex items-center gap-3">
         <div className="w-1 h-6 rounded-full bg-primary/40" />
-        <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">RINGKASAN STATISTIK</Heading2>
+        <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+          RINGKASAN STATISTIK
+        </Heading2>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card className="flex flex-col gap-2 hover:shadow-md transition-all duration-200 hover:scale-105" style={{ backgroundImage: 'linear-gradient(135deg, rgba(217,119,6,0.03) 0%, transparent 100%)' }}>
+        <Card
+          className="flex flex-col gap-2 hover:shadow-md transition-all duration-200 hover:scale-105"
+          style={{
+            backgroundImage:
+              "linear-gradient(135deg, rgba(217,119,6,0.03) 0%, transparent 100%)",
+          }}
+        >
           <div className="flex justify-between items-start">
             <div className="p-2 bg-primary/20 rounded-lg">
               <Clock className="w-5 h-5 text-primary" />
@@ -238,16 +253,20 @@ export default function AnalyticsPage() {
             </Tag>
           </div>
           <div>
-            <Text className="text-foreground text-xs">
-              Total Waktu Fokus
-            </Text>
+            <Text className="text-foreground text-xs">Total Waktu Fokus</Text>
             <div className="text-2xl font-bold mt-2 text-primary">
               {focusHoursDisplay || "0m"}
             </div>
           </div>
         </Card>
 
-        <Card className="flex flex-col gap-2 hover:shadow-md transition-all duration-200 hover:scale-105" style={{ backgroundImage: 'linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)' }}>
+        <Card
+          className="flex flex-col gap-2 hover:shadow-md transition-all duration-200 hover:scale-105"
+          style={{
+            backgroundImage:
+              "linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)",
+          }}
+        >
           <div className="flex justify-between items-start">
             <div className="p-2 bg-success/20 rounded-lg">
               <CheckCircle2 className="w-5 h-5 text-success" />
@@ -260,9 +279,7 @@ export default function AnalyticsPage() {
             </Tag>
           </div>
           <div>
-            <Text className="text-foreground text-xs">
-              Tugas Selesai
-            </Text>
+            <Text className="text-foreground text-xs">Tugas Selesai</Text>
             <div className="text-2xl font-bold mt-2 text-success">
               {completedTasks}
               <span className="text-sm text-foreground-secondary font-normal ml-1">
@@ -272,7 +289,13 @@ export default function AnalyticsPage() {
           </div>
         </Card>
 
-        <Card className="flex flex-col gap-2 hover:shadow-md transition-all duration-200 hover:scale-105" style={{ backgroundImage: 'linear-gradient(135deg, rgba(181,144,48,0.03) 0%, transparent 100%)' }}>
+        <Card
+          className="flex flex-col gap-2 hover:shadow-md transition-all duration-200 hover:scale-105"
+          style={{
+            backgroundImage:
+              "linear-gradient(135deg, rgba(181,144,48,0.03) 0%, transparent 100%)",
+          }}
+        >
           <div className="flex justify-between items-start">
             <div className="p-2 bg-warning/20 rounded-lg">
               <BookOpen className="w-5 h-5 text-warning" />
@@ -294,7 +317,13 @@ export default function AnalyticsPage() {
           </div>
         </Card>
 
-        <Card className="flex flex-col gap-2 hover:shadow-md transition-all duration-200 hover:scale-105" style={{ backgroundImage: 'linear-gradient(135deg, rgba(196,87,74,0.03) 0%, transparent 100%)' }}>
+        <Card
+          className="flex flex-col gap-2 hover:shadow-md transition-all duration-200 hover:scale-105"
+          style={{
+            backgroundImage:
+              "linear-gradient(135deg, rgba(196,87,74,0.03) 0%, transparent 100%)",
+          }}
+        >
           <div className="flex justify-between items-start">
             <div className="p-2 bg-danger/20 rounded-lg">
               <Target className="w-5 h-5 text-danger" />
@@ -308,20 +337,28 @@ export default function AnalyticsPage() {
             </Tag>
           </div>
           <div>
-            <Text className="text-foreground text-xs">
-              Target Penyelesaian
-            </Text>
-            <div className="text-2xl font-bold mt-2 text-danger">{completionRate}%</div>
+            <Text className="text-foreground text-xs">Target Penyelesaian</Text>
+            <div className="text-2xl font-bold mt-2 text-danger">
+              {completionRate}%
+            </div>
           </div>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card className="space-y-4 hover:shadow-md transition-all duration-200" style={{ backgroundImage: 'linear-gradient(135deg, rgba(217,119,6,0.02) 0%, transparent 100%)' }}>
+        <Card
+          className="space-y-4 hover:shadow-md transition-all duration-200"
+          style={{
+            backgroundImage:
+              "linear-gradient(135deg, rgba(217,119,6,0.02) 0%, transparent 100%)",
+          }}
+        >
           <div className="flex items-center gap-3 pb-3 border-b border-border/50">
             <div className="w-1 h-5 rounded-full bg-primary/40" />
             <div className="flex justify-between items-center flex-1">
-              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">TREN FOKUS {period.toUpperCase()}</Heading2>
+              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+                TREN FOKUS {period.toUpperCase()}
+              </Heading2>
               <AnalyticsDropdown
                 options={[
                   { value: "Waktu (Jam)", label: "Waktu (Jam)" },
@@ -401,11 +438,19 @@ export default function AnalyticsPage() {
           </div>
         </Card>
 
-        <Card className="space-y-4 hover:shadow-md transition-all duration-200" style={{ backgroundImage: 'linear-gradient(135deg, rgba(90,138,110,0.02) 0%, transparent 100%)' }}>
+        <Card
+          className="space-y-4 hover:shadow-md transition-all duration-200"
+          style={{
+            backgroundImage:
+              "linear-gradient(135deg, rgba(90,138,110,0.02) 0%, transparent 100%)",
+          }}
+        >
           <div className="flex items-center gap-3 pb-3 border-b border-border/50">
             <div className="w-1 h-5 rounded-full bg-success/40" />
             <div className="flex justify-between items-center flex-1">
-              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">TUGAS SELESAI PER MINGGU</Heading2>
+              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+                TUGAS SELESAI PER MINGGU
+              </Heading2>
               <AnalyticsDropdown
                 options={[
                   { value: "Bulan Ini", label: "Bulan Ini" },
@@ -465,10 +510,18 @@ export default function AnalyticsPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <Card className="lg:col-span-1 space-y-4 hover:shadow-md transition-all duration-200" style={{ backgroundImage: 'linear-gradient(135deg, rgba(181,144,48,0.03) 0%, transparent 100%)' }}>
+        <Card
+          className="lg:col-span-1 space-y-4 hover:shadow-md transition-all duration-200"
+          style={{
+            backgroundImage:
+              "linear-gradient(135deg, rgba(181,144,48,0.03) 0%, transparent 100%)",
+          }}
+        >
           <div className="flex items-center gap-3 pb-3 border-b border-border/50">
             <div className="w-1 h-5 rounded-full bg-warning/40" />
-            <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">DISTRIBUSI AKTIVITAS</Heading2>
+            <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+              DISTRIBUSI AKTIVITAS
+            </Heading2>
           </div>
           <div className="flex items-center gap-3">
             <div className="h-[160px] w-1/3 flex items-center justify-center flex-shrink-0">
@@ -512,18 +565,28 @@ export default function AnalyticsPage() {
                     ></div>
                     <span className="text-foreground">{item.name}</span>
                   </div>
-                  <span className="font-semibold text-foreground">{item.value}%</span>
+                  <span className="font-semibold text-foreground">
+                    {item.value}%
+                  </span>
                 </div>
               ))}
             </div>
           </div>
         </Card>
 
-        <Card className="lg:col-span-2 space-y-4 flex flex-col hover:shadow-md transition-all duration-200" style={{ backgroundImage: 'linear-gradient(135deg, rgba(90,138,110,0.02) 0%, transparent 100%)' }}>
+        <Card
+          className="lg:col-span-2 space-y-4 flex flex-col hover:shadow-md transition-all duration-200"
+          style={{
+            backgroundImage:
+              "linear-gradient(135deg, rgba(90,138,110,0.02) 0%, transparent 100%)",
+          }}
+        >
           <div className="flex justify-between items-center pb-3 border-b border-border/50">
             <div className="flex items-center gap-3">
               <div className="w-1 h-5 rounded-full bg-success/40" />
-              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">PENCAPAIAN SASARAN (GOALS)</Heading2>
+              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+                PENCAPAIAN SASARAN (GOALS)
+              </Heading2>
             </div>
             <Button
               variant="ghost"
@@ -538,7 +601,9 @@ export default function AnalyticsPage() {
             {/* Static goals from HEAD */}
             <div className="space-y-1">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-medium text-foreground">Selesaikan Modul React</span>
+                <span className="font-medium text-foreground">
+                  Selesaikan Modul React
+                </span>
                 <span className="text-primary font-bold text-xs">80%</span>
               </div>
               <div className="w-full bg-surface h-1.5 rounded-full overflow-hidden">
@@ -574,7 +639,9 @@ export default function AnalyticsPage() {
 
             <div className="space-y-1">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-medium text-foreground">Persiapan UTS Kalkulus</span>
+                <span className="font-medium text-foreground">
+                  Persiapan UTS Kalkulus
+                </span>
                 <span className="text-warning font-bold text-xs">20%</span>
               </div>
               <div className="w-full bg-surface h-1.5 rounded-full overflow-hidden">
