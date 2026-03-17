@@ -32,7 +32,8 @@ export default function BottomNavigation() {
     >
       <div className="flex justify-around items-center h-16 px-2">
         {links.map((link) => {
-          const isActive = pathname === link.href;
+          const isActive =
+            pathname === link.href || pathname.startsWith(`${link.href}/`);
           const Icon = link.icon;
           return (
             <Link
@@ -40,7 +41,7 @@ export default function BottomNavigation() {
               href={link.href}
               className={`flex flex-col items-center justify-center w-12 h-12 rounded-full transition-all duration-200 active:scale-95 ${
                 isActive
-                  ? "bg-primary text-white shadow-md"
+                  ? "bg-orange-500/15 text-orange-500"
                   : "text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary"
               }`}
             >
