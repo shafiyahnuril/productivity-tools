@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "../../store/useStore";
+import { useRef } from "react";
+import gsap from "gsap";
 
 const scrollToSection = (id: string) => {
   const element = document.getElementById(id);
@@ -21,6 +23,54 @@ export function LandingNavbar() {
   const [activeSection, setActiveSection] = useState("hero");
   const router = useRouter();
   const setLandingTransition = useStore((s) => s.setLandingTransition);
+  const themeBtnRef = useRef<HTMLButtonElement>(null);
+
+  const handleToggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const btn = themeBtnRef.current;
+    if (!btn) {
+      toggleTheme();
+      return;
+    }
+
+    const rect = btn.getBoundingClientRect();
+    const originX = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
+    const originY = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
+
+    const overlay = document.createElement("div");
+    const newBg = theme === "light" ? "#141312" : "#faf7f2";
+    overlay.style.cssText = `
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      background: ${newBg};
+      clip-path: circle(0% at ${originX}% ${originY}%);
+      will-change: clip-path;
+    `;
+    document.body.appendChild(overlay);
+
+    gsap.to(overlay, {
+      clipPath: `circle(155% at ${originX}% ${originY}%)`,
+      duration: 0.45,
+      ease: "power3.inOut",
+      onComplete: () => {
+        document.documentElement.classList.add("no-transition");
+        toggleTheme();
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            document.documentElement.classList.remove("no-transition");
+            gsap.to(overlay, {
+              clipPath: `circle(0% at ${originX}% ${originY}%)`,
+              duration: 0.4,
+              ease: "power3.inOut",
+              onComplete: () => overlay.remove(),
+            });
+          });
+        });
+      },
+    });
+  };
 
   const handleOpenApp = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -162,7 +212,8 @@ export function LandingNavbar() {
           <div className="flex items-center gap-2">
             {/* Theme Toggle */}
             <motion.button
-              onClick={toggleTheme}
+              ref={themeBtnRef}
+              onClick={handleToggleTheme}
               title={theme === "light" ? "Dark Mode" : "Light Mode"}
               className="w-[38px] h-[38px] rounded-xl border flex items-center justify-center"
               style={{
