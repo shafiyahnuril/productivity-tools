@@ -405,7 +405,7 @@ export default function CalendarPage() {
 
         {/* Sidebar right - 1/3 width */}
         <div className="md:col-span-1 flex flex-col gap-6">
-          <Card className="flex-1">
+          <Card className="h-fit">
             <div className="flex justify-between items-center mb-6">
               <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
                 AGENDA — {format(selectedDay, "d MMM")}
@@ -419,78 +419,6 @@ export default function CalendarPage() {
                   <Plus className="w-4 h-4" />
                 </button>
                 <MoreHorizontal className="w-5 h-5 text-foreground-secondary cursor-pointer" />
-              </div>
-            </div>
-
-            {/* Timeline Items (Agenda Tetap) */}
-            <div className="space-y-5 mb-5 pb-5 border-b border-border/50">
-              <div className="flex gap-4">
-                <div className="w-12 text-xs text-foreground-secondary font-medium pt-1 text-right">
-                  10:00
-                </div>
-                <div className="flex-1 bg-surface-elevated p-3 rounded-xl rounded-tl-none relative before:absolute before:w-1.5 before:-left-1.5 before:top-0 before:bottom-0 before:bg-primary before:rounded-l-xl">
-                  <div className="flex justify-between items-start">
-                    <div className="flex gap-2 items-center text-sm font-semibold mb-1">
-                      <Clock className="w-4 h-4 text-primary" /> Sesi Fokus
-                      Pomodoro
-                    </div>
-                    <div className="w-2 h-2 rounded-full bg-primary mt-1"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="w-12 text-xs text-foreground-secondary font-medium pt-1 text-right">
-                  11:30
-                </div>
-                <div className="flex-1 pl-3">
-                  <div className="flex gap-2 items-center text-sm text-foreground-secondary mb-1">
-                    <Clock className="w-4 h-4" /> Sesi Fokus Berakhir
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="w-12 text-xs text-foreground-secondary font-medium pt-1 text-right">
-                  11:45
-                </div>
-                <div className="flex-1 bg-surface-elevated p-3 rounded-xl rounded-tl-none relative before:absolute before:w-1.5 before:-left-1.5 before:top-0 before:bottom-0 before:bg-success before:rounded-l-xl">
-                  <div className="flex justify-between items-start">
-                    <div className="flex gap-2 items-center text-sm font-semibold mb-1 text-success">
-                      Sesi Istirahat Pendek
-                    </div>
-                    <div className="w-2 h-2 rounded-full bg-success mt-1"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="w-12 text-xs text-foreground-secondary font-medium pt-1 text-right">
-                  12:30
-                </div>
-                <div className="flex-1 bg-surface-elevated p-3 rounded-xl rounded-tl-none relative before:absolute before:w-1.5 before:-left-1.5 before:top-0 before:bottom-0 before:bg-success before:rounded-l-xl border border-success/30">
-                  <div className="flex justify-between items-start">
-                    <div className="flex gap-2 items-center text-sm font-semibold mb-1">
-                      <BookOpen className="w-4 h-4 text-success" /> Belajar
-                      Biologi
-                    </div>
-                    <div className="w-2 h-2 rounded-full bg-success mt-1"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="w-12 text-xs text-foreground-secondary font-medium pt-1 text-right">
-                  14:00
-                </div>
-                <div className="flex-1 bg-surface-elevated p-3 rounded-xl rounded-tl-none relative before:absolute before:w-1.5 before:-left-1.5 before:top-0 before:bottom-0 before:bg-warning before:rounded-l-xl">
-                  <div className="flex justify-between items-start">
-                    <div className="flex gap-2 items-center text-sm font-semibold mb-1">
-                      <Briefcase className="w-4 h-4 text-warning" /> Rapat Tim
-                    </div>
-                    <div className="w-2 h-2 rounded-full bg-warning mt-1"></div>
-                  </div>
-                </div>
               </div>
             </div>
 
