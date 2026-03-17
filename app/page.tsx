@@ -119,7 +119,7 @@ export default function Home() {
               <div className="w-1 h-6 rounded-full bg-primary/40" />
               <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">ANALYTICS PREVIEW</Heading2>
             </div>
-            <div className="bg-surface rounded-3xl p-4 md:p-6 border border-border shadow-sm dark:bg-surface" style={{ backgroundImage: 'linear-gradient(135deg, rgba(217,119,6,0.04) 0%, transparent 100%)', backgroundAttachment: 'fixed', backgroundSize: '100% 100%' }}>
+            <div className="bg-surface rounded-3xl p-4 md:p-6 border border-border shadow-sm dark:bg-surface transition-all duration-200 hover:shadow-md hover:scale-[1.01] hover:-translate-y-0.5 cursor-pointer" style={{ backgroundImage: 'linear-gradient(135deg, rgba(217,119,6,0.04) 0%, transparent 100%)', backgroundAttachment: 'fixed', backgroundSize: '100% 100%' }}>
               <div className="flex justify-between items-start mb-4">
                 <div className="text-[11px] text-foreground-secondary">
                   Weekly focus hour trend

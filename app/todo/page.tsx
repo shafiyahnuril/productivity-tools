@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { Heading1, Heading2, Text } from "../components/ui/Typography";
 import { Card } from "../components/ui/Card";
 import { Button, Tag } from "../components/ui/Elements";
@@ -58,6 +58,13 @@ export default function TodoPage() {
   const [editDescription, setEditDescription] = useState("");
   const [editPriority, setEditPriority] = useState<Priority>("Medium");
   const [editDueDate, setEditDueDate] = useState("");
+
+  // Hover state untuk chart tooltips
+  const [hoveredChart, setHoveredChart] = useState<"tren" | "tenggat" | null>(null);
+  const chartRefs = {
+    tren: useRef<HTMLDivElement>(null),
+    tenggat: useRef<HTMLDivElement>(null),
+  };
 
   const filteredTodos = useMemo(() => {
     let result = todos;
@@ -534,7 +541,10 @@ export default function TodoPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             <div
-              className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm"
+              ref={chartRefs.tren}
+              onMouseEnter={() => setHoveredChart("tren")}
+              onMouseLeave={() => setHoveredChart(null)}
+              className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm transition-all duration-200 hover:shadow-md hover:scale-[1.01] hover:-translate-y-0.5 cursor-pointer relative"
               style={{
                 backgroundImage:
                   "linear-gradient(135deg, rgba(90,138,110,0.03) 0%, transparent 100%)",
@@ -570,10 +580,27 @@ export default function TodoPage() {
                   <div className="flex-1 bg-warning h-[50%] rounded-t-sm"></div>
                 </div>
               </div>
+
+              {/* Tooltip */}
+              {hoveredChart === "tren" && (
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-surface-elevated border border-border rounded-lg px-3 py-2 shadow-md whitespace-nowrap z-10 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                  <div className="text-[10px] font-semibold text-foreground">
+                    {todos.length > 0
+                      ? `${Math.round((todos.filter((t) => t.completed).length / todos.length) * 100)}% Selesai`
+                      : "Tidak ada tugas"}
+                  </div>
+                  <div className="text-[9px] text-foreground-secondary mt-0.5">
+                    {todos.filter((t) => t.completed).length} dari {todos.length} tugas
+                  </div>
+                </div>
+              )}
             </div>
 
             <div
-              className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm"
+              ref={chartRefs.tenggat}
+              onMouseEnter={() => setHoveredChart("tenggat")}
+              onMouseLeave={() => setHoveredChart(null)}
+              className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm transition-all duration-200 hover:shadow-md hover:scale-[1.01] hover:-translate-y-0.5 cursor-pointer relative"
               style={{
                 backgroundImage:
                   "linear-gradient(135deg, rgba(217,119,6,0.03) 0%, transparent 100%)",
@@ -628,6 +655,18 @@ export default function TodoPage() {
                   </Tag>
                 </div>
               </div>
+
+              {/* Tooltip */}
+              {hoveredChart === "tenggat" && (
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-surface-elevated border border-border rounded-lg px-3 py-2 shadow-md whitespace-nowrap z-10 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                  <div className="text-[10px] font-semibold text-foreground">
+                    {todos.filter((t) => !t.completed).length} Tugas Aktif
+                  </div>
+                  <div className="text-[9px] text-foreground-secondary mt-0.5">
+                    {priorityCounts.High > 0 && `${priorityCounts.High} urgency tinggi`}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
