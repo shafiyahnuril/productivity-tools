@@ -121,7 +121,7 @@ export default function AccountPage() {
       />
 
       {/* Profile + Stats grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
         {/* Profile card */}
         <Card className="md:col-span-1 flex flex-col items-center text-center gap-4">
           <div className="relative">
