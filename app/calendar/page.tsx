@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Heading1, Heading2, Text } from "../components/ui/Typography";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Elements";
@@ -16,6 +16,8 @@ import {
   Trash2,
   BookOpen,
   Briefcase,
+  FileDown,
+  X as XIcon,
 } from "lucide-react";
 import {
   startOfWeek,
@@ -88,6 +90,23 @@ export default function CalendarPage() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDay, setSelectedDay] = useState(new Date());
+  const [meatballOpen, setMeatballOpen] = useState(false);
+  const meatballRef = useRef<HTMLDivElement>(null);
+
+  // Close meatball on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        meatballRef.current &&
+        !meatballRef.current.contains(e.target as Node)
+      ) {
+        setMeatballOpen(false);
+      }
+    }
+    if (meatballOpen)
+      document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [meatballOpen]);
 
   // Update current time every minute
   useEffect(() => {
@@ -148,6 +167,28 @@ export default function CalendarPage() {
     weekStart,
     startOfWeek(new Date(), { weekStartsOn: 1 }),
   );
+
+  const handleClearDayEvents = () => {
+    todayEvents.forEach((ev) => deleteCalendarEvent(ev.id));
+    setMeatballOpen(false);
+  };
+
+  const handleExportAgenda = () => {
+    const dayLabel = format(selectedDay, "EEEE, d MMMM yyyy");
+    const lines = todayEvents.map(
+      (ev) =>
+        `- **${ev.startTime}–${ev.endTime}** ${ev.title}${ev.description ? ` — ${ev.description}` : ""} [${ev.category}]`,
+    );
+    const content = `# Agenda — ${dayLabel}\n\n${lines.length > 0 ? lines.join("\n") : "_Tidak ada agenda._"}`;
+    const blob = new Blob([content], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `agenda-${format(selectedDay, "yyyyMMdd")}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setMeatballOpen(false);
+  };
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-10">
@@ -418,7 +459,38 @@ export default function CalendarPage() {
                 >
                   <Plus className="w-4 h-4" />
                 </button>
-                <MoreHorizontal className="w-5 h-5 text-foreground-secondary cursor-pointer" />
+                {/* Meatball menu */}
+                <div className="relative" ref={meatballRef}>
+                  <button
+                    onClick={() => setMeatballOpen((v) => !v)}
+                    className={`p-1 rounded-lg transition-colors ${meatballOpen ? "bg-surface-elevated text-foreground" : "text-foreground-secondary hover:text-foreground hover:bg-surface-elevated"}`}
+                    title="Opsi agenda"
+                  >
+                    <MoreHorizontal className="w-5 h-5" />
+                  </button>
+                  {meatballOpen && (
+                    <div className="absolute right-0 top-8 z-50 bg-surface border border-border rounded-2xl shadow-xl w-52 py-1 overflow-hidden">
+                      <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-foreground-tertiary border-b border-border mb-1">
+                        Agenda — {format(selectedDay, "d MMM")}
+                      </div>
+                      <button
+                        onClick={handleExportAgenda}
+                        className="w-full text-left px-3 py-2 text-sm flex items-center gap-2 text-foreground hover:bg-surface-elevated transition-colors"
+                      >
+                        <FileDown className="w-3.5 h-3.5 text-success" />
+                        Export Agenda (.md)
+                      </button>
+                      <button
+                        onClick={handleClearDayEvents}
+                        disabled={todayEvents.length === 0}
+                        className="w-full text-left px-3 py-2 text-sm flex items-center gap-2 text-danger hover:bg-danger/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        <XIcon className="w-3.5 h-3.5" />
+                        Hapus Semua Hari Ini ({todayEvents.length})
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 

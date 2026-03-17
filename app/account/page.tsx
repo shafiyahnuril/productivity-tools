@@ -27,6 +27,22 @@ export default function AccountPage() {
   const [bio, setBio] = useState(
     "Student & productivity enthusiast. Always learning, always growing.",
   );
+  const [avatarSrc, setAvatarSrc] = useState(
+    "https://i.pravatar.cc/150?img=47",
+  );
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
+
+  const PRESET_AVATARS = [
+    "https://i.pravatar.cc/150?img=47",
+    "https://i.pravatar.cc/150?img=44",
+    "https://i.pravatar.cc/150?img=45",
+    "https://i.pravatar.cc/150?img=48",
+    "https://i.pravatar.cc/150?img=49",
+    "https://i.pravatar.cc/150?img=50",
+    "https://i.pravatar.cc/150?img=51",
+    "https://i.pravatar.cc/150?img=52",
+    "https://i.pravatar.cc/150?img=53",
+  ];
 
   const [draftName, setDraftName] = useState(name);
   const [draftEmail, setDraftEmail] = useState(email);
@@ -69,7 +85,7 @@ export default function AccountPage() {
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/20 shrink-0">
             <Image
-              src="https://i.pravatar.cc/150?img=47"
+              src={avatarSrc}
               alt="Profile"
               width={48}
               height={48}
@@ -127,14 +143,18 @@ export default function AccountPage() {
           <div className="relative">
             <div className="w-24 h-24 rounded-full overflow-hidden bg-primary/20 ring-4 ring-primary/20">
               <Image
-                src="https://i.pravatar.cc/150?img=47"
+                src={avatarSrc}
                 alt="Profile"
                 width={96}
                 height={96}
                 className="w-full h-full object-cover"
               />
             </div>
-            <button className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md hover:bg-primary/80 transition-colors">
+            <button
+              onClick={() => setShowAvatarPicker(true)}
+              className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md hover:bg-primary/80 transition-colors"
+              title="Ganti foto profil"
+            >
               <Camera className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -302,6 +322,49 @@ export default function AccountPage() {
           </div>
         </div>
       </div>
+
+      {/* Avatar Picker Modal */}
+      {showAvatarPicker && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-surface rounded-2xl p-6 w-full max-w-sm shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-base font-bold">Pilih Foto Profil</h2>
+              <button
+                onClick={() => setShowAvatarPicker(false)}
+                className="p-1.5 hover:bg-surface-elevated rounded-lg text-foreground-secondary"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              {PRESET_AVATARS.map((src) => (
+                <button
+                  key={src}
+                  onClick={() => {
+                    setAvatarSrc(src);
+                    setShowAvatarPicker(false);
+                  }}
+                  className={`relative rounded-2xl overflow-hidden aspect-square ring-2 transition-all hover:scale-105 ${
+                    avatarSrc === src
+                      ? "ring-primary shadow-md"
+                      : "ring-transparent hover:ring-border"
+                  }`}
+                >
+                  <Image src={src} alt="Avatar" fill className="object-cover" />
+                  {avatarSrc === src && (
+                    <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                      <Check className="w-6 h-6 text-white drop-shadow" />
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-foreground-secondary text-center mt-4">
+              Klik avatar untuk memilih
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

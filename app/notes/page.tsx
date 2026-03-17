@@ -19,6 +19,10 @@ import {
   Check,
   X,
   ArrowLeft,
+  SortAsc,
+  SortDesc,
+  FileDown,
+  ArrowUpDown,
 } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { format, parseISO, isValid } from "date-fns";
@@ -28,6 +32,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   Exam: "bg-warning/20 text-warning",
   Study: "bg-success/20 text-success",
 };
+
+type SortOrder = "date-desc" | "date-asc" | "title-asc";
 
 function formatUpdatedAt(dateStr: string) {
   try {
@@ -43,6 +49,7 @@ export default function NotesPage() {
   const { notes, updateNote, deleteNote, setActiveModal } = useStore();
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("date-desc");
   const [activeNoteId, setActiveNoteId] = useState<string | null>(
     notes.length > 0 ? notes[0].id : null,
   );
@@ -51,22 +58,53 @@ export default function NotesPage() {
   const [editContent, setEditContent] = useState("");
   const [shareSuccess, setShareSuccess] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [meatballOpen, setMeatballOpen] = useState(false);
+  const [exportSuccess, setExportSuccess] = useState(false);
 
   const contentRef = useRef<HTMLDivElement>(null);
+  const meatballRef = useRef<HTMLDivElement>(null);
 
-  const filteredNotes = notes.filter((n) => {
-    if (!searchQuery.trim()) return true;
-    const q = searchQuery.toLowerCase();
-    return (
-      n.title.toLowerCase().includes(q) ||
-      n.content.toLowerCase().includes(q) ||
-      n.categories.some((c) => c.toLowerCase().includes(q))
-    );
-  });
+  // Close meatball menu on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        meatballRef.current &&
+        !meatballRef.current.contains(e.target as Node)
+      ) {
+        setMeatballOpen(false);
+      }
+    }
+    if (meatballOpen)
+      document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [meatballOpen]);
+
+  const sortedFilteredNotes = [...notes]
+    .filter((n) => {
+      if (!searchQuery.trim()) return true;
+      const q = searchQuery.toLowerCase();
+      return (
+        n.title.toLowerCase().includes(q) ||
+        n.content.toLowerCase().includes(q) ||
+        n.categories.some((c) => c.toLowerCase().includes(q))
+      );
+    })
+    .sort((a, b) => {
+      if (sortOrder === "date-desc") {
+        return (
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        );
+      } else if (sortOrder === "date-asc") {
+        return (
+          new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
+        );
+      } else {
+        return a.title.localeCompare(b.title);
+      }
+    });
 
   const activeNote = notes.find((n) => n.id === activeNoteId) ?? null;
 
-  // When active note changes, if we were editing without saving, reset
   const selectNote = (id: string) => {
     setIsEditing(false);
     setActiveNoteId(id);
@@ -82,7 +120,6 @@ export default function NotesPage() {
 
   const saveEdit = useCallback(() => {
     if (!activeNote) return;
-    // Get content from contentEditable if available
     const content = contentRef.current
       ? contentRef.current.innerText
       : editContent;
@@ -103,7 +140,6 @@ export default function NotesPage() {
     deleteNote(activeNote.id);
     setShowDeleteConfirm(false);
     setIsEditing(false);
-    // Select next available note
     const remaining = notes.filter((n) => n.id !== activeNote.id);
     if (remaining.length > 0) {
       const nextIndex = Math.min(currentIndex, remaining.length - 1);
@@ -113,16 +149,45 @@ export default function NotesPage() {
     }
   };
 
+  // Export active note as Markdown
   const handleExport = () => {
     if (!activeNote) return;
-    const content = `${activeNote.title}\n${"=".repeat(activeNote.title.length)}\n\n${activeNote.content}`;
-    const blob = new Blob([content], { type: "text/plain" });
+    const catLine =
+      activeNote.categories.length > 0
+        ? `**Kategori:** ${activeNote.categories.join(", ")}\n`
+        : "";
+    const dateLine = `**Diperbarui:** ${formatUpdatedAt(activeNote.updatedAt)}\n`;
+    const content = `# ${activeNote.title}\n\n${catLine}${dateLine}\n---\n\n${activeNote.content}`;
+    const blob = new Blob([content], { type: "text/markdown" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${activeNote.title.replace(/[^a-z0-9]/gi, "_")}.txt`;
+    a.download = `${activeNote.title.replace(/[^a-z0-9]/gi, "_")}.md`;
     a.click();
     URL.revokeObjectURL(url);
+    setExportSuccess(true);
+    setTimeout(() => setExportSuccess(false), 2000);
+  };
+
+  // Export all notes as a single Markdown file
+  const handleExportAll = () => {
+    const content = notes
+      .map((n) => {
+        const catLine =
+          n.categories.length > 0
+            ? `**Kategori:** ${n.categories.join(", ")}\n`
+            : "";
+        return `# ${n.title}\n\n${catLine}**Diperbarui:** ${formatUpdatedAt(n.updatedAt)}\n\n---\n\n${n.content}`;
+      })
+      .join("\n\n---\n\n");
+    const blob = new Blob([content], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `paper-os-semua-catatan-${format(new Date(), "yyyyMMdd")}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setMeatballOpen(false);
   };
 
   const handleShare = async () => {
@@ -141,16 +206,20 @@ export default function NotesPage() {
     setActiveModal("note");
   };
 
-  // When notes change and there's no active note, select first
   useEffect(() => {
     if (!activeNoteId && notes.length > 0) {
-      // Use setTimeout to avoid synchronous setState warning during render
       const timer = setTimeout(() => {
         setActiveNoteId(notes[0].id);
       }, 0);
       return () => clearTimeout(timer);
     }
   }, [notes, activeNoteId]);
+
+  const SORT_LABELS: Record<SortOrder, string> = {
+    "date-desc": "Terbaru",
+    "date-asc": "Terlama",
+    "title-asc": "Judul A-Z",
+  };
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-10 min-h-screen flex flex-col">
@@ -229,7 +298,7 @@ export default function NotesPage() {
           <div className="lg:col-span-3 flex flex-col gap-3">
             <div className="flex justify-between items-center">
               <span className="text-sm font-semibold text-foreground-secondary uppercase">
-                Catatan ({filteredNotes.length})
+                Catatan ({sortedFilteredNotes.length})
               </span>
               <button
                 onClick={handleNewNote}
@@ -238,6 +307,25 @@ export default function NotesPage() {
               >
                 <Plus className="w-4 h-4" />
               </button>
+            </div>
+
+            {/* Sort bar */}
+            <div className="flex gap-1">
+              {(["date-desc", "date-asc", "title-asc"] as SortOrder[]).map(
+                (s) => (
+                  <button
+                    key={s}
+                    onClick={() => setSortOrder(s)}
+                    className={`flex-1 text-[10px] py-1 px-1.5 rounded-lg font-medium transition-colors ${
+                      sortOrder === s
+                        ? "bg-primary text-white"
+                        : "bg-surface-elevated text-foreground-secondary hover:text-foreground"
+                    }`}
+                  >
+                    {SORT_LABELS[s]}
+                  </button>
+                ),
+              )}
             </div>
 
             {/* Mobile search */}
@@ -253,12 +341,12 @@ export default function NotesPage() {
             </div>
 
             <div className="flex flex-col gap-2 max-h-[60vh] lg:max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
-              {filteredNotes.length === 0 && (
+              {sortedFilteredNotes.length === 0 && (
                 <div className="text-center py-8 text-foreground-secondary text-sm">
                   Tidak ada catatan.
                 </div>
               )}
-              {filteredNotes.map((note) => (
+              {sortedFilteredNotes.map((note) => (
                 <button
                   key={note.id}
                   onClick={() => selectNote(note.id)}
@@ -412,8 +500,17 @@ export default function NotesPage() {
                   disabled={!activeNote}
                   className="flex items-center gap-2 p-3 bg-surface-elevated hover:bg-border rounded-xl text-sm transition-colors cursor-pointer border border-transparent disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  <Download className="w-4 h-4 text-foreground-secondary" />{" "}
-                  Export
+                  {exportSuccess ? (
+                    <>
+                      <Check className="w-4 h-4 text-success" />
+                      <span className="text-success text-xs">Tersimpan!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-4 h-4 text-foreground-secondary" />{" "}
+                      Export .md
+                    </>
+                  )}
                 </button>
                 <button
                   onClick={handleShare}
@@ -446,7 +543,63 @@ export default function NotesPage() {
                 <div className="text-sm font-semibold text-foreground-secondary">
                   Semua Catatan
                 </div>
-                <MoreHorizontal className="w-4 h-4 text-foreground-secondary cursor-pointer" />
+                {/* Meatball Menu */}
+                <div className="relative" ref={meatballRef}>
+                  <button
+                    onClick={() => setMeatballOpen((v) => !v)}
+                    className={`p-1 rounded-lg transition-colors ${meatballOpen ? "bg-surface-elevated text-foreground" : "text-foreground-secondary hover:text-foreground hover:bg-surface-elevated"}`}
+                    title="Opsi"
+                  >
+                    <MoreHorizontal className="w-4 h-4" />
+                  </button>
+                  {meatballOpen && (
+                    <div className="absolute right-0 top-8 z-50 bg-surface border border-border rounded-2xl shadow-xl w-48 py-1 overflow-hidden">
+                      <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-foreground-tertiary border-b border-border mb-1">
+                        Urutkan
+                      </div>
+                      {(
+                        ["date-desc", "date-asc", "title-asc"] as SortOrder[]
+                      ).map((s) => (
+                        <button
+                          key={s}
+                          onClick={() => {
+                            setSortOrder(s);
+                            setMeatballOpen(false);
+                          }}
+                          className={`w-full text-left px-3 py-2 text-sm flex items-center gap-2 transition-colors ${
+                            sortOrder === s
+                              ? "text-primary bg-primary/5"
+                              : "text-foreground hover:bg-surface-elevated"
+                          }`}
+                        >
+                          {s === "date-desc" && (
+                            <SortDesc className="w-3.5 h-3.5" />
+                          )}
+                          {s === "date-asc" && (
+                            <SortAsc className="w-3.5 h-3.5" />
+                          )}
+                          {s === "title-asc" && (
+                            <ArrowUpDown className="w-3.5 h-3.5" />
+                          )}
+                          {SORT_LABELS[s]}
+                          {sortOrder === s && (
+                            <Check className="w-3 h-3 ml-auto text-primary" />
+                          )}
+                        </button>
+                      ))}
+                      <div className="border-t border-border mt-1 pt-1">
+                        <button
+                          onClick={handleExportAll}
+                          disabled={notes.length === 0}
+                          className="w-full text-left px-3 py-2 text-sm flex items-center gap-2 text-foreground hover:bg-surface-elevated transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          <FileDown className="w-3.5 h-3.5 text-success" />
+                          Export Semua (.md)
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="space-y-2">
                 {notes.slice(0, 5).map((note) => (

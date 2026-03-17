@@ -76,6 +76,7 @@ interface AppState {
   setActiveModal: (modal: "todo" | "note" | "agenda" | null) => void;
   setFabMenuOpen: (open: boolean) => void;
   clearAllTodos: () => void;
+  clearCompletedTodos: () => void;
   clearAllNotes: () => void;
   clearAllCalendarEvents: () => void;
   resetTimerHistory: () => void;
@@ -257,6 +258,8 @@ export const useStore = create<AppState>((set) => ({
   setActiveModal: (modal) => set({ activeModal: modal }),
   setFabMenuOpen: (open) => set({ fabMenuOpen: open }),
   clearAllTodos: () => set({ todos: [] }),
+  clearCompletedTodos: () =>
+    set((state) => ({ todos: state.todos.filter((t) => !t.completed) })),
   clearAllNotes: () => set({ notes: [] }),
   clearAllCalendarEvents: () => set({ calendarEvents: [] }),
   resetTimerHistory: () =>

@@ -29,9 +29,25 @@ const TAG_COLORS: Record<string, string> = {
   Study: "bg-success/15 text-success",
 };
 
-export function NotesPreview() {
+interface NotesPreviewProps {
+  searchQuery?: string;
+}
+
+export function NotesPreview({ searchQuery = "" }: NotesPreviewProps) {
   const { notes } = useStore();
-  const preview = notes.slice(0, 3);
+
+  const filtered = searchQuery.trim()
+    ? notes.filter((n) => {
+        const q = searchQuery.toLowerCase();
+        return (
+          n.title.toLowerCase().includes(q) ||
+          n.content.toLowerCase().includes(q) ||
+          n.categories.some((c) => c.toLowerCase().includes(q))
+        );
+      })
+    : notes;
+
+  const preview = filtered.slice(0, 3);
 
   return (
     <div className="flex-1 flex flex-col">
@@ -64,9 +80,9 @@ export function NotesPreview() {
           );
         })}
 
-        {notes.length === 0 && (
+        {filtered.length === 0 && (
           <div className="text-xs text-foreground-tertiary text-center py-4 md:col-span-2 lg:col-span-1">
-            No notes yet.
+            {searchQuery ? "Tidak ada catatan cocok." : "No notes yet."}
           </div>
         )}
       </div>

@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { Card } from "../ui/Card";
 import { Tag } from "../ui/Elements";
 import { useStore } from "../../store/useStore";
-import { MoreHorizontal, Plus, Check } from "lucide-react";
+import {
+  MoreHorizontal,
+  Plus,
+  Check,
+  CheckCheck,
+  ExternalLink,
+} from "lucide-react";
 
 const TAG_COLORS: Record<string, string> = {
   Assignment: "bg-primary/20 text-primary",
@@ -27,15 +34,56 @@ function isTodayDate(dateStr: string) {
   );
 }
 
-export function TodoWidget() {
-  const { todos, toggleTodo, addTodo } = useStore();
+interface TodoWidgetProps {
+  searchQuery?: string;
+  filterPriority?: string | null;
+}
+
+export function TodoWidget({
+  searchQuery = "",
+  filterPriority = null,
+}: TodoWidgetProps) {
+  const { todos, toggleTodo, addTodo, clearCompletedTodos } = useStore();
   const [filter, setFilter] = useState<"all" | "today">("today");
   const [showAddForm, setShowAddForm] = useState(false);
   const [newTitle, setNewTitle] = useState("");
+  const [meatballOpen, setMeatballOpen] = useState(false);
+  const meatballRef = useRef<HTMLDivElement>(null);
 
-  const visibleTodos = filter === "today"
-    ? todos.filter((t) => t.dueDate && isTodayDate(t.dueDate))
-    : todos;
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        meatballRef.current &&
+        !meatballRef.current.contains(e.target as Node)
+      ) {
+        setMeatballOpen(false);
+      }
+    }
+    if (meatballOpen)
+      document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [meatballOpen]);
+
+  let visibleTodos =
+    filter === "today"
+      ? todos.filter((t) => t.dueDate && isTodayDate(t.dueDate))
+      : todos;
+
+  // Apply external search filter
+  if (searchQuery.trim()) {
+    const q = searchQuery.toLowerCase();
+    visibleTodos = visibleTodos.filter(
+      (t) =>
+        t.title.toLowerCase().includes(q) ||
+        t.description?.toLowerCase().includes(q) ||
+        t.categories.some((c) => c.toLowerCase().includes(q)),
+    );
+  }
+
+  // Apply external priority filter
+  if (filterPriority) {
+    visibleTodos = visibleTodos.filter((t) => t.priority === filterPriority);
+  }
 
   const handleAdd = () => {
     if (!newTitle.trim()) return;
@@ -49,6 +97,8 @@ export function TodoWidget() {
     setNewTitle("");
     setShowAddForm(false);
   };
+
+  const completedCount = todos.filter((t) => t.completed).length;
 
   return (
     <div className="flex flex-col gap-4">
@@ -90,7 +140,37 @@ export function TodoWidget() {
           >
             <Plus className="w-3.5 h-3.5" />
           </button>
-          <MoreHorizontal className="w-4 h-4 text-foreground-secondary" />
+          {/* Meatball menu */}
+          <div className="relative" ref={meatballRef}>
+            <button
+              onClick={() => setMeatballOpen((v) => !v)}
+              className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${meatballOpen ? "bg-surface-elevated text-foreground" : "text-foreground-secondary hover:bg-surface-elevated hover:text-foreground"}`}
+              title="Opsi"
+            >
+              <MoreHorizontal className="w-4 h-4" />
+            </button>
+            {meatballOpen && (
+              <div className="absolute right-0 top-8 z-50 bg-surface border border-border rounded-2xl shadow-xl w-48 py-1 overflow-hidden">
+                <button
+                  onClick={() => {
+                    clearCompletedTodos();
+                    setMeatballOpen(false);
+                  }}
+                  disabled={completedCount === 0}
+                  className="w-full text-left px-3 py-2 text-sm flex items-center gap-2 text-foreground hover:bg-surface-elevated transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <CheckCheck className="w-3.5 h-3.5 text-success" />
+                  Hapus Selesai ({completedCount})
+                </button>
+                <Link href="/todo" onClick={() => setMeatballOpen(false)}>
+                  <span className="w-full text-left px-3 py-2 text-sm flex items-center gap-2 text-foreground hover:bg-surface-elevated transition-colors cursor-pointer">
+                    <ExternalLink className="w-3.5 h-3.5 text-primary" />
+                    Lihat Semua Tugas
+                  </span>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -104,7 +184,10 @@ export function TodoWidget() {
             onChange={(e) => setNewTitle(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") handleAdd();
-              if (e.key === "Escape") { setShowAddForm(false); setNewTitle(""); }
+              if (e.key === "Escape") {
+                setShowAddForm(false);
+                setNewTitle("");
+              }
             }}
             placeholder="New task title..."
             className="flex-1 bg-transparent text-sm focus:outline-none placeholder:text-foreground-tertiary"
@@ -145,7 +228,9 @@ export function TodoWidget() {
               <div className="flex-1 min-w-0">
                 <div
                   className={`text-sm font-semibold ${
-                    todo.completed ? "line-through text-foreground-secondary" : ""
+                    todo.completed
+                      ? "line-through text-foreground-secondary"
+                      : ""
                   }`}
                 >
                   {todo.title}
@@ -154,7 +239,9 @@ export function TodoWidget() {
                   {todo.categories.map((cat) => (
                     <Tag
                       key={cat}
-                      colorClassName={TAG_COLORS[cat] ?? "bg-primary/20 text-primary"}
+                      colorClassName={
+                        TAG_COLORS[cat] ?? "bg-primary/20 text-primary"
+                      }
                     >
                       {cat}
                     </Tag>
@@ -163,11 +250,13 @@ export function TodoWidget() {
               </div>
 
               {todo.dueDate && (
-                <div className={`text-xs shrink-0 mt-0.5 ${
-                  todo.completed
-                    ? "text-foreground-tertiary"
-                    : "text-foreground-secondary"
-                }`}>
+                <div
+                  className={`text-xs shrink-0 mt-0.5 ${
+                    todo.completed
+                      ? "text-foreground-tertiary"
+                      : "text-foreground-secondary"
+                  }`}
+                >
                   {formatDueTime(todo.dueDate)}
                 </div>
               )}

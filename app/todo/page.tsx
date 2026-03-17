@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Heading1, Heading2, Text } from "../components/ui/Typography";
 import { Card } from "../components/ui/Card";
 import { Button, Tag } from "../components/ui/Elements";
@@ -16,9 +16,14 @@ import {
   MoreHorizontal,
   X,
   Check,
+  SortAsc,
+  SortDesc,
+  ArrowUpDown,
+  FileDown,
+  CheckCheck,
 } from "lucide-react";
 import { useStore } from "../store/useStore";
-import { isToday, isThisWeek, isFuture, parseISO } from "date-fns";
+import { isToday, isThisWeek, isFuture, parseISO, format } from "date-fns";
 import {
   PieChart,
   Pie,
@@ -43,12 +48,24 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 export default function TodoPage() {
-  const { todos, toggleTodo, addTodo, updateTodo, deleteTodo, setActiveModal } =
-    useStore();
+  const {
+    todos,
+    toggleTodo,
+    addTodo,
+    updateTodo,
+    deleteTodo,
+    clearCompletedTodos,
+    setActiveModal,
+  } = useStore();
 
   const [filter, setFilter] = useState("HARI INI");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<
+    "priority-high" | "priority-low" | "date-asc" | "title-asc"
+  >("priority-high");
+  const [meatballOpen, setMeatballOpen] = useState(false);
+  const meatballRef = useRef<HTMLDivElement>(null);
 
   // Top add-task form state
   const [newTitle, setNewTitle] = useState("");
@@ -95,43 +112,67 @@ export default function TodoPage() {
     }
 
     // Tab filter
-    if (filter === "SEMUA") return result;
-    if (filter === "SELESAI") return result.filter((t) => t.completed);
-    if (filter === "HARI INI") {
-      return result.filter((t) => {
-        if (t.completed) return false;
-        if (!t.dueDate) return true;
-        try {
-          return isToday(parseISO(t.dueDate));
-        } catch {
-          return false;
-        }
-      });
+    if (filter !== "SEMUA") {
+      if (filter === "SELESAI") result = result.filter((t) => t.completed);
+      else if (filter === "HARI INI") {
+        result = result.filter((t) => {
+          if (t.completed) return false;
+          if (!t.dueDate) return true;
+          try {
+            return isToday(parseISO(t.dueDate));
+          } catch {
+            return false;
+          }
+        });
+      } else if (filter === "MINGGU INI") {
+        result = result.filter((t) => {
+          if (t.completed) return false;
+          if (!t.dueDate) return false;
+          try {
+            return isThisWeek(parseISO(t.dueDate), { weekStartsOn: 1 });
+          } catch {
+            return false;
+          }
+        });
+      } else if (filter === "MENDATANG") {
+        result = result.filter((t) => {
+          if (t.completed) return false;
+          if (!t.dueDate) return false;
+          try {
+            return (
+              isFuture(parseISO(t.dueDate)) && !isToday(parseISO(t.dueDate))
+            );
+          } catch {
+            return false;
+          }
+        });
+      }
     }
-    if (filter === "MINGGU INI") {
-      return result.filter((t) => {
-        if (t.completed) return false;
-        if (!t.dueDate) return false;
-        try {
-          return isThisWeek(parseISO(t.dueDate), { weekStartsOn: 1 });
-        } catch {
-          return false;
-        }
-      });
-    }
-    if (filter === "MENDATANG") {
-      return result.filter((t) => {
-        if (t.completed) return false;
-        if (!t.dueDate) return false;
-        try {
-          return isFuture(parseISO(t.dueDate)) && !isToday(parseISO(t.dueDate));
-        } catch {
-          return false;
-        }
-      });
-    }
-    return result;
-  }, [todos, filter, searchQuery, categoryFilter]);
+
+    // Sort
+    const PRIORITY_RANK: Record<string, number> = {
+      High: 0,
+      Medium: 1,
+      Low: 2,
+    };
+    return [...result].sort((a, b) => {
+      if (sortOrder === "priority-high")
+        return (
+          (PRIORITY_RANK[a.priority] ?? 2) - (PRIORITY_RANK[b.priority] ?? 2)
+        );
+      if (sortOrder === "priority-low")
+        return (
+          (PRIORITY_RANK[b.priority] ?? 2) - (PRIORITY_RANK[a.priority] ?? 2)
+        );
+      if (sortOrder === "date-asc")
+        return (
+          new Date(a.dueDate ?? 0).getTime() -
+          new Date(b.dueDate ?? 0).getTime()
+        );
+      if (sortOrder === "title-asc") return a.title.localeCompare(b.title);
+      return 0;
+    });
+  }, [todos, filter, searchQuery, categoryFilter, sortOrder]);
 
   // Category counts
   const categoryCounts = useMemo(() => {
@@ -254,6 +295,51 @@ export default function TodoPage() {
     } catch {
       return null;
     }
+  };
+
+  // Click-outside for meatball
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        meatballRef.current &&
+        !meatballRef.current.contains(e.target as Node)
+      ) {
+        setMeatballOpen(false);
+      }
+    }
+    if (meatballOpen)
+      document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [meatballOpen]);
+
+  const handleExportTodos = () => {
+    const lines = filteredTodos.map((t) => {
+      const status = t.completed ? "[x]" : "[ ]";
+      const due = t.dueDate
+        ? ` · ${format(parseISO(t.dueDate), "dd MMM yyyy")}`
+        : "";
+      const cats =
+        t.categories.length > 0 ? ` (${t.categories.join(", ")})` : "";
+      const desc = t.description ? `\n   ${t.description}` : "";
+      return `- ${status} **${t.title}**${cats} | ${t.priority}${due}${desc}`;
+    });
+    const header = `# To-Do — ${filter}\n*Diekspor: ${format(new Date(), "dd MMM yyyy HH:mm")}*\n\n`;
+    const content = header + lines.join("\n");
+    const blob = new Blob([content], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `todos-${filter.toLowerCase()}-${format(new Date(), "yyyyMMdd")}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setMeatballOpen(false);
+  };
+
+  const SORT_LABELS: Record<string, string> = {
+    "priority-high": "Prioritas ↑",
+    "priority-low": "Prioritas ↓",
+    "date-asc": "Tenggat ↑",
+    "title-asc": "Judul A-Z",
   };
 
   return (
@@ -454,7 +540,83 @@ export default function TodoPage() {
                   <X className="w-3 h-3" /> Hapus Filter
                 </button>
               )}
-              <MoreHorizontal className="w-5 h-5 text-foreground-secondary cursor-pointer hover:text-foreground transition-colors" />
+              {/* Meatball Menu */}
+              <div className="relative" ref={meatballRef}>
+                <button
+                  onClick={() => setMeatballOpen((v) => !v)}
+                  className={`p-1 rounded-lg transition-colors ${meatballOpen ? "bg-surface-elevated text-foreground" : "text-foreground-secondary hover:text-foreground hover:bg-surface-elevated"}`}
+                  title="Opsi"
+                >
+                  <MoreHorizontal className="w-5 h-5" />
+                </button>
+                {meatballOpen && (
+                  <div className="absolute right-0 top-8 z-50 bg-surface border border-border rounded-2xl shadow-xl w-52 py-1 overflow-hidden">
+                    <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-foreground-tertiary border-b border-border mb-1">
+                      Urutkan
+                    </div>
+                    {(
+                      [
+                        "priority-high",
+                        "priority-low",
+                        "date-asc",
+                        "title-asc",
+                      ] as const
+                    ).map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => {
+                          setSortOrder(s);
+                          setMeatballOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-sm flex items-center gap-2 transition-colors ${
+                          sortOrder === s
+                            ? "text-primary bg-primary/5"
+                            : "text-foreground hover:bg-surface-elevated"
+                        }`}
+                      >
+                        {s === "priority-high" && (
+                          <SortDesc className="w-3.5 h-3.5" />
+                        )}
+                        {s === "priority-low" && (
+                          <SortAsc className="w-3.5 h-3.5" />
+                        )}
+                        {s === "date-asc" && (
+                          <CalendarIcon className="w-3.5 h-3.5" />
+                        )}
+                        {s === "title-asc" && (
+                          <ArrowUpDown className="w-3.5 h-3.5" />
+                        )}
+                        {SORT_LABELS[s]}
+                        {sortOrder === s && (
+                          <Check className="w-3 h-3 ml-auto text-primary" />
+                        )}
+                      </button>
+                    ))}
+                    <div className="border-t border-border mt-1 pt-1">
+                      <button
+                        onClick={() => {
+                          clearCompletedTodos();
+                          setMeatballOpen(false);
+                        }}
+                        disabled={todos.filter((t) => t.completed).length === 0}
+                        className="w-full text-left px-3 py-2 text-sm flex items-center gap-2 text-foreground hover:bg-surface-elevated transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        <CheckCheck className="w-3.5 h-3.5 text-success" />
+                        Hapus Selesai ({todos.filter((t) => t.completed).length}
+                        )
+                      </button>
+                      <button
+                        onClick={handleExportTodos}
+                        disabled={filteredTodos.length === 0}
+                        className="w-full text-left px-3 py-2 text-sm flex items-center gap-2 text-foreground hover:bg-surface-elevated transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        <FileDown className="w-3.5 h-3.5 text-info" />
+                        Export Daftar (.md)
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
