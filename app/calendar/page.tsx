@@ -172,7 +172,7 @@ export default function CalendarPage() {
         <div className="hidden md:flex items-center gap-3">
           <Button
             onClick={() => setActiveModal("agenda")}
-            className="!hidden md:!inline-flex items-center gap-2"
+            className="hidden! md:inline-flex! items-center gap-2"
           >
             <Plus className="w-4 h-4" /> Add New
           </Button>
@@ -214,7 +214,7 @@ export default function CalendarPage() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-1 h-6 rounded-full bg-primary/40" />
-          <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+          <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
             CALENDAR DETAIL
           </Heading2>
         </div>
@@ -225,7 +225,7 @@ export default function CalendarPage() {
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-sm font-medium min-w-[120px] text-center">
+          <span className="text-sm font-medium min-w-30 text-center">
             {format(weekStart, "d MMM")} –{" "}
             {format(addDays(weekStart, 6), "d MMM yyyy")}
           </span>
@@ -251,7 +251,7 @@ export default function CalendarPage() {
         <div className="md:col-span-2">
           <Card className="p-0 overflow-hidden h-full flex flex-col">
             <div className="overflow-x-auto flex-1 flex flex-col">
-              <div className="min-w-[800px] flex-1 flex flex-col">
+              <div className="min-w-200 flex-1 flex flex-col">
                 {/* Day headers */}
                 <div className="grid grid-cols-8 border-b border-border bg-surface-elevated text-center">
                   <div className="p-3"></div>
@@ -387,7 +387,7 @@ export default function CalendarPage() {
         <div className="md:col-span-1 flex flex-col gap-6">
           <Card className="flex-1">
             <div className="flex justify-between items-center mb-6">
-              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
                 AGENDA — {format(selectedDay, "d MMM")}
               </Heading2>
               <div className="flex items-center gap-2">
@@ -586,7 +586,7 @@ export default function CalendarPage() {
                 </div>
               </div>
             </Card>
-            <Card className="flex flex-col min-h-[150px]">
+            <Card className="flex flex-col min-h-37.5">
               <div className="text-xs font-semibold mb-4 text-center">
                 Jadwal vs. Selesai
               </div>

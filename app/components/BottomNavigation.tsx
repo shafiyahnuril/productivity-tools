@@ -17,7 +17,7 @@ export default function BottomNavigation() {
   const navRef = useRef<HTMLElement>(null);
 
   const links = [
-    { href: "/", label: "Home", icon: Home },
+    { href: "/dashboard", label: "Home", icon: Home },
     { href: "/notes", label: "Notes", icon: FileText },
     { href: "/timer", label: "Focus", icon: Clock },
     { href: "/calendar", label: "Calendar", icon: Calendar },

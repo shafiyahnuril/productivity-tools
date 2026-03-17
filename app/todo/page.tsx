@@ -248,7 +248,7 @@ export default function TodoPage() {
         <div className="hidden md:flex items-center gap-3">
           <Button
             onClick={() => setActiveModal("todo")}
-            className="!hidden md:!inline-flex items-center gap-2"
+            className="hidden! md:inline-flex! items-center gap-2"
           >
             <Plus className="w-4 h-4" /> Add New
           </Button>
@@ -289,7 +289,7 @@ export default function TodoPage() {
 
       <div className="flex items-center gap-3">
         <div className="w-1 h-6 rounded-full bg-success/40" />
-        <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+        <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
           TO-DO DETAIL
         </Heading2>
       </div>
@@ -389,7 +389,7 @@ export default function TodoPage() {
           <div className="flex justify-between items-center mt-2 pb-3 border-b border-border">
             <div className="flex items-center gap-2">
               <div className="w-1 h-5 rounded-full bg-success/50" />
-              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
                 TUGAS {filter}
                 {categoryFilter ? ` · ${categoryFilter}` : ""}
                 {searchQuery ? ` · "${searchQuery}"` : ""} —{" "}
@@ -455,7 +455,7 @@ export default function TodoPage() {
                       {todo.title}
                     </div>
                     {todo.description && (
-                      <div className="text-xs text-foreground-secondary mt-1 max-w-xs break-words whitespace-normal">
+                      <div className="text-xs text-foreground-secondary mt-1 max-w-xs wrap-break-word whitespace-normal">
                         {todo.description}
                       </div>
                     )}
@@ -537,7 +537,7 @@ export default function TodoPage() {
                 <Button
                   type="submit"
                   variant="secondary"
-                  className="flex items-center justify-center gap-2 border border-border flex-[2] sm:flex-none whitespace-nowrap"
+                  className="flex items-center justify-center gap-2 border border-border flex-2 sm:flex-none whitespace-nowrap"
                 >
                   <Plus className="w-4 h-4" />{" "}
                   <span className="hidden sm:inline">Tambah Tugas Cepat</span>

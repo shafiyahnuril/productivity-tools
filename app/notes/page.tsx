@@ -171,7 +171,7 @@ export default function NotesPage() {
         <div className="hidden md:flex items-center gap-3">
           <Button
             onClick={handleNewNote}
-            className="!hidden md:!inline-flex items-center gap-2"
+            className="hidden! md:inline-flex! items-center gap-2"
           >
             <Plus className="w-4 h-4" /> Add New
           </Button>

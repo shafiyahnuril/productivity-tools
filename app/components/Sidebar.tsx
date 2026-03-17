@@ -17,7 +17,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const navItems = [
-    { name: "Dashboard", href: "/", icon: Home },
+    { name: "Dashboard", href: "/dashboard", icon: Home },
     { name: "Notes", href: "/notes", icon: FileText },
     { name: "Focus", href: "/timer", icon: Clock },
     { name: "Calendar", href: "/calendar", icon: Calendar },
@@ -55,10 +55,12 @@ export default function Sidebar() {
 
   return (
     <aside className="hidden md:flex fixed left-0 top-0 h-screen w-20 md:w-24 bg-background-secondary border-r border-border flex-col items-center py-6 overflow-y-auto z-40">
-      {/* Logo badge */}
-      <div className="w-10 h-10 bg-primary/15 text-primary rounded-2xl flex items-center justify-center mb-8 font-black text-sm tracking-tighter select-none">
-        PA
-      </div>
+      {/* Logo badge - clickable to go back to landing */}
+      <Link href="/" title="Back to Home">
+        <div className="w-10 h-10 bg-primary/15 text-primary rounded-2xl flex items-center justify-center mb-8 font-black text-sm tracking-tighter select-none hover:bg-primary/25 hover:text-primary transition-all duration-200 active:scale-95">
+          PA
+        </div>
+      </Link>
 
       <nav className="flex-1 flex flex-col items-center w-full">
         {navItems.map((item) => (

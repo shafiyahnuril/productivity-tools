@@ -178,7 +178,7 @@ export default function AnalyticsPage() {
     <div className="max-w-7xl mx-auto space-y-5 pb-10">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full overflow-hidden bg-primary/20 flex-shrink-0">
+          <div className="w-10 h-10 rounded-full overflow-hidden bg-primary/20 shrink-0">
             <Image
               src="https://i.pravatar.cc/150?img=47"
               alt="Profile"
@@ -223,7 +223,7 @@ export default function AnalyticsPage() {
 
       <div className="flex items-center gap-3">
         <div className="w-1 h-6 rounded-full bg-primary/40" />
-        <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+        <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
           RINGKASAN STATISTIK
         </Heading2>
       </div>
@@ -356,7 +356,7 @@ export default function AnalyticsPage() {
           <div className="flex items-center gap-3 pb-3 border-b border-border/50">
             <div className="w-1 h-5 rounded-full bg-primary/40" />
             <div className="flex justify-between items-center flex-1">
-              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
                 TREN FOKUS {period.toUpperCase()}
               </Heading2>
               <AnalyticsDropdown
@@ -370,7 +370,7 @@ export default function AnalyticsPage() {
               />
             </div>
           </div>
-          <div className="h-[220px] w-full">
+          <div className="h-55 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={trendData}
@@ -448,7 +448,7 @@ export default function AnalyticsPage() {
           <div className="flex items-center gap-3 pb-3 border-b border-border/50">
             <div className="w-1 h-5 rounded-full bg-success/40" />
             <div className="flex justify-between items-center flex-1">
-              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
                 TUGAS SELESAI PER MINGGU
               </Heading2>
               <AnalyticsDropdown
@@ -462,7 +462,7 @@ export default function AnalyticsPage() {
               />
             </div>
           </div>
-          <div className="h-[220px] w-full">
+          <div className="h-55 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={barData}
@@ -519,12 +519,12 @@ export default function AnalyticsPage() {
         >
           <div className="flex items-center gap-3 pb-3 border-b border-border/50">
             <div className="w-1 h-5 rounded-full bg-warning/40" />
-            <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+            <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
               DISTRIBUSI AKTIVITAS
             </Heading2>
           </div>
           <div className="flex items-center gap-3">
-            <div className="h-[160px] w-1/3 flex items-center justify-center flex-shrink-0">
+            <div className="h-40 w-1/3 flex items-center justify-center shrink-0">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -584,7 +584,7 @@ export default function AnalyticsPage() {
           <div className="flex justify-between items-center pb-3 border-b border-border/50">
             <div className="flex items-center gap-3">
               <div className="w-1 h-5 rounded-full bg-success/40" />
-              <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">
+              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
                 PENCAPAIAN SASARAN (GOALS)
               </Heading2>
             </div>

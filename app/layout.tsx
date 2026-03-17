@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Sidebar from "./components/Sidebar";
-import BottomNavigation from "./components/BottomNavigation";
-import MobileHeader from "./components/MobileHeader";
-import FloatingThemeToggle from "./components/FloatingThemeToggle";
-import FloatingAddButton from "./components/FloatingAddButton";
 import { ThemeProvider } from "./components/ThemeProvider";
+import ConditionalNav from "./components/ConditionalNav";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -43,14 +39,9 @@ export default function RootLayout({
         className={`${inter.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         <ThemeProvider>
-          <MobileHeader />
-          <Sidebar />
-          <BottomNavigation />
-          <FloatingThemeToggle />
-          <FloatingAddButton />
-          <main className="md:ml-24 min-h-screen p-4 pt-20 md:pt-8 md:p-8 pb-32 md:pb-8">
+          <ConditionalNav>
             {children}
-          </main>
+          </ConditionalNav>
         </ThemeProvider>
       </body>
     </html>
