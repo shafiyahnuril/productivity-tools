@@ -511,7 +511,7 @@ export default function AnalyticsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card
-          className="lg:col-span-1 space-y-4 hover:shadow-md transition-all duration-200"
+          className="lg:col-span-1 h-fit space-y-4 hover:shadow-md transition-all duration-200"
           style={{
             backgroundImage:
               "linear-gradient(135deg, rgba(181,144,48,0.03) 0%, transparent 100%)",

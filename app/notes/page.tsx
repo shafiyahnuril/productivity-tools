@@ -40,7 +40,7 @@ function formatUpdatedAt(dateStr: string) {
 }
 
 export default function NotesPage() {
-  const { notes, addNote, updateNote, deleteNote, setActiveModal } = useStore();
+  const { notes, updateNote, deleteNote, setActiveModal } = useStore();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [activeNoteId, setActiveNoteId] = useState<string | null>(
@@ -144,7 +144,11 @@ export default function NotesPage() {
   // When notes change and there's no active note, select first
   useEffect(() => {
     if (!activeNoteId && notes.length > 0) {
-      setActiveNoteId(notes[0].id);
+      // Use setTimeout to avoid synchronous setState warning during render
+      const timer = setTimeout(() => {
+        setActiveNoteId(notes[0].id);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [notes, activeNoteId]);
 
@@ -258,12 +262,15 @@ export default function NotesPage() {
                 <button
                   key={note.id}
                   onClick={() => selectNote(note.id)}
-                  className={`text-left p-3 rounded-2xl border bg-surface shadow-sm transition-all ${
+                  className={`relative text-left py-3 pr-3 pl-4 rounded-2xl border bg-surface shadow-sm transition-all overflow-hidden ${
                     note.id === activeNoteId
-                      ? "border-primary ring-1 ring-primary/20"
+                      ? "border-primary/50 shadow-md bg-primary/4"
                       : "border-border hover:bg-surface-elevated"
                   }`}
                 >
+                  {note.id === activeNoteId && (
+                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-primary" />
+                  )}
                   <div className="text-sm font-semibold line-clamp-1 mb-1">
                     {note.title}
                   </div>
@@ -339,7 +346,7 @@ export default function NotesPage() {
                       ref={contentRef}
                       contentEditable
                       suppressContentEditableWarning
-                      className="flex-1 overflow-y-auto text-base leading-relaxed text-foreground-secondary outline-none border border-border rounded-xl p-4 min-h-[200px]"
+                      className="flex-1 overflow-y-auto text-base leading-relaxed text-foreground-secondary outline-none border border-border rounded-xl p-4 min-h-50"
                       dangerouslySetInnerHTML={{ __html: editContent }}
                     />
                     <div className="flex gap-3 mt-4 pt-4 border-t border-border">
@@ -446,7 +453,7 @@ export default function NotesPage() {
                   <button
                     key={note.id}
                     onClick={() => selectNote(note.id)}
-                    className={`w-full flex items-center gap-3 p-2.5 rounded-xl transition-colors text-left ${
+                    className={`w-full flex items-center gap-3 p-2.5 rounded-md transition-colors text-left ${
                       note.id === activeNoteId
                         ? "bg-primary/10"
                         : "hover:bg-surface-elevated"

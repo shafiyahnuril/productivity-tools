@@ -297,7 +297,14 @@ export default function TimerPage() {
         </div>
       </header>
 
-      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)', opacity: 0.4 }} />
+      <div
+        className="h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
+          opacity: 0.4,
+        }}
+      />
 
       <div className="flex items-center gap-3">
         <div className="w-1 h-6 rounded-full bg-primary/40" />
@@ -614,7 +621,7 @@ export default function TimerPage() {
                       }}
                       itemStyle={{ color: "var(--color-foreground)" }}
                       labelStyle={{ display: "none" }}
-                      formatter={(value: any) => [`${value}m`, "Fokus"]}
+                      formatter={(value: number) => [`${value}m`, "Fokus"]}
                     />
                     <Area
                       type="monotone"
