@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo } from "react";
 import { Heading1, Heading2, Text } from "../components/ui/Typography";
 import { Card } from "../components/ui/Card";
 import { Button, Tag } from "../components/ui/Elements";
@@ -61,10 +61,6 @@ export default function TodoPage() {
 
   // Hover state untuk chart tooltips
   const [hoveredChart, setHoveredChart] = useState<"tren" | "tenggat" | null>(null);
-  const chartRefs = {
-    tren: useRef<HTMLDivElement>(null),
-    tenggat: useRef<HTMLDivElement>(null),
-  };
 
   const filteredTodos = useMemo(() => {
     let result = todos;
@@ -139,6 +135,18 @@ export default function TodoPage() {
       High: todos.filter((t) => t.priority === "High").length,
       Medium: todos.filter((t) => t.priority === "Medium").length,
       Low: todos.filter((t) => t.priority === "Low").length,
+    }),
+    [todos],
+  );
+
+  // Chart statistics
+  const chartStats = useMemo(
+    () => ({
+      completed: todos.filter((t) => t.completed).length,
+      active: todos.filter((t) => !t.completed).length,
+      completionRate: todos.length > 0
+        ? Math.round((todos.filter((t) => t.completed).length / todos.length) * 100)
+        : 0,
     }),
     [todos],
   );
@@ -365,7 +373,7 @@ export default function TodoPage() {
           </form>
 
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide shrink-0">
-            {["Hari Ini", "Minggu Ini", "Mendatang", "Selesai", "Semua"].map(
+            {["HARI INI", "MINGGU INI", "MENDATANG", "SELESAI", "SEMUA"].map(
               (tab) => (
                 <button
                   key={tab}
@@ -541,7 +549,6 @@ export default function TodoPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             <div
-              ref={chartRefs.tren}
               onMouseEnter={() => setHoveredChart("tren")}
               onMouseLeave={() => setHoveredChart(null)}
               className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm transition-all duration-200 hover:shadow-md hover:scale-[1.01] hover:-translate-y-0.5 cursor-pointer relative"
@@ -561,11 +568,11 @@ export default function TodoPage() {
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 rounded bg-primary"></span> Selesai
-                    ({todos.filter((t) => t.completed).length})
+                    ({chartStats.completed})
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 rounded bg-warning"></span> Aktif (
-                    {todos.filter((t) => !t.completed).length})
+                    {chartStats.active})
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 rounded bg-danger"></span> Total (
@@ -583,21 +590,20 @@ export default function TodoPage() {
 
               {/* Tooltip */}
               {hoveredChart === "tren" && (
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-surface-elevated border border-border rounded-lg px-3 py-2 shadow-md whitespace-nowrap z-10 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-surface-elevated border border-border rounded-lg px-3 py-2 shadow-md whitespace-nowrap z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ pointerEvents: hoveredChart === "tren" ? "auto" : "none" }}>
                   <div className="text-[10px] font-semibold text-foreground">
                     {todos.length > 0
-                      ? `${Math.round((todos.filter((t) => t.completed).length / todos.length) * 100)}% Selesai`
+                      ? `${chartStats.completionRate}% Selesai`
                       : "Tidak ada tugas"}
                   </div>
                   <div className="text-[9px] text-foreground-secondary mt-0.5">
-                    {todos.filter((t) => t.completed).length} dari {todos.length} tugas
+                    {chartStats.completed} dari {todos.length} tugas
                   </div>
                 </div>
               )}
             </div>
 
             <div
-              ref={chartRefs.tenggat}
               onMouseEnter={() => setHoveredChart("tenggat")}
               onMouseLeave={() => setHoveredChart(null)}
               className="flex flex-col rounded-3xl border border-border p-4 md:p-6 shadow-sm transition-all duration-200 hover:shadow-md hover:scale-[1.01] hover:-translate-y-0.5 cursor-pointer relative"
@@ -621,24 +627,14 @@ export default function TodoPage() {
                   <div className="flex justify-between mb-1">
                     <span>Progress</span>
                     <span className="text-foreground-secondary">
-                      {todos.length > 0
-                        ? Math.round(
-                            (todos.filter((t) => t.completed).length /
-                              todos.length) *
-                              100,
-                          )
-                        : 0}
-                      %
+                      {chartStats.completionRate}%
                     </span>
                   </div>
                   <div className="w-full h-1.5 bg-surface-elevated rounded-full overflow-hidden">
                     <div
                       className="bg-primary h-full rounded-full transition-all"
                       style={{
-                        width:
-                          todos.length > 0
-                            ? `${(todos.filter((t) => t.completed).length / todos.length) * 100}%`
-                            : "0%",
+                        width: `${chartStats.completionRate}%`,
                       }}
                     ></div>
                   </div>
@@ -658,9 +654,9 @@ export default function TodoPage() {
 
               {/* Tooltip */}
               {hoveredChart === "tenggat" && (
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-surface-elevated border border-border rounded-lg px-3 py-2 shadow-md whitespace-nowrap z-10 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-surface-elevated border border-border rounded-lg px-3 py-2 shadow-md whitespace-nowrap z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ pointerEvents: hoveredChart === "tenggat" ? "auto" : "none" }}>
                   <div className="text-[10px] font-semibold text-foreground">
-                    {todos.filter((t) => !t.completed).length} Tugas Aktif
+                    {chartStats.active} Tugas Aktif
                   </div>
                   <div className="text-[9px] text-foreground-secondary mt-0.5">
                     {priorityCounts.High > 0 && `${priorityCounts.High} urgency tinggi`}
