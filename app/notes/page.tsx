@@ -258,9 +258,9 @@ export default function NotesPage() {
                 <button
                   key={note.id}
                   onClick={() => selectNote(note.id)}
-                  className={`text-left p-3 rounded-xl border transition-all ${
+                  className={`text-left p-3 rounded-2xl border bg-surface shadow-sm transition-all ${
                     note.id === activeNoteId
-                      ? "border-primary bg-primary/5"
+                      ? "border-primary ring-1 ring-primary/20"
                       : "border-border hover:bg-surface-elevated"
                   }`}
                 >
