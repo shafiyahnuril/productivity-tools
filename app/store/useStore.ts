@@ -62,8 +62,17 @@ interface AppState {
   addSessionLog: (log: SessionLog) => void;
   addTodo: (todo: Omit<Todo, "id">) => void;
   toggleTodo: (id: string) => void;
+  updateTodo: (id: string, changes: Partial<Omit<Todo, "id">>) => void;
+  deleteTodo: (id: string) => void;
   addNote: (note: Omit<Note, "id" | "updatedAt">) => void;
+  updateNote: (id: string, changes: Partial<Omit<Note, "id">>) => void;
+  deleteNote: (id: string) => void;
   addCalendarEvent: (event: Omit<CalendarEvent, "id">) => void;
+  updateCalendarEvent: (
+    id: string,
+    changes: Partial<Omit<CalendarEvent, "id">>,
+  ) => void;
+  deleteCalendarEvent: (id: string) => void;
   setActiveModal: (modal: "todo" | "note" | "agenda" | null) => void;
   setFabMenuOpen: (open: boolean) => void;
 }
@@ -193,6 +202,14 @@ export const useStore = create<AppState>((set) => ({
         t.id === id ? { ...t, completed: !t.completed } : t,
       ),
     })),
+  updateTodo: (id, changes) =>
+    set((state) => ({
+      todos: state.todos.map((t) => (t.id === id ? { ...t, ...changes } : t)),
+    })),
+  deleteTodo: (id) =>
+    set((state) => ({
+      todos: state.todos.filter((t) => t.id !== id),
+    })),
   addNote: (note) =>
     set((state) => ({
       notes: [
@@ -204,12 +221,34 @@ export const useStore = create<AppState>((set) => ({
         },
       ],
     })),
+  updateNote: (id, changes) =>
+    set((state) => ({
+      notes: state.notes.map((n) =>
+        n.id === id
+          ? { ...n, ...changes, updatedAt: new Date().toISOString() }
+          : n,
+      ),
+    })),
+  deleteNote: (id) =>
+    set((state) => ({
+      notes: state.notes.filter((n) => n.id !== id),
+    })),
   addCalendarEvent: (event) =>
     set((state) => ({
       calendarEvents: [
         ...state.calendarEvents,
         { ...event, id: Date.now().toString() },
       ],
+    })),
+  updateCalendarEvent: (id, changes) =>
+    set((state) => ({
+      calendarEvents: state.calendarEvents.map((e) =>
+        e.id === id ? { ...e, ...changes } : e,
+      ),
+    })),
+  deleteCalendarEvent: (id) =>
+    set((state) => ({
+      calendarEvents: state.calendarEvents.filter((e) => e.id !== id),
     })),
   setActiveModal: (modal) => set({ activeModal: modal }),
   setFabMenuOpen: (open) => set({ fabMenuOpen: open }),
