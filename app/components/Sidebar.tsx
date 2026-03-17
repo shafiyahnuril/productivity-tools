@@ -35,13 +35,16 @@ export default function Sidebar() {
   }: {
     item: { href: string; name: string; icon: React.ElementType };
   }) => {
-    const isActive = pathname === item.href;
+    // Match exact path or child paths
+    const isActive =
+      pathname === item.href || pathname.startsWith(`${item.href}/`);
+
     return (
       <Link
         href={item.href}
         className={`flex flex-col items-center justify-center w-16 h-16 mb-1 rounded-2xl transition-all duration-200 active:scale-95 ${
           isActive
-            ? "bg-primary/15 text-primary"
+            ? "bg-orange-500/15 text-orange-500"
             : "text-foreground-secondary hover:bg-surface-tertiary hover:text-foreground"
         }`}
       >

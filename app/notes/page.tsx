@@ -260,6 +260,9 @@ export default function NotesPage() {
           </div>
         </div>
 
+        {/* Divider for mobile */}
+        <div className="w-full border-t border-border md:hidden mt-2 mb-1" />
+
         <div className="flex md:hidden items-center gap-3 w-full">
           <div className="relative flex-1">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-foreground-secondary" />
@@ -275,7 +278,7 @@ export default function NotesPage() {
       </header>
 
       <div
-        className="h-px"
+        className="hidden md:block h-px"
         style={{
           background:
             "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
@@ -310,13 +313,13 @@ export default function NotesPage() {
             </div>
 
             {/* Sort bar */}
-            <div className="flex gap-1">
+            <div className="flex gap-2">
               {(["date-desc", "date-asc", "title-asc"] as SortOrder[]).map(
                 (s) => (
                   <button
                     key={s}
                     onClick={() => setSortOrder(s)}
-                    className={`flex-1 text-[10px] py-1 px-1.5 rounded-lg font-medium transition-colors ${
+                    className={`flex-1 text-xs py-2.5 px-2 rounded-lg font-medium transition-colors ${
                       sortOrder === s
                         ? "bg-primary text-white"
                         : "bg-surface-elevated text-foreground-secondary hover:text-foreground"
@@ -326,18 +329,6 @@ export default function NotesPage() {
                   </button>
                 ),
               )}
-            </div>
-
-            {/* Mobile search */}
-            <div className="lg:hidden relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-foreground-secondary" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari catatan..."
-                className="pl-9 pr-4 py-2 bg-surface-elevated rounded-md border border-border text-sm focus:outline-none focus:border-primary w-full"
-              />
             </div>
 
             <div className="flex flex-col gap-2 max-h-[60vh] lg:max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
@@ -508,7 +499,7 @@ export default function NotesPage() {
                   ) : (
                     <>
                       <Download className="w-4 h-4 text-foreground-secondary" />{" "}
-                      Export .md
+                      Export
                     </>
                   )}
                 </button>

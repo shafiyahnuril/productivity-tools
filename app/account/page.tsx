@@ -119,7 +119,7 @@ export default function AccountPage() {
 
       {/* Divider */}
       <div
-        className="h-px"
+        className="hidden md:block h-px"
         style={{
           background:
             "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
@@ -219,9 +219,7 @@ export default function AccountPage() {
                 <Caption className="text-foreground-secondary">Notes</Caption>
               </Card>
               <Card className="flex flex-col items-center text-center gap-1 p-4!">
-                <Heading2 className="text-2xl!">
-                  {stats.focusSessions}
-                </Heading2>
+                <Heading2 className="text-2xl!">{stats.focusSessions}</Heading2>
                 <Caption className="text-foreground-secondary">
                   Focus Sessions
                 </Caption>

@@ -206,7 +206,7 @@ export default function AnalyticsPage() {
       </header>
 
       <div
-        className="h-px"
+        className="hidden md:block h-px"
         style={{
           background:
             "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
@@ -532,8 +532,8 @@ export default function AnalyticsPage() {
               DISTRIBUSI AKTIVITAS
             </Heading2>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="h-40 w-1/3 flex items-center justify-center shrink-0">
+          <div className="flex flex-col min-[400px]:flex-row items-center gap-6 min-[400px]:gap-3">
+            <div className="h-40 w-full min-[400px]:w-1/2 flex items-center justify-center shrink-0">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -546,7 +546,11 @@ export default function AnalyticsPage() {
                     dataKey="value"
                     label={({ value }) => `${value}%`}
                     labelLine={false}
-                    style={{ fontSize: "10px", outline: "none" }}
+                    style={{
+                      fontSize: "12px",
+                      outline: "none",
+                      fontWeight: 500,
+                    }}
                   >
                     {dataDistribusi.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
@@ -564,7 +568,7 @@ export default function AnalyticsPage() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="space-y-2 w-2/3">
+            <div className="space-y-2 w-full min-[400px]:w-1/2">
               {dataDistribusi.map((item, index) => (
                 <div
                   key={index}
