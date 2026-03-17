@@ -1,31 +1,22 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import {
-  Plus,
-  CheckSquare,
-  FileText,
-  CalendarDays,
-  ChevronDown,
-} from "lucide-react";
+import { Plus, ChevronDown } from "lucide-react";
 import { useStore } from "../store/useStore";
 
 const MENU_ITEMS = [
   {
     key: "agenda" as const,
-    icon: CalendarDays,
     label: "Add Agenda",
     description: "Schedule a calendar event",
   },
   {
     key: "note" as const,
-    icon: FileText,
     label: "Add Note",
     description: "Write a new note",
   },
   {
     key: "todo" as const,
-    icon: CheckSquare,
     label: "Add Task",
     description: "Create a to-do item",
   },
@@ -69,23 +60,16 @@ export default function AddNewButton() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-56 bg-surface border border-border rounded-2xl shadow-xl z-50 overflow-hidden">
-          {MENU_ITEMS.map(({ key, icon: Icon, label, description }) => (
+        <div className="absolute right-0 top-full mt-2 w-52 bg-surface border border-border rounded-2xl shadow-xl z-50 overflow-hidden">
+          {MENU_ITEMS.map(({ key, label, description }) => (
             <button
               key={key}
               onClick={() => handleSelect(key)}
-              className="flex items-center gap-3 w-full px-4 py-3 hover:bg-surface-elevated transition-colors text-left"
+              className="flex flex-col w-full px-4 py-3 hover:bg-surface-elevated transition-colors text-left"
             >
-              <div className="w-8 h-8 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                <Icon size={16} className="text-primary" />
-              </div>
-              <div>
-                <div className="text-sm font-semibold leading-tight">
-                  {label}
-                </div>
-                <div className="text-[11px] text-foreground-secondary leading-tight">
-                  {description}
-                </div>
+              <div className="text-sm font-semibold leading-tight">{label}</div>
+              <div className="text-[11px] text-foreground-secondary leading-tight mt-0.5">
+                {description}
               </div>
             </button>
           ))}

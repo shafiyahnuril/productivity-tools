@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Zap, Gift, Lock, Smartphone, Sparkles, Pin } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const benefits = [
-  { Icon: Gift,       title: "100% Free",       desc: "No hidden fees, forever free" },
-  { Icon: Lock,       title: "Privacy First",    desc: "Data stored in your browser" },
-  { Icon: Smartphone, title: "All Devices",      desc: "Works on desktop & mobile" },
+  { title: "100% Free",    desc: "No hidden fees, forever free" },
+  { title: "Privacy First", desc: "Data stored in your browser" },
+  { title: "All Devices",   desc: "Works on desktop & mobile" },
 ];
 
 export function CTASection() {
@@ -30,7 +30,7 @@ export function CTASection() {
 
       {/* Floating sticker chips */}
       <div
-        className="absolute hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl pointer-events-none select-none"
+        className="absolute hidden lg:flex items-center px-3 py-1.5 rounded-xl pointer-events-none select-none"
         style={{
           top: "18%", left: "5%",
           background: "var(--surface)",
@@ -44,11 +44,11 @@ export function CTASection() {
           "--r": "-6deg",
         } as React.CSSProperties}
       >
-        all your tools <Sparkles size={13} strokeWidth={1.8} />
+        all your tools
       </div>
 
       <div
-        className="absolute hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl pointer-events-none select-none"
+        className="absolute hidden lg:flex items-center px-3 py-1.5 rounded-xl pointer-events-none select-none"
         style={{
           bottom: "20%", right: "6%",
           background: "var(--surface)",
@@ -63,7 +63,7 @@ export function CTASection() {
           "--r": "5deg",
         } as React.CSSProperties}
       >
-        stay organized <Pin size={13} strokeWidth={1.8} />
+        stay organized
       </div>
 
       {/* Content */}
@@ -78,7 +78,7 @@ export function CTASection() {
               color: "var(--primary)",
             }}
           >
-            <Sparkles size={16} strokeWidth={1.8} /> join us now
+            join us now
           </span>
         </div>
 
@@ -126,7 +126,6 @@ export function CTASection() {
               el.style.transform = "translateY(0)";
             }}
           >
-            <Zap size={20} />
             Start Now
             <ArrowRight size={18} />
           </button>
@@ -134,13 +133,8 @@ export function CTASection() {
 
         {/* Benefits grid */}
         <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {benefits.map((b) => {
-            const BIcon = b.Icon;
-            return (
+          {benefits.map((b) => (
               <div key={b.title} className="text-center">
-                <div className="mb-2 flex justify-center" style={{ color: "var(--primary)" }}>
-                  <BIcon size={24} strokeWidth={1.8} />
-                </div>
                 <h3
                   className="font-semibold mb-1"
                   style={{ color: "var(--foreground)", fontFamily: "var(--font-display)" }}
@@ -149,8 +143,7 @@ export function CTASection() {
                 </h3>
                 <p style={{ color: "var(--foreground-secondary)", fontSize: "0.85rem" }}>{b.desc}</p>
               </div>
-            );
-          })}
+            ))}
         </div>
       </div>
     </section>

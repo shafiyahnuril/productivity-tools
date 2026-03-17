@@ -5,17 +5,7 @@ import { useState, useMemo } from "react";
 import { Heading1, Heading2, Text, Caption } from "../components/ui/Typography";
 import { Card } from "../components/ui/Card";
 import { Button, Tag } from "../components/ui/Elements";
-import {
-  User,
-  Mail,
-  Edit2,
-  Check,
-  X,
-  BookOpen,
-  CheckCircle2,
-  Clock,
-  Camera,
-} from "lucide-react";
+import { Edit2, Check, X, Camera } from "lucide-react";
 import { useStore } from "../store/useStore";
 
 export default function AccountPage() {
@@ -218,38 +208,23 @@ export default function AccountPage() {
               </Heading2>
             </div>
             <div className="grid grid-cols-3 gap-3">
-              <Card className="flex flex-col items-center text-center gap-2 p-4!">
-                <div className="w-10 h-10 rounded-2xl bg-primary/15 flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <Heading2 className="text-2xl!">{stats.completed}</Heading2>
-                  <Caption className="text-foreground-secondary">
-                    Tasks Done
-                  </Caption>
-                </div>
+              <Card className="flex flex-col items-center text-center gap-1 p-4!">
+                <Heading2 className="text-2xl!">{stats.completed}</Heading2>
+                <Caption className="text-foreground-secondary">
+                  Tasks Done
+                </Caption>
               </Card>
-              <Card className="flex flex-col items-center text-center gap-2 p-4!">
-                <div className="w-10 h-10 rounded-2xl bg-info/15 flex items-center justify-center">
-                  <BookOpen className="w-5 h-5 text-info" />
-                </div>
-                <div>
-                  <Heading2 className="text-2xl!">{stats.totalNotes}</Heading2>
-                  <Caption className="text-foreground-secondary">Notes</Caption>
-                </div>
+              <Card className="flex flex-col items-center text-center gap-1 p-4!">
+                <Heading2 className="text-2xl!">{stats.totalNotes}</Heading2>
+                <Caption className="text-foreground-secondary">Notes</Caption>
               </Card>
-              <Card className="flex flex-col items-center text-center gap-2 p-4!">
-                <div className="w-10 h-10 rounded-2xl bg-success/15 flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-success" />
-                </div>
-                <div>
-                  <Heading2 className="text-2xl!">
-                    {stats.focusSessions}
-                  </Heading2>
-                  <Caption className="text-foreground-secondary">
-                    Focus Sessions
-                  </Caption>
-                </div>
+              <Card className="flex flex-col items-center text-center gap-1 p-4!">
+                <Heading2 className="text-2xl!">
+                  {stats.focusSessions}
+                </Heading2>
+                <Caption className="text-foreground-secondary">
+                  Focus Sessions
+                </Caption>
               </Card>
             </div>
           </div>
@@ -265,10 +240,7 @@ export default function AccountPage() {
             <Card className="space-y-4">
               {/* Name */}
               <div className="space-y-1.5">
-                <div className="flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-foreground-secondary" />
-                  <Caption>Full Name</Caption>
-                </div>
+                <Caption>Full Name</Caption>
                 {editing ? (
                   <input
                     value={draftName}
@@ -284,10 +256,7 @@ export default function AccountPage() {
 
               {/* Email */}
               <div className="space-y-1.5">
-                <div className="flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-foreground-secondary" />
-                  <Caption>Email Address</Caption>
-                </div>
+                <Caption>Email Address</Caption>
                 {editing ? (
                   <input
                     type="email"

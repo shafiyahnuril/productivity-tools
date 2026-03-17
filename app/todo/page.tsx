@@ -13,7 +13,6 @@ import {
   Flag,
   Edit2,
   Trash2,
-  MoreHorizontal,
   X,
   Check,
   SortAsc,
@@ -21,6 +20,7 @@ import {
   ArrowUpDown,
   FileDown,
   CheckCheck,
+  MoreHorizontal,
 } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { isToday, isThisWeek, isFuture, parseISO, format } from "date-fns";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, FileText, Calendar, CheckSquare, BarChart2, ArrowRight, Sparkles } from "lucide-react";
+import { Clock, FileText, Calendar, CheckSquare, BarChart2, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -90,7 +90,7 @@ export function FeatureSection() {
                 paddingBottom: "2px",
               }}
             >
-              <Sparkles size={16} strokeWidth={1.8} /> key features
+              key features
             </span>
           </div>
 
@@ -264,7 +264,6 @@ export function FeatureSection() {
             }}
           />
           <div className="relative flex items-center gap-3">
-            <Sparkles size={20} strokeWidth={1.8} style={{ color: "var(--primary)" }} />
             <div>
               <span
                 className="font-bold text-foreground"
@@ -278,28 +277,19 @@ export function FeatureSection() {
             </div>
           </div>
           <div className="relative flex flex-wrap justify-center gap-2">
-          {[
-              { Icon: Calendar,    label: "Calendar" },
-              { Icon: FileText,    label: "Notes" },
-              { Icon: CheckSquare, label: "Tasks" },
-              { Icon: Clock,       label: "Focus" },
-              { Icon: BarChart2,   label: "Analytics" },
-            ].map((chip) => {
-              const ChipIcon = chip.Icon;
-              return (
-                <span
-                  key={chip.label}
-                  className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium"
-                  style={{
-                    background: "var(--surface-elevated)",
-                    border: "1px solid var(--border)",
-                    color: "var(--foreground-secondary)",
-                  }}
-                >
-                  <ChipIcon size={12} strokeWidth={1.8} /> {chip.label}
-                </span>
-              );
-            })}
+          {["Calendar", "Notes", "Tasks", "Focus", "Analytics"].map((label) => (
+              <span
+                key={label}
+                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium"
+                style={{
+                  background: "var(--surface-elevated)",
+                  border: "1px solid var(--border)",
+                  color: "var(--foreground-secondary)",
+                }}
+              >
+                {label}
+              </span>
+            ))}
           </div>
         </div>
 

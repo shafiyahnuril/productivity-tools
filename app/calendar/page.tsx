@@ -9,7 +9,6 @@ import { Button } from "../components/ui/Elements";
 import {
   Search,
   Plus,
-  MoreHorizontal,
   Clock,
   ChevronLeft,
   ChevronRight,
@@ -18,6 +17,7 @@ import {
   Briefcase,
   FileDown,
   X as XIcon,
+  MoreHorizontal,
 } from "lucide-react";
 import {
   startOfWeek,

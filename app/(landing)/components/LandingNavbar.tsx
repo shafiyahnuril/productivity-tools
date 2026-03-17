@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "./useTheme";
-import { Menu, X, Moon, Sun, Sparkles, BookOpen } from "lucide-react";
+import { Menu, X, Moon, Sun, BookOpen } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
@@ -121,7 +121,6 @@ export function LandingNavbar() {
                   el.style.transform = "translateY(0)";
                 }}
               >
-                <Sparkles size={14} />
                 Open App
               </button>
             </Link>
@@ -178,7 +177,6 @@ export function LandingNavbar() {
                       boxShadow: "var(--shadow-sm)",
                     }}
                   >
-                    <Sparkles size={14} />
                     Open App
                   </button>
                 </Link>
