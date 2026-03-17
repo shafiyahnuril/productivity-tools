@@ -159,6 +159,9 @@ export default function DashboardPage() {
             </div>
           </div>
 
+          {/* Divider for mobile */}
+          <div className="w-full border-t border-border md:hidden mt-2 mb-1" />
+
           {/* Mobile header controls */}
           <div className="flex md:hidden items-center gap-3 w-full">
             <div className="relative flex-1">
@@ -289,7 +292,7 @@ export default function DashboardPage() {
 
         {/* Main Grid */}
         <div
-          className="h-px"
+          className="hidden md:block h-px"
           style={{
             background:
               "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",

@@ -229,6 +229,9 @@ export default function CalendarPage() {
           </div>
         </div>
 
+        {/* Divider for mobile */}
+        <div className="w-full border-t border-border md:hidden mt-2 mb-1" />
+
         <div className="flex md:hidden items-center gap-3 w-full">
           <div className="relative flex-1">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-foreground-secondary" />
@@ -244,7 +247,7 @@ export default function CalendarPage() {
       </header>
 
       <div
-        className="h-px"
+        className="hidden md:block h-px"
         style={{
           background:
             "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",

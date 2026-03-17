@@ -206,7 +206,7 @@ export default function AnalyticsPage() {
       </header>
 
       <div
-        className="h-px"
+        className="hidden md:block h-px"
         style={{
           background:
             "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
