@@ -75,6 +75,10 @@ interface AppState {
   deleteCalendarEvent: (id: string) => void;
   setActiveModal: (modal: "todo" | "note" | "agenda" | null) => void;
   setFabMenuOpen: (open: boolean) => void;
+  clearAllTodos: () => void;
+  clearAllNotes: () => void;
+  clearAllCalendarEvents: () => void;
+  resetTimerHistory: () => void;
 }
 
 export const useStore = create<AppState>((set) => ({
@@ -252,4 +256,11 @@ export const useStore = create<AppState>((set) => ({
     })),
   setActiveModal: (modal) => set({ activeModal: modal }),
   setFabMenuOpen: (open) => set({ fabMenuOpen: open }),
+  clearAllTodos: () => set({ todos: [] }),
+  clearAllNotes: () => set({ notes: [] }),
+  clearAllCalendarEvents: () => set({ calendarEvents: [] }),
+  resetTimerHistory: () =>
+    set((prev) => ({
+      timerState: { ...prev.timerState, history: [] },
+    })),
 }));
