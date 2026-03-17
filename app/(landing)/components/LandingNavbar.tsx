@@ -1,112 +1,187 @@
 "use client";
 
 import { useTheme } from "./useTheme";
-import { Menu, X, Moon, Sun } from "lucide-react";
-import { useState } from "react";
+import { Menu, X, Moon, Sun, Sparkles, BookOpen } from "lucide-react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 const scrollToSection = (id: string) => {
   const element = document.getElementById(id);
-  if (element) {
-    element.scrollIntoView({ behavior: "smooth" });
-  }
+  if (element) element.scrollIntoView({ behavior: "smooth" });
 };
 
 export function LandingNavbar() {
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
-    { label: "About", id: "about" },
-    { label: "Features", id: "features" },
-    { label: "Contact", id: "contact" },
+    { label: "Beranda", id: "hero" },
+    { label: "Fitur", id: "features" },
+    { label: "Kontak", id: "contact" },
   ];
 
   return (
     <>
-      {/* Fixed Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/40">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          background: scrolled
+            ? "color-mix(in srgb, var(--background) 88%, transparent)"
+            : "transparent",
+          backdropFilter: scrolled ? "blur(16px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(16px)" : "none",
+          borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
+        }}
+      >
+        <div className="max-w-6xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
+
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-primary/15 text-primary rounded-xl flex items-center justify-center font-bold text-lg group-hover:scale-105 transition-transform duration-200">
-              PA
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div
+              className="w-9 h-9 rounded-[9px] flex items-center justify-center shadow-sm transition-transform duration-200 group-hover:scale-105"
+              style={{ background: "var(--primary)", color: "#fff" }}
+            >
+              <BookOpen size={17} strokeWidth={2} />
             </div>
-            <div className="hidden sm:flex flex-col">
-              <span className="text-sm font-bold text-foreground">Productivity</span>
-              <span className="text-xs text-foreground-tertiary">Tools</span>
-            </div>
+            <span
+              className="hidden sm:block text-[15px] font-bold leading-none"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Productivity
+              <span style={{ color: "var(--primary)", fontStyle: "italic" }}> Tools</span>
+            </span>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-sm text-foreground-secondary hover:text-foreground transition-colors duration-200 font-medium"
+                className="text-sm font-medium px-4 py-2 rounded-lg transition-all duration-200"
+                style={{ color: "var(--foreground-secondary)" }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "var(--surface-elevated)";
+                  el.style.color = "var(--foreground)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "transparent";
+                  el.style.color = "var(--foreground-secondary)";
+                }}
               >
                 {item.label}
               </button>
             ))}
           </div>
 
-          {/* Right Section */}
-          <div className="flex items-center gap-3">
+          {/* Right Actions */}
+          <div className="flex items-center gap-2">
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              title={theme === "light" ? "Dark Mode" : "Light Mode"}
-              className="w-10 h-10 rounded-lg bg-surface-elevated border border-border flex items-center justify-center text-foreground-secondary hover:text-foreground hover:bg-surface transition-all duration-200 active:scale-95"
+              title={theme === "light" ? "Mode Gelap" : "Mode Terang"}
+              className="w-[38px] h-[38px] rounded-[9px] border flex items-center justify-center transition-all duration-200 active:scale-95"
+              style={{
+                background: "var(--surface-elevated)",
+                borderColor: "var(--border)",
+                color: "var(--foreground-secondary)",
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--foreground)")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--foreground-secondary)")}
             >
-              {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+              {theme === "light" ? <Moon size={15} /> : <Sun size={15} />}
             </button>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden w-10 h-10 rounded-lg bg-surface-elevated border border-border flex items-center justify-center text-foreground-secondary hover:text-foreground transition-all duration-200 active:scale-95"
-            >
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-
-            {/* CTA Button - Desktop */}
+            {/* Open App CTA */}
             <Link href="/dashboard" className="hidden sm:block">
-              <button className="px-5 py-2 bg-primary text-white rounded-lg font-semibold text-sm hover:shadow-sm active:scale-95 transition-all duration-200">
-                Enter
+              <button
+                className="flex items-center gap-1.5 px-4 py-2 rounded-[9px] text-sm font-semibold transition-all duration-200 active:scale-95"
+                style={{ background: "var(--foreground)", color: "var(--background)" }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.opacity = "0.84";
+                  el.style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.opacity = "1";
+                  el.style.transform = "translateY(0)";
+                }}
+              >
+                <Sparkles size={14} />
+                Buka App
               </button>
             </Link>
+
+            {/* Mobile Hamburger */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden w-[38px] h-[38px] rounded-[9px] border flex items-center justify-center transition-all duration-200 active:scale-95"
+              style={{
+                background: "var(--surface-elevated)",
+                borderColor: "var(--border)",
+                color: "var(--foreground-secondary)",
+              }}
+            >
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Drawer */}
         {isOpen && (
-          <div className="md:hidden bg-background border-t border-border/40">
-            <div className="flex flex-col p-4 gap-3">
+          <div
+            className="md:hidden border-t"
+            style={{ background: "var(--background)", borderColor: "var(--border)" }}
+          >
+            <div className="flex flex-col p-4 gap-1">
               {navItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => {
-                    scrollToSection(item.id);
-                    setIsOpen(false);
+                  onClick={() => { scrollToSection(item.id); setIsOpen(false); }}
+                  className="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200"
+                  style={{ color: "var(--foreground-secondary)" }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = "var(--surface-elevated)";
+                    el.style.color = "var(--foreground)";
                   }}
-                  className="w-full text-left px-4 py-2 text-foreground-secondary hover:text-foreground hover:bg-surface-elevated rounded-lg transition-colors duration-200 font-medium"
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = "transparent";
+                    el.style.color = "var(--foreground-secondary)";
+                  }}
                 >
                   {item.label}
                 </button>
               ))}
-              <Link href="/dashboard" className="w-full">
-                <button className="w-full px-4 py-2 bg-primary text-white rounded-lg font-semibold text-sm hover:shadow-sm active:scale-95 transition-all duration-200">
-                  Dashboard
-                </button>
-              </Link>
+              <div className="mt-3 pt-3" style={{ borderTop: "1px solid var(--border)" }}>
+                <Link href="/dashboard">
+                  <button
+                    className="w-full py-2.5 rounded-[9px] text-sm font-semibold transition-all duration-200 active:scale-95 flex items-center justify-center gap-1.5"
+                    style={{ background: "var(--foreground)", color: "var(--background)" }}
+                  >
+                    <Sparkles size={14} />
+                    Buka App
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         )}
       </nav>
 
-      {/* Navbar Spacer */}
-      <div className="h-16 md:h-20" />
+      {/* Navbar spacer */}
+      <div className="h-16" />
     </>
   );
 }

@@ -2,138 +2,270 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Zap, Clock, FileText, Calendar, CheckSquare, BarChart2 } from "lucide-react";
+
+/* Feature pills shown below the CTAs */
+const featurePills = [
+  { icon: Calendar,    label: "Kalender",     color: "#3B7EC2", bg: "rgba(59,126,194,0.1)" },
+  { icon: FileText,    label: "Catatan",      color: "#D97706", bg: "rgba(217,119,6,0.1)" },
+  { icon: CheckSquare, label: "To-Do",        color: "#5A8A6E", bg: "rgba(90,138,110,0.1)" },
+  { icon: Clock,       label: "Timer Fokus",  color: "#C4574A", bg: "rgba(196,87,74,0.1)" },
+  { icon: BarChart2,   label: "Analitik",     color: "#7C3AED", bg: "rgba(124,58,237,0.1)" },
+];
 
 export function HeroSection() {
-  const floatingElements = [
-    {
-      id: 1,
-      text: "⏱️ Track Focus Hours",
-      color: "border-l-primary",
-      delay: 0,
-      position: { top: "20%", right: "10%" },
-    },
-    {
-      id: 2,
-      text: "📝 Organize Notes",
-      color: "border-l-warning",
-      delay: 0.2,
-      position: { bottom: "25%", left: "5%" },
-    },
-    {
-      id: 3,
-      text: "📅 Plan Your Week",
-      color: "border-l-success",
-      delay: 0.4,
-      position: { top: "35%", left: "8%" },
-    },
-    {
-      id: 4,
-      text: "✓ Complete Tasks",
-      color: "border-l-success",
-      delay: 0.6,
-      position: { bottom: "20%", right: "12%" },
-    },
-    {
-      id: 5,
-      text: "📊 Track Analytics",
-      color: "border-l-primary",
-      delay: 0.8,
-      position: { top: "60%", right: "5%" },
-    },
-  ];
-
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden px-4">
-      {/* Gradient Background Accent */}
-      <div className="absolute inset-0 bg-linear-to-b from-primary/5 to-transparent pointer-events-none" />
+    <section
+      className="relative min-h-[90vh] flex items-center justify-center overflow-hidden px-5"
+      style={{ paddingTop: "5rem", paddingBottom: "4rem" }}
+    >
+      {/* ── Animated background blobs ── */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "-60px", left: "-80px", width: "340px", height: "340px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(217,119,6,0.13) 0%, transparent 70%)",
+          animation: "blob-drift 9s ease-in-out infinite",
+        }}
+      />
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "-40px", right: "-60px", width: "300px", height: "300px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)",
+          animation: "blob-drift 11s ease-in-out infinite reverse",
+        }}
+      />
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          bottom: "60px", left: "10%", width: "260px", height: "260px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(90,138,110,0.1) 0%, transparent 70%)",
+          animation: "blob-drift 13s ease-in-out infinite",
+          animationDelay: "2s",
+        }}
+      />
 
-      {/* Floating Accent Elements */}
-      {floatingElements.map((element) => (
+      {/* ── Floating sticker chips ── */}
+      {/* Chip 1 */}
+      <div
+        className="absolute hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl shadow-md text-sm font-medium pointer-events-none select-none"
+        style={{
+          top: "22%", left: "6%",
+          background: "#FEF3C7", color: "#92400E",
+          fontFamily: "var(--font-hand)",
+          fontSize: "1rem",
+          transform: "rotate(-8deg)",
+          boxShadow: "2px 4px 12px rgba(0,0,0,0.1)",
+          animation: "float 5s ease-in-out infinite",
+          "--r": "-8deg",
+        } as React.CSSProperties}
+      >
+        ✏️ tetap fokus
+      </div>
+
+      {/* Chip 2 */}
+      <div
+        className="absolute hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl shadow-md text-sm font-medium pointer-events-none select-none"
+        style={{
+          top: "20%", right: "7%",
+          background: "#EDE9FE", color: "#4C1D95",
+          fontFamily: "var(--font-hand)",
+          fontSize: "1rem",
+          transform: "rotate(6deg)",
+          boxShadow: "2px 4px 12px rgba(0,0,0,0.1)",
+          animation: "float 6s ease-in-out infinite",
+          animationDelay: "1s",
+          "--r": "6deg",
+        } as React.CSSProperties}
+      >
+        🎯 capai tujuanmu
+      </div>
+
+      {/* Chip 3 */}
+      <div
+        className="absolute hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl shadow-md text-sm font-medium pointer-events-none select-none"
+        style={{
+          bottom: "22%", right: "8%",
+          background: "#D1FAE5", color: "#065F46",
+          fontFamily: "var(--font-hand)",
+          fontSize: "1rem",
+          transform: "rotate(-4deg)",
+          boxShadow: "2px 4px 12px rgba(0,0,0,0.1)",
+          animation: "float 7s ease-in-out infinite",
+          animationDelay: "0.5s",
+          "--r": "-4deg",
+        } as React.CSSProperties}
+      >
+        📚 belajar lebih pintar
+      </div>
+
+      {/* ── Main content ── */}
+      <div className="relative z-10 max-w-4xl mx-auto text-center">
+
+        {/* Badge pill */}
         <motion.div
-          key={element.id}
-          className={`absolute hidden md:block px-4 py-2 border-l-4 ${element.color} bg-surface rounded-lg shadow-sm text-sm font-medium text-foreground-secondary whitespace-nowrap`}
-          style={element.position as any}
-          animate={{ y: [0, -15, 0] }}
-          transition={{
-            duration: 4,
-            delay: element.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-8"
+          style={{
+            background: "var(--surface-elevated)",
+            border: "1px solid var(--border)",
+            color: "var(--foreground-secondary)",
           }}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
         >
-          {element.text}
+          <Zap size={13} style={{ color: "var(--primary)" }} />
+          <span>Inovasi Produktivitas Belajar</span>
+          <Zap size={13} style={{ color: "var(--primary)" }} />
         </motion.div>
-      ))}
 
-      {/* Hero Content */}
-      <div className="relative z-10 max-w-4xl mx-auto text-center" data-hero>
-        {/* Accent Label */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
-          <span className="w-2 h-2 rounded-full bg-primary" />
-          <span className="text-xs font-bold uppercase tracking-widest text-primary">
-            Welcome to Productivity
-          </span>
-        </div>
-
-        {/* Main Headline - Bilingual */}
-        <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-foreground mb-4 leading-tight">
-          <span className="bg-clip-text text-transparent bg-linear-to-r from-primary via-foreground to-foreground">
-            Produktivitas
-          </span>
-          <br />
-          <span className="hidden md:inline">Dimulai di Sini</span>
-          <span className="md:hidden">Mulai Sekarang</span>
-        </h1>
-
-        {/* English Subtitle */}
-        <p className="text-xl md:text-2xl text-foreground-secondary mb-2 font-light">
-          Manage your time, notes, and tasks all in one place
-        </p>
-
-        {/* Indonesian Subtitle */}
-        <p className="text-base md:text-lg text-foreground-tertiary mb-10 font-light max-w-2xl mx-auto">
-          Kelola waktu fokus, catatan, kalender, dan to-do list Anda dengan mudah. Tingkatkan produktivitas dan raih target Anda lebih cepat.
-        </p>
-
-        {/* CTA Button Group */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Link href="/dashboard">
-            <motion.button
-              className="px-8 py-3 bg-primary text-white rounded-lg font-semibold text-lg shadow-md hover:shadow-lg active:scale-95 transition-all duration-200 flex items-center gap-2 group"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+        {/* Main Headline in Playfair Display */}
+        <motion.h1
+          className="mb-6 leading-[1.1]"
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(2.4rem, 6vw, 4.5rem)",
+            fontWeight: 800,
+            letterSpacing: "-0.02em",
+            color: "var(--foreground)",
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          Workspace produktif{" "}
+          <br className="hidden sm:block" />
+          untuk{" "}
+          <span
+            style={{ color: "var(--primary)", fontStyle: "italic", position: "relative", display: "inline-block" }}
+          >
+            pelajar modern
+            {/* Wavy SVG underline */}
+            <svg
+              viewBox="0 0 220 12"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{
+                position: "absolute",
+                bottom: "-6px",
+                left: 0,
+                width: "100%",
+                height: "10px",
+                overflow: "visible",
+              }}
             >
-              Mulai Sekarang / Get Started
-              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-            </motion.button>
+              <path
+                d="M2 6 Q27 2, 55 6 Q82 10, 110 6 Q138 2, 165 6 Q192 10, 218 6"
+                fill="none"
+                stroke="var(--primary)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                opacity="0.7"
+              />
+            </svg>
+          </span>
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          className="mb-10 max-w-xl mx-auto leading-relaxed"
+          style={{ fontSize: "1.1rem", color: "var(--foreground-secondary)" }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          Ruang kerja yang indah dan bebas distraksi, dirancang sesuai cara belajar kamu.
+          <br className="hidden md:block" />
+          <span style={{ color: "var(--foreground-tertiary)", fontSize: "0.95rem" }}>
+            Calendar, notes, tasks, focus timer, and analytics — all in one elegant place.
+          </span>
+        </motion.p>
+
+        {/* CTA Buttons */}
+        <motion.div
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <Link href="/dashboard">
+            <button
+              className="flex items-center gap-2 px-8 py-3 rounded-[10px] font-semibold text-lg transition-all duration-200 active:scale-95"
+              style={{
+                background: "var(--foreground)",
+                color: "var(--background)",
+                boxShadow: "var(--shadow-sm)",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = "translateY(-2px)";
+                el.style.boxShadow = "0 8px 24px rgba(0,0,0,0.2)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = "translateY(0)";
+                el.style.boxShadow = "var(--shadow-sm)";
+              }}
+            >
+              Mulai Gratis
+              <ArrowRight size={18} />
+            </button>
           </Link>
 
-          <motion.button
+          <button
             onClick={() => document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })}
-            className="px-8 py-3 bg-surface-elevated border border-border text-foreground rounded-lg font-semibold text-lg hover:shadow-sm active:scale-95 transition-all duration-200"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="px-8 py-3 rounded-[10px] font-semibold text-lg transition-all duration-200 active:scale-95"
+            style={{
+              background: "transparent",
+              border: "1px solid var(--border)",
+              color: "var(--foreground)",
+            }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--surface-elevated)")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "transparent")}
           >
-            Learn More / Pelajari Lebih
-          </motion.button>
-        </div>
+            Lihat Fitur
+          </button>
+        </motion.div>
 
-        {/* Stats */}
-        <div className="mt-16 flex flex-col md:flex-row justify-center gap-8 text-center">
-          {[
-            { number: "5+", label: "Fitur Lengkap" },
-            { number: "100%", label: "Free & Open" },
-            { number: "∞", label: "Unlimited Tasks" },
-          ].map((stat, i) => (
-            <div key={i} className="flex flex-col items-center gap-1">
-              <div className="text-2xl md:text-3xl font-bold text-primary">{stat.number}</div>
-              <div className="text-sm text-foreground-tertiary">{stat.label}</div>
-            </div>
-          ))}
-        </div>
+        {/* Feature pills row */}
+        <motion.div
+          className="flex flex-wrap justify-center gap-3"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.45 }}
+        >
+          {featurePills.map((pill) => {
+            const Icon = pill.icon;
+            return (
+              <div
+                key={pill.label}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium cursor-default transition-all duration-200"
+                style={{
+                  background: pill.bg,
+                  border: "1px solid var(--border)",
+                  color: pill.color,
+                  boxShadow: "var(--shadow-xs)",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.transform = "translateY(-3px)";
+                  el.style.boxShadow = "0 6px 20px rgba(0,0,0,0.1)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.transform = "translateY(0)";
+                  el.style.boxShadow = "var(--shadow-xs)";
+                }}
+              >
+                <Icon size={15} strokeWidth={1.8} />
+                {pill.label}
+              </div>
+            );
+          })}
+        </motion.div>
       </div>
     </section>
   );

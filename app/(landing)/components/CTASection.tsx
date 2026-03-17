@@ -1,79 +1,142 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Heading2 } from "../../components/ui/Typography";
+import { ArrowRight, Zap } from "lucide-react";
+
+const benefits = [
+  { icon: "🆓", title: "100% Gratis", desc: "No hidden fees, forever free" },
+  { icon: "🔒", title: "Privacy First", desc: "Data tersimpan di browser kamu" },
+  { icon: "📱", title: "Semua Perangkat", desc: "Works on desktop & mobile" },
+];
 
 export function CTASection() {
   return (
-    <section id="contact" className="py-16 md:py-24 px-4 bg-background-secondary/50">
-      <div className="max-w-4xl mx-auto text-center">
-        {/* Section Header */}
-        <div className="mb-12">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-1 h-6 rounded-full bg-primary/40" />
-            <p className="text-xs font-bold uppercase tracking-widest text-primary">
-              Mulai Sekarang / Get Started
-            </p>
-            <div className="w-1 h-6 rounded-full bg-primary/40" />
-          </div>
+    <section
+      id="contact"
+      className="relative py-20 md:py-28 px-4 overflow-hidden"
+      style={{
+        background: "linear-gradient(135deg, var(--primary) 0%, #b45309 100%)",
+      }}
+    >
+      {/* Dot pattern overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
+      />
 
-          <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-foreground mb-6">
-            Siap Tingkatkan Produktivitas?
-            <br />
-            <span className="text-foreground-secondary">Ready to Level Up?</span>
-          </h2>
+      {/* Floating sticker chips */}
+      <div
+        className="absolute hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl pointer-events-none select-none"
+        style={{
+          top: "18%", left: "5%",
+          background: "rgba(255,255,255,0.2)",
+          color: "rgba(255,255,255,0.9)",
+          fontFamily: "var(--font-hand)",
+          fontSize: "1.05rem",
+          transform: "rotate(-6deg)",
+          boxShadow: "2px 4px 12px rgba(0,0,0,0.15)",
+          animation: "float 5s ease-in-out infinite",
+          "--r": "-6deg",
+        } as React.CSSProperties}
+      >
+        all your tools ✨
+      </div>
 
-          <p className="text-lg text-foreground-secondary max-w-2xl mx-auto">
-            Bergabunglah dengan ribuan pengguna yang telah meningkatkan produktivitas mereka. Mulai gratis hari ini tanpa perlu kartu kredit.
-          </p>
-          <p className="text-sm text-foreground-tertiary mt-2">
-            Join thousands of users who have boosted their productivity. Start free today—no credit card required.
-          </p>
-        </div>
+      <div
+        className="absolute hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl pointer-events-none select-none"
+        style={{
+          bottom: "20%", right: "6%",
+          background: "rgba(255,255,255,0.18)",
+          color: "rgba(255,255,255,0.85)",
+          fontFamily: "var(--font-hand)",
+          fontSize: "1.05rem",
+          transform: "rotate(5deg)",
+          boxShadow: "2px 4px 12px rgba(0,0,0,0.15)",
+          animation: "float 7s ease-in-out infinite",
+          animationDelay: "1.5s",
+          "--r": "5deg",
+        } as React.CSSProperties}
+      >
+        stay organized 📌
+      </div>
 
-        {/* Divider */}
-        <div
-          className="h-px mb-12"
-          style={{
-            background: "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
-            opacity: 0.4,
-          }}
-        />
+      {/* Content */}
+      <div className="relative z-10 max-w-3xl mx-auto text-center">
 
-        {/* Main CTA Button */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Link href="/dashboard">
-            <motion.button
-              className="px-8 py-4 bg-primary text-white rounded-lg font-bold text-lg shadow-md hover:shadow-lg active:scale-95 transition-all duration-200"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Masuk ke Dashboard
-            </motion.button>
-          </Link>
-
-          <motion.button
-            onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-            className="px-8 py-4 bg-surface-elevated border border-border text-foreground rounded-lg font-bold text-lg hover:shadow-sm active:scale-95 transition-all duration-200"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+        {/* Caveat section label */}
+        <div className="mb-4">
+          <span
+            className="text-xl"
+            style={{
+              fontFamily: "var(--font-hand)",
+              color: "rgba(255,255,255,0.75)",
+            }}
           >
-            Tentang Kami / About Us
-          </motion.button>
+            ✦ bergabunglah sekarang
+          </span>
         </div>
 
-        {/* Benefits */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            { title: "100% Gratis", desc: "Tidak ada biaya tersembunyi" },
-            { title: "Privacy First", desc: "Data Anda tetap rahasia" },
-            { title: "Responsive", desc: "Bekerja di semua perangkat" },
-          ].map((benefit, i) => (
-            <div key={i} className="text-center">
-              <div className="text-2xl font-bold text-primary mb-2">✓</div>
-              <h3 className="font-semibold text-foreground mb-1">{benefit.title}</h3>
-              <p className="text-sm text-foreground-tertiary">{benefit.desc}</p>
+        {/* Playfair Display heading */}
+        <h2
+          className="mb-5 leading-tight"
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(2rem, 5vw, 3.2rem)",
+            fontWeight: 800,
+            letterSpacing: "-0.02em",
+            color: "#fff",
+          }}
+        >
+          Ayo Mulai,{" "}
+          <br className="hidden sm:block" />
+          <em>wujudkan produktivitasmu.</em>
+        </h2>
+
+        <p style={{ color: "rgba(255,255,255,0.82)", fontSize: "1.1rem" }} className="mb-10 max-w-lg mx-auto">
+          Mulai tingkatkan produktivitasmu sekarang — gratis selamanya.
+          <br />
+          <span style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.95rem" }}>
+            Start boosting your productivity today, completely free.
+          </span>
+        </p>
+
+        {/* CTA Button */}
+        <Link href="/dashboard">
+          <button
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-[10px] font-bold text-lg transition-all duration-200 active:scale-95"
+            style={{ background: "#fff", color: "var(--primary)" }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.boxShadow = "0 8px 24px rgba(0,0,0,0.25)";
+              el.style.transform = "translateY(-2px)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.boxShadow = "none";
+              el.style.transform = "translateY(0)";
+            }}
+          >
+            <Zap size={20} />
+            Mulai Sekarang
+            <ArrowRight size={18} />
+          </button>
+        </Link>
+
+        {/* Benefits grid */}
+        <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {benefits.map((b) => (
+            <div key={b.title} className="text-center">
+              <div className="text-2xl mb-2">{b.icon}</div>
+              <h3
+                className="font-semibold mb-1"
+                style={{ color: "#fff", fontFamily: "var(--font-display)" }}
+              >
+                {b.title}
+              </h3>
+              <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.85rem" }}>{b.desc}</p>
             </div>
           ))}
         </div>

@@ -1,79 +1,126 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Mail, ExternalLink } from "lucide-react";
+import { Github, Mail, BookOpen } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
-    { label: "GitHub", href: "https://github.com", external: true },
-  ];
-
   return (
-    <footer className="bg-background-secondary/50 border-t border-border/40 py-8 px-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Content */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
-          {/* Left: About */}
+    <footer
+      className="border-t py-10 px-4"
+      style={{
+        background: "var(--background-secondary)",
+        borderColor: "var(--border)",
+      }}
+    >
+      <div className="max-w-6xl mx-auto">
+
+        {/* Top row */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-6">
+          {/* Logo + tagline */}
           <div className="text-center md:text-left">
-            <h3 className="font-semibold text-foreground mb-2">Productivity Tools</h3>
-            <p className="text-sm text-foreground-tertiary max-w-md">
-              Alat produktivitas yang dirancang untuk membantu Anda mencapai lebih banyak setiap hari.
+            <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+              <div
+                className="w-8 h-8 rounded-[8px] flex items-center justify-center"
+                style={{ background: "var(--primary)", color: "#fff" }}
+              >
+                <BookOpen size={15} strokeWidth={2} />
+              </div>
+              <span
+                className="text-base font-bold"
+                style={{ fontFamily: "var(--font-display)", color: "var(--foreground)" }}
+              >
+                Productivity<span style={{ color: "var(--primary)", fontStyle: "italic" }}> Tools</span>
+              </span>
+            </div>
+            {/* Caveat tagline */}
+            <p
+              style={{
+                fontFamily: "var(--font-hand)",
+                fontSize: "1.05rem",
+                color: "var(--foreground-tertiary)",
+              }}
+            >
+              Belajar lebih cerdas, bukan lebih keras.
             </p>
           </div>
 
-          {/* Right: Links */}
-          <div className="flex flex-wrap justify-center md:justify-end gap-6 text-sm">
-            {footerLinks.map((link) => (
+          {/* Footer links */}
+          <div className="flex items-center gap-6 text-sm">
+            {[
+              { label: "Privacy Policy", href: "#" },
+              { label: "Terms", href: "#" },
+            ].map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                target={link.external ? "_blank" : undefined}
-                rel={link.external ? "noopener noreferrer" : undefined}
-                className="text-foreground-secondary hover:text-foreground transition-colors duration-200 flex items-center gap-1"
+                className="transition-colors duration-200"
+                style={{ color: "var(--foreground-secondary)" }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--foreground)")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--foreground-secondary)")}
               >
                 {link.label}
-                {link.external && <ExternalLink size={12} />}
               </Link>
             ))}
           </div>
         </div>
 
-        {/* Divider */}
+        {/* Gradient divider */}
         <div
-          className="h-px mb-8"
+          className="h-px mb-6"
           style={{
             background: "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
-            opacity: 0.4,
+            opacity: 0.5,
           }}
         />
 
-        {/* Bottom */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-foreground-tertiary">
+        {/* Bottom row */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm" style={{ color: "var(--foreground-tertiary)" }}>
           <p>© {currentYear} Productivity Tools. All rights reserved.</p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <a
               href="mailto:contact@productivitytools.com"
-              className="hover:text-foreground transition-colors duration-200 p-2 rounded-lg hover:bg-surface-elevated"
               title="Email"
+              className="p-2 rounded-lg transition-all duration-200"
+              style={{ color: "var(--foreground-tertiary)" }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.color = "var(--foreground)";
+                el.style.background = "var(--surface-elevated)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.color = "var(--foreground-tertiary)";
+                el.style.background = "transparent";
+              }}
             >
-              <Mail size={18} />
+              <Mail size={17} />
             </a>
             <a
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors duration-200 p-2 rounded-lg hover:bg-surface-elevated"
               title="GitHub"
+              className="p-2 rounded-lg transition-all duration-200"
+              style={{ color: "var(--foreground-tertiary)" }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.color = "var(--foreground)";
+                el.style.background = "var(--surface-elevated)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.color = "var(--foreground-tertiary)";
+                el.style.background = "transparent";
+              }}
             >
-              <Github size={18} />
+              <Github size={17} />
             </a>
           </div>
         </div>
+
       </div>
     </footer>
   );

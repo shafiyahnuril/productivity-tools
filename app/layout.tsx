@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Geist_Mono } from "next/font/google";
+import { Inter, Geist_Mono, Playfair_Display, Caveat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import ConditionalNav from "./components/ConditionalNav";
@@ -13,6 +13,18 @@ const inter = Inter({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -37,7 +49,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${geistMono.variable} ${playfair.variable} ${caveat.variable} antialiased bg-background text-foreground`}
       >
         <ThemeProvider>
           <ConditionalNav>
