@@ -71,6 +71,8 @@ export default function NotesPage() {
         </div>
       </header>
 
+      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)', opacity: 0.4 }} />
+
       <div className="mb-2">
         <Link
           href="/"

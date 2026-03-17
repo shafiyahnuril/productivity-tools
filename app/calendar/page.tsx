@@ -61,6 +61,8 @@ export default function CalendarPage() {
         </div>
       </header>
 
+      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)', opacity: 0.4 }} />
+
       <div className="flex items-center gap-3">
         <div className="w-1 h-6 rounded-full bg-primary/40" />
         <Heading2 className="!text-xs !font-bold !uppercase !tracking-widest">CALENDAR DETAIL</Heading2>
