@@ -25,6 +25,7 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
+  LabelList,
 } from "recharts";
 
 const MODE_LABELS = {
@@ -308,14 +309,18 @@ export default function TimerPage() {
 
       <div className="flex items-center gap-3">
         <div className="w-1 h-6 rounded-full bg-primary/40" />
-        <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">FOKUS TIMER</Heading2>
+        <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
+          FOKUS TIMER
+        </Heading2>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* ── Config column ── */}
         <div className="lg:col-span-3">
           <Card className="h-full">
-            <Heading2 className="text-xs! font-bold! uppercase! tracking-widest! mb-6">KONFIGURASI SIKLUS</Heading2>
+            <Heading2 className="text-xs! font-bold! uppercase! tracking-widest! mb-6">
+              KONFIGURASI SIKLUS
+            </Heading2>
 
             <div className="space-y-6">
               {/* Focus duration */}
@@ -630,7 +635,17 @@ export default function TimerPage() {
                       strokeWidth={2}
                       fill="var(--color-primary)"
                       fillOpacity={0.12}
-                    />
+                    >
+                      <LabelList
+                        dataKey="focus"
+                        position="top"
+                        offset={10}
+                        style={{
+                          fill: "var(--color-foreground-secondary)",
+                          fontSize: 10,
+                        }}
+                      />
+                    </Area>
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -661,7 +676,9 @@ export default function TimerPage() {
         <div className="lg:col-span-4">
           <Card className="h-fit flex flex-col">
             <div className="flex justify-between items-center mb-6">
-              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">RIWAYAT SESI</Heading2>
+              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
+                RIWAYAT SESI
+              </Heading2>
               <button
                 onClick={() => {
                   if (

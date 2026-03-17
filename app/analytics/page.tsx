@@ -29,6 +29,7 @@ import {
   Cell,
   PieChart,
   Pie,
+  LabelList,
 } from "recharts";
 import { useStore } from "../store/useStore";
 import { isThisWeek, parseISO } from "date-fns";
@@ -424,7 +425,14 @@ export default function AnalyticsPage() {
                   strokeWidth={2.5}
                   dot={{ r: 3.5, fill: "#D97706", strokeWidth: 0 }}
                   activeDot={{ r: 5 }}
-                />
+                >
+                  <LabelList
+                    dataKey="focus"
+                    position="top"
+                    offset={10}
+                    style={{ fill: "#D97706", fontSize: 10 }}
+                  />
+                </Line>
                 <Line
                   type="monotone"
                   name="Istirahat"
@@ -432,7 +440,14 @@ export default function AnalyticsPage() {
                   stroke="#5A8A6E"
                   strokeWidth={2.5}
                   dot={{ r: 3.5, fill: "#5A8A6E", strokeWidth: 0 }}
-                />
+                >
+                  <LabelList
+                    dataKey="break"
+                    position="bottom"
+                    offset={10}
+                    style={{ fill: "#5A8A6E", fontSize: 10 }}
+                  />
+                </Line>
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -502,7 +517,17 @@ export default function AnalyticsPage() {
                   name="Tugas Selesai"
                   fill="#D97706"
                   radius={[6, 6, 0, 0]}
-                />
+                >
+                  <LabelList
+                    dataKey="tasks"
+                    position="top"
+                    offset={5}
+                    style={{
+                      fill: "var(--color-foreground-secondary)",
+                      fontSize: 10,
+                    }}
+                  />
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -535,6 +560,9 @@ export default function AnalyticsPage() {
                     outerRadius={50}
                     paddingAngle={5}
                     dataKey="value"
+                    label={({ value }) => `${value}%`}
+                    labelLine={false}
+                    style={{ fontSize: "10px", outline: "none" }}
                   >
                     {dataDistribusi.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
@@ -598,68 +626,12 @@ export default function AnalyticsPage() {
           </div>
 
           <div className="space-y-4 flex-1">
-            {/* Static goals from HEAD */}
-            <div className="space-y-1">
-              <div className="flex justify-between items-center text-xs">
-                <span className="font-medium text-foreground">
-                  Selesaikan Modul React
-                </span>
-                <span className="text-primary font-bold text-xs">80%</span>
-              </div>
-              <div className="w-full bg-surface h-1.5 rounded-full overflow-hidden">
-                <div
-                  className="bg-primary h-full rounded-full"
-                  style={{ width: "80%" }}
-                ></div>
-              </div>
-              <div className="text-xs text-foreground-secondary flex justify-between">
-                <span>Tersisa 2 sub-modul</span>
-                <span>Tenggat: 2 hari lagi</span>
-              </div>
-            </div>
-
-            <div className="space-y-1">
-              <div className="flex justify-between items-center text-xs">
-                <span className="font-medium text-foreground">
-                  Baca Buku &quot;Atomic Habits&quot;
-                </span>
-                <span className="text-success font-bold text-xs">45%</span>
-              </div>
-              <div className="w-full bg-surface h-1.5 rounded-full overflow-hidden">
-                <div
-                  className="bg-success h-full rounded-full"
-                  style={{ width: "45%" }}
-                ></div>
-              </div>
-              <div className="text-xs text-foreground-secondary flex justify-between">
-                <span>123 of 274 halaman</span>
-                <span>Tenggat: 5 hari lagi</span>
-              </div>
-            </div>
-
-            <div className="space-y-1">
-              <div className="flex justify-between items-center text-xs">
-                <span className="font-medium text-foreground">
-                  Persiapan UTS Kalkulus
-                </span>
-                <span className="text-warning font-bold text-xs">20%</span>
-              </div>
-              <div className="w-full bg-surface h-1.5 rounded-full overflow-hidden">
-                <div
-                  className="bg-warning h-full rounded-full"
-                  style={{ width: "20%" }}
-                ></div>
-              </div>
-              <div className="text-xs text-foreground-secondary flex justify-between">
-                <span>Tersisa 4 bab</span>
-                <span>Tenggat: 3 hari lagi</span>
-              </div>
-            </div>
-
             {/* Dynamic goals from complete-func */}
             <div className="space-y-2">
               <div className="flex justify-between items-center text-sm">
-                <span className="font-medium">Penyelesaian Tugas</span>
+                <span className="font-medium">
+                  Penyelesaian Tugas (Goal mingguan)
+                </span>
                 <span className="text-primary font-bold">
                   {completionRate}%
                 </span>
@@ -681,8 +653,12 @@ export default function AnalyticsPage() {
             {/* Notes created */}
             <div className="space-y-2">
               <div className="flex justify-between items-center text-sm">
-                <span className="font-medium">Catatan Dibuat</span>
-                <span className="text-success font-bold">{notes.length}</span>
+                <span className="font-medium">
+                  Pembuatan Catatan (Goal bulanan)
+                </span>
+                <span className="text-success font-bold">
+                  {Math.round(Math.min((notes.length / 10) * 100, 100))}%
+                </span>
               </div>
               <div className="w-full bg-surface h-1.5 rounded-full overflow-hidden">
                 <div
@@ -701,13 +677,21 @@ export default function AnalyticsPage() {
             {/* Focus sessions */}
             <div className="space-y-2">
               <div className="flex justify-between items-center text-sm">
-                <span className="font-medium">Sesi Fokus Selesai</span>
+                <span className="font-medium">
+                  Sesi Fokus Harian (Goal harian)
+                </span>
                 <span className="text-warning font-bold">
-                  {
-                    timerState.history.filter(
-                      (h) => h.type === "focus" && h.completed,
-                    ).length
-                  }
+                  {Math.round(
+                    Math.min(
+                      (timerState.history.filter(
+                        (h) => h.type === "focus" && h.completed,
+                      ).length /
+                        5) *
+                        100,
+                      100,
+                    ),
+                  )}
+                  %
                 </span>
               </div>
               <div className="w-full bg-surface h-2 rounded-full overflow-hidden">
@@ -727,10 +711,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="text-xs text-foreground-secondary flex justify-between">
                 <span>Total waktu: {focusHoursDisplay || "0m"}</span>
-                <span>
-                  {timerState.history.filter((h) => h.type === "focus").length}{" "}
-                  total sesi
-                </span>
+                <span>Target: 5 sesi fokus harian</span>
               </div>
             </div>
           </div>

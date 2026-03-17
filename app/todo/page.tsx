@@ -19,6 +19,17 @@ import {
 } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { isToday, isThisWeek, isFuture, parseISO } from "date-fns";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  Tooltip,
+  ResponsiveContainer,
+  LabelList,
+} from "recharts";
 
 type Priority = "Low" | "Medium" | "High";
 
@@ -60,7 +71,9 @@ export default function TodoPage() {
   const [editDueDate, setEditDueDate] = useState("");
 
   // Hover state untuk chart tooltips
-  const [hoveredChart, setHoveredChart] = useState<"tren" | "tenggat" | null>(null);
+  const [hoveredChart, setHoveredChart] = useState<"tren" | "tenggat" | null>(
+    null,
+  );
 
   const filteredTodos = useMemo(() => {
     let result = todos;
@@ -144,12 +157,30 @@ export default function TodoPage() {
     () => ({
       completed: todos.filter((t) => t.completed).length,
       active: todos.filter((t) => !t.completed).length,
-      completionRate: todos.length > 0
-        ? Math.round((todos.filter((t) => t.completed).length / todos.length) * 100)
-        : 0,
+      completionRate:
+        todos.length > 0
+          ? Math.round(
+              (todos.filter((t) => t.completed).length / todos.length) * 100,
+            )
+          : 0,
     }),
     [todos],
   );
+
+  const pieData = [
+    {
+      name: "Selesai",
+      value: chartStats.completed,
+      fill: "var(--color-primary)",
+    },
+    { name: "Aktif", value: chartStats.active, fill: "var(--color-warning)" },
+  ];
+
+  const barData = Object.entries(categoryCounts).map(([name, count]) => ({
+    name: name.substring(0, 3), // short name
+    fullName: name,
+    count,
+  }));
 
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
@@ -563,9 +594,39 @@ export default function TodoPage() {
                   Tren Penyelesaian
                 </div>
               </div>
-              <div className="flex items-center gap-6 mt-auto">
-                <div className="w-24 h-24 rounded-full border-10 border-t-primary border-r-primary border-b-warning border-l-border relative shrink-0"></div>
-                <div className="space-y-2 text-xs">
+              <div className="flex items-center gap-6 mt-auto h-32">
+                <div className="w-24 h-24 shrink-0 relative">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={25}
+                        outerRadius={35}
+                        paddingAngle={5}
+                        dataKey="value"
+                        label={({ value }) => (value > 0 ? value : "")}
+                        labelLine={false}
+                        style={{ fontSize: "10px", outline: "none" }}
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.fill} />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "var(--color-surface)",
+                          borderColor: "var(--color-border)",
+                          borderRadius: "8px",
+                          fontSize: "11px",
+                        }}
+                        itemStyle={{ color: "var(--color-foreground)" }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="space-y-2 text-xs flex-1">
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 rounded bg-primary"></span> Selesai
                     ({chartStats.completed})
@@ -579,18 +640,63 @@ export default function TodoPage() {
                     {todos.length})
                   </div>
                 </div>
-                <div className="flex-1 h-20 ml-2 flex items-end gap-1">
-                  <div className="flex-1 bg-primary h-[80%] rounded-t-sm"></div>
-                  <div className="flex-1 bg-warning h-[40%] rounded-t-sm"></div>
-                  <div className="flex-1 bg-danger h-[20%] rounded-t-sm"></div>
-                  <div className="flex-1 bg-primary h-[90%] rounded-t-sm"></div>
-                  <div className="flex-1 bg-warning h-[50%] rounded-t-sm"></div>
+                <div className="flex-1 h-full ml-2">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={barData}
+                      margin={{ top: 15, right: 0, bottom: 0, left: 0 }}
+                    >
+                      <Tooltip
+                        cursor={{ fill: "rgba(0,0,0,0.05)" }}
+                        contentStyle={{
+                          backgroundColor: "var(--color-surface)",
+                          borderColor: "var(--color-border)",
+                          borderRadius: "8px",
+                          fontSize: "11px",
+                        }}
+                        formatter={(val) => [
+                          val as "Tugas" | number | string,
+                          "Tugas",
+                        ]}
+                        labelFormatter={(str) =>
+                          barData.find((d) => d.name === str)?.fullName ||
+                          (str as string)
+                        }
+                      />
+                      <XAxis
+                        dataKey="name"
+                        fontSize={9}
+                        axisLine={false}
+                        tickLine={false}
+                        stroke="var(--color-foreground-secondary)"
+                      />
+                      <Bar
+                        dataKey="count"
+                        fill="var(--color-primary)"
+                        radius={[4, 4, 0, 0]}
+                      >
+                        <LabelList
+                          dataKey="count"
+                          position="top"
+                          style={{
+                            fill: "var(--color-foreground-secondary)",
+                            fontSize: 9,
+                          }}
+                        />
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               </div>
 
               {/* Tooltip */}
               {hoveredChart === "tren" && (
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-surface-elevated border border-border rounded-lg px-3 py-2 shadow-md whitespace-nowrap z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ pointerEvents: hoveredChart === "tren" ? "auto" : "none" }}>
+                <div
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-surface-elevated border border-border rounded-lg px-3 py-2 shadow-md whitespace-nowrap z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  style={{
+                    pointerEvents: hoveredChart === "tren" ? "auto" : "none",
+                  }}
+                >
                   <div className="text-[10px] font-semibold text-foreground">
                     {todos.length > 0
                       ? `${chartStats.completionRate}% Selesai`
@@ -654,12 +760,18 @@ export default function TodoPage() {
 
               {/* Tooltip */}
               {hoveredChart === "tenggat" && (
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-surface-elevated border border-border rounded-lg px-3 py-2 shadow-md whitespace-nowrap z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ pointerEvents: hoveredChart === "tenggat" ? "auto" : "none" }}>
+                <div
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-surface-elevated border border-border rounded-lg px-3 py-2 shadow-md whitespace-nowrap z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  style={{
+                    pointerEvents: hoveredChart === "tenggat" ? "auto" : "none",
+                  }}
+                >
                   <div className="text-[10px] font-semibold text-foreground">
                     {chartStats.active} Tugas Aktif
                   </div>
                   <div className="text-[9px] text-foreground-secondary mt-0.5">
-                    {priorityCounts.High > 0 && `${priorityCounts.High} urgency tinggi`}
+                    {priorityCounts.High > 0 &&
+                      `${priorityCounts.High} urgency tinggi`}
                   </div>
                 </div>
               )}

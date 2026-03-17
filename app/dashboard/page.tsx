@@ -8,6 +8,7 @@ import { CalendarWidget } from "../components/dashboard/CalendarWidget";
 import { TodoWidget } from "../components/dashboard/TodoWidget";
 import { DashboardStats } from "../components/dashboard/DashboardStats";
 import { NotesPreview } from "../components/dashboard/NotesPreview";
+import { AnalyticsPreviewWidget } from "../components/dashboard/AnalyticsPreviewWidget";
 import AddNewButton from "../components/AddNewButton";
 
 export default function DashboardPage() {
@@ -65,13 +66,22 @@ export default function DashboardPage() {
         </header>
 
         {/* Main Grid */}
-        <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)', opacity: 0.4 }} />
+        <div
+          className="h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%)",
+            opacity: 0.4,
+          }}
+        />
         <div className="flex flex-col md:grid md:grid-cols-4 gap-6">
           {/* Left Column — Focus Timer */}
           <div className="md:col-span-1 flex flex-col gap-4">
             <div className="hidden md:flex items-center gap-3">
               <div className="w-1 h-6 rounded-full bg-primary/40" />
-              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">FOCUS TIMER</Heading2>
+              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
+                FOCUS TIMER
+              </Heading2>
             </div>
             <FocusTimerWidget />
           </div>
@@ -82,7 +92,9 @@ export default function DashboardPage() {
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-6 rounded-full bg-primary/40" />
-                <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">DASHBOARD</Heading2>
+                <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
+                  DASHBOARD
+                </Heading2>
               </div>
               <DashboardStats />
             </div>
@@ -92,7 +104,9 @@ export default function DashboardPage() {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <div className="w-1 h-6 rounded-full bg-primary/40" />
-                  <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">NOTES</Heading2>
+                  <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
+                    NOTES
+                  </Heading2>
                 </div>
                 <NotesPreview />
               </div>
@@ -100,7 +114,9 @@ export default function DashboardPage() {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <div className="w-1 h-6 rounded-full bg-primary/40" />
-                  <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">CALENDAR</Heading2>
+                  <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
+                    CALENDAR
+                  </Heading2>
                 </div>
                 <CalendarWidget />
               </div>
@@ -111,71 +127,19 @@ export default function DashboardPage() {
           <div className="md:col-span-1 flex flex-col gap-4">
             <div className="flex items-center gap-3">
               <div className="w-1 h-6 rounded-full bg-success/40" />
-              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">TO-DO LIST</Heading2>
+              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
+                TO-DO LIST
+              </Heading2>
             </div>
             <TodoWidget />
 
             <div className="flex items-center gap-3 mt-4">
               <div className="w-1 h-6 rounded-full bg-primary/40" />
-              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">ANALYTICS PREVIEW</Heading2>
+              <Heading2 className="text-xs! font-bold! uppercase! tracking-widest!">
+                ANALYTICS PREVIEW
+              </Heading2>
             </div>
-            <div className="bg-surface rounded-3xl p-4 md:p-6 border border-border shadow-sm dark:bg-surface transition-all duration-200 hover:shadow-md hover:scale-[1.01] hover:-translate-y-0.5 cursor-pointer" style={{ backgroundImage: 'linear-gradient(135deg, rgba(217,119,6,0.04) 0%, transparent 100%)', backgroundAttachment: 'fixed', backgroundSize: '100% 100%' }}>
-              <div className="flex justify-between items-start mb-4">
-                <div className="text-[11px] text-foreground-secondary">
-                  Weekly focus hour trend
-                </div>
-                <div className="text-[11px] text-foreground-secondary text-right">
-                  Task Completion Rate
-                </div>
-              </div>
-
-              <div className="flex gap-4 items-end">
-                <div className="flex-1 h-20 flex relative">
-                  <div className="absolute left-0 bottom-0 top-0 flex flex-col justify-between text-[8px] text-foreground-secondary py-1">
-                    <span>12</span>
-                    <span>9</span>
-                    <span>6</span>
-                    <span>3</span>
-                    <span>0</span>
-                  </div>
-                  <div className="ml-4 flex-1 h-full relative">
-                    <div className="absolute w-full border-t border-border top-0" />
-                    <div className="absolute w-full border-t border-border top-1/4" />
-                    <div className="absolute w-full border-t border-border top-2/4" />
-                    <div className="absolute w-full border-t border-border top-3/4" />
-                    <div className="absolute w-full border-t border-border bottom-0" />
-                    <svg
-                      className="absolute inset-0 w-full h-full"
-                      viewBox="0 0 100 100"
-                      preserveAspectRatio="none"
-                    >
-                      <path
-                        d="M0,80 C10,40 20,90 30,70 C40,50 50,20 60,30 C70,40 80,10 100,0"
-                        fill="none"
-                        stroke="var(--color-primary)"
-                        strokeWidth="2"
-                      />
-                      <path
-                        d="M0,80 C10,40 20,90 30,70 C40,50 50,20 60,30 C70,40 80,10 100,0 L100,100 L0,100 Z"
-                        fill="var(--color-primary)"
-                        fillOpacity="0.15"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div className="w-14 h-14 rounded-full border-[5px] border-t-primary border-r-success border-b-warning border-l-border mb-2" />
-              </div>
-
-              <div className="flex justify-between text-[8px] text-foreground-secondary mt-2 w-2/3 ml-4">
-                <span>Mon</span>
-                <span>Tue</span>
-                <span>Wed</span>
-                <span>Thu</span>
-                <span>Fri</span>
-                <span>Sat</span>
-                <span>Sun</span>
-              </div>
-            </div>
+            <AnalyticsPreviewWidget />
           </div>
         </div>
       </div>
